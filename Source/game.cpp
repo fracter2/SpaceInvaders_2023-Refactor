@@ -1,11 +1,11 @@
 #include "game.h"
 #include <iostream>
 #include <vector>
-#include <chrono>
+#include <chrono>		// TODO Remove unused headers
 #include <thread>
 #include <fstream>
 
-
+// TODO Move these math funcs into a dedicated header file (keep as namespace-funcs and make inline)
 // MATH FUNCTIONS
 float lineLength(Vector2 A, Vector2 B) //Uses pythagoras to calculate the length of a line
 {
@@ -29,9 +29,9 @@ bool pointInCircle(Vector2 circlePos, float radius, Vector2 point) // Uses pytha
 }
 
 
-void Game::Start()
+void Game::Start() // TODO Rename to clarify this initialized the level and changes state to gameplay
 {
-	// creating walls 
+	// creating walls	// TODO Capitalize comments and make them Imperative (eg, "create walls") or remove
 	float window_width = (float)GetScreenWidth(); 
 	float window_height = (float)GetScreenHeight(); 
 	float wall_distance = window_width / (wallCount + 1); 
@@ -67,7 +67,7 @@ void Game::Start()
 
 }
 
-void Game::End()
+void Game::End()						// TODO Rename to clarify transition to end screen, TODO Consider separating the highscore upate to a separate func
 {
 	//SAVE SCORE AND UPDATE SCOREBOARD
 	Projectiles.clear();
@@ -77,7 +77,7 @@ void Game::End()
 	gameState = State::ENDSCREEN;
 }
 
-void Game::Continue()
+void Game::Continue()					// TODO Rename to clarify transition to start screen
 {
 	SaveLeaderboard();
 	gameState = State::STARTSCREEN;
@@ -85,8 +85,8 @@ void Game::Continue()
 
 void Game::Launch()
 {
-	//LOAD SOME RESOURCES HERE
-	resources.Load();
+	//LOAD SOME RESOURCES HERE			// TODO Remove redudant comment
+	resources.Load();					// TODO Refactor away 2-step init of loading resources. Move to resource constructor, which should be constructed by the Game constructor
 }
 
 void Game::Update()
@@ -94,7 +94,7 @@ void Game::Update()
 	switch (gameState)
 	{
 	case State::STARTSCREEN:
-		//Code 
+		//Code							// TODO Remove, redudant
 		if (IsKeyReleased(KEY_SPACE))
 		{
 			Start();
@@ -104,7 +104,7 @@ void Game::Update()
 
 		break;
 	case State::GAMEPLAY:
-		//Code
+		//Code							// TODO Remove, redudant
 		if (IsKeyReleased(KEY_Q))
 		{
 			End();

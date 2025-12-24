@@ -1,4 +1,4 @@
-/*******************************************************************************************
+/******************************************************************************************* 
 *
 *   raylib [core] example - Basic window
 *
@@ -21,35 +21,39 @@
 *
 ********************************************************************************************/
 
+// TODO Check if this liscence header can be removed. 
+// TODO Remove the obviously accidental "b"
+// TODO Consider renaming solution and project to better reflect... the project
+
 #include "raylib.h"
 #include "game.h"
 
 
-//------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------  // TODO Consider removing, mostly redudant but unintrusive organisation
 // Program main entry point
 //------------------------------------------------------------------------------------
 int main(void)
 {    
     // Initialization
     //--------------------------------------------------------------------------------------
-    const int screenWidth = 1920;
+    const int screenWidth = 1920;   // TODO make constexpr
     const int screenHeight = 1080;
 
     InitWindow(screenWidth, screenHeight, "SPACE INVADERS");
 
-    SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
-
-    Game game = { State::STARTSCREEN };
+    SetTargetFPS(60);               // Set our game to run at 60 frames-per-second      // TODO Remove, redundant comment
+    
+    Game game = { State::STARTSCREEN };                                                 // TODO remove arg if this is the only relavant instance of it (unused feature -> redudant)
     Resources resources;
-    game.resources = resources;
-    game.Launch();
-
+    game.resources = resources;                                                         // TODO Move into Game constructor (two step init)
+    game.Launch();                                                                      // TODO Consider renaming / clarifying that this is basically an "init()" func
+                                                                                        // TODO Consider moving into constructor
     
     //--------------------------------------------------------------------------------------
 
-    InitAudioDevice();
+    InitAudioDevice();                                                                  // TODO Move into "Initialization" group right above´, where it belongs
 
-    auto sound = LoadSound("./hitHurt.ogg");
+    auto sound = LoadSound("./hitHurt.ogg");                                            // TODO Implement into update code or remove, both here and as a file (verify that it's not used elsewhere)
     
 
 
@@ -57,9 +61,9 @@ int main(void)
     // Main game loop
     while (!WindowShouldClose())    // Detect window close button or ESC key
     {
-        // Update
+        // Update                                                                       // TODO Remove redundant comments here/below
         //----------------------------------------------------------------------------------
-        // TODO: Update your variables here
+        // TODO: Update your variables here                                             // TODO old todo, remove along with this whole comment chunk
         //----------------------------------------------------------------------------------
 
         //if (IsKeyPressed(KEY_SPACE))
@@ -75,9 +79,9 @@ int main(void)
         game.Update();
       
 
-        // Draw
+        // Draw                                                                         // TODO Remove redudant comments
         //----------------------------------------------------------------------------------
-        BeginDrawing();
+        BeginDrawing();                                                                 // TODO Consider moving into the game.Render() func for brevity
 
         ClearBackground(BLACK);
 
@@ -89,14 +93,14 @@ int main(void)
         //----------------------------------------------------------------------------------
     }
 
-    CloseAudioDevice();
+    CloseAudioDevice();                                                                 // TODO Move into comment group below where it obviously belongs
     
     // De-Initialization
     //--------------------------------------------------------------------------------------
     CloseWindow();        // Close window and OpenGL context
     //--------------------------------------------------------------------------------------
 
-    std::string filename = "level.txt";  
+    std::string filename = "level.txt";                                                 // TODO Remove, unused, TODO remove file as well if unused
 
     return 0;
 }

@@ -4,7 +4,7 @@
 #include <string>
 #include "level.h"
 
-void LoadLevelFromFile(const std::string& filename) 
+void LoadLevelFromFile(const std::string& filename) // TODO Fix naming to match level.h OR remove as it is unused
 {
 	std::ifstream file(filename); 
 
