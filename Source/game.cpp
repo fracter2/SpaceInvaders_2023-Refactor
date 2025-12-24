@@ -49,7 +49,7 @@ void Game::Start() // TODO Rename to clarify this initialized the level and chan
 	//creating player
 	Player newPlayer;
 	player = newPlayer;
-	player.Initialize();
+	player.Initialize();		// TODO Refactor away 2 step init. Make this all one line
 
 	//creating aliens
 	SpawnAliens();
@@ -77,7 +77,7 @@ void Game::End()						// TODO Rename to clarify transition to end screen, TODO C
 	gameState = State::ENDSCREEN;
 }
 
-void Game::Continue()					// TODO Rename to clarify transition to start screen
+void Game::Continue()
 {
 	SaveLeaderboard();
 	gameState = State::STARTSCREEN;
@@ -484,15 +484,15 @@ void Game::Render()
 
 void Game::SpawnAliens()
 {
-	for (int row = 0; row < formationHeight; row++) {
+	for (int row = 0; row < formationHeight; row++) {		// TODO Consider refactoring to remove raw loop / nesting... otherwise fine
 		for (int col = 0; col < formationWidth; col++) {
-			Alien newAlien = Alien();
+			Alien newAlien = Alien();	// TODO Refactor this below into a constructor (2 step init)
 			newAlien.active = true;
-			newAlien.position.x = formationX + 450 + (col * alienSpacing);
+			newAlien.position.x = formationX + 450 + (col * alienSpacing);	// TODO Clarify 450 as constexpr or in a comment... is it just the spawn offset?
 			newAlien.position.y = formationY + (row * alienSpacing);
 			Aliens.push_back(newAlien);
-			std::cout << "Find Alien -X:" << newAlien.position.x << std::endl;
-			std::cout << "Find Alien -Y:" << newAlien.position.y << std::endl;
+			std::cout << "Find Alien -X:" << newAlien.position.x << std::endl;	// TODO Remove, redundant 
+			std::cout << "Find Alien -Y:" << newAlien.position.y << std::endl;	// TODO Remove, redundant
 		}
 	}
 
@@ -500,7 +500,7 @@ void Game::SpawnAliens()
 
 bool Game::CheckNewHighScore()
 {
-	if (score > Leaderboard[4].score)
+	if (score > Leaderboard[4].score)		// TODO Clarify "4". Shouldn't index 0 be first?
 	{
 		return true;
 	}
@@ -633,12 +633,12 @@ bool Game::CheckCollision(Vector2 circlePos, float circleRadius, Vector2 lineSta
 
 }
 
-void Player::Initialize() 
+void Player::Initialize() // TODO Refactor into a contructor
 {
 	
 	float window_width = (float)GetScreenWidth();
 	x_pos = window_width / 2;
-	std::cout<< "Find Player -X:" << GetScreenWidth() / 2 << "Find Player -Y" << GetScreenHeight() - player_base_height << std::endl;
+	std::cout<< "Find Player -X:" << GetScreenWidth() / 2 << "Find Player -Y" << GetScreenHeight() - player_base_height << std::endl;	// TODO Remove, redudant
 
 }
 
@@ -867,7 +867,7 @@ void Background::Update(float offset)
 {
 	for (int i = 0; i < Stars.size(); i++)
 	{
-		Stars[i].Update(offset);
+		Stars[i].Update(offset);		// TODO Refactor offset into Background struct because it is the same for all Stars[] elements, so it's irrelevant to them
 	}
 	
 }

@@ -4,7 +4,7 @@
 #include "raylib.h"
 #include "vector"
 
-struct Resources						// TODO Consider refactoring into namespace / static vars or into Game class. Does this need to be a separate struct? 
+struct Resources
 {
 	void Load();							// TODO Make this into contructor, 
 	//void Unload();						// TODO remove, unused

@@ -28,18 +28,18 @@ struct PlayerData
 
 struct Player
 {
-public:
+public:									// TODO Consider if any properties should be private, and remove this public: (redundant)
 
 	float x_pos = 0;
-	float speed = 7;
-	float player_base_height = 70.0f;  
-	float radius = 50;
+	float speed = 7;					// TODO Set static constexpr
+	float player_base_height = 70.0f;	// TODO Set static constexpr
+	float radius = 50;					// TODO Set static constexpr
 	int lives = 3;
-	int direction = 0;
-	int activeTexture = 0;
+	int direction = 0;					// TODO Clarify, consider an enum instead
+	int activeTexture = 0;				// TODO Clarify, if this is the texture index used, name it so. Review usage and consider enum
 	float timer = 0;
 
-	EntityType type = EntityType::PLAYER;
+	EntityType type = EntityType::PLAYER;		// TODO What is this for? Refactor away
 
 	void Initialize();
 	void Render(Texture2D texture);
@@ -102,23 +102,21 @@ public:
 };
 
 
-struct Star
+struct Star	// TODO Refactor away into Background struct (the only user)
 {
 	Vector2 initPosition = { 0, 0 };
-	Vector2 position = { 0, 0 };
-	Color color = GRAY;
+	Vector2 position = { 0, 0 };		// TODO Irrellavant because it's set to the same for all starts, see Background. Refactor away.
+	Color color = GRAY;					// TODO Constexpr or remove
 	float size = 0;
-	void Update(float starOffset);
+	void Update(float starOffset);		// TODO Irrellavant because it's set to the same for all starts, see Background. Refactor away.
 	void Render();
 };
 
-struct Background
+struct Background	// TODO Consider moving to separate file
 {
-	
-
 	std::vector<Star> Stars;
 
-	void Initialize(int starAmount);
+	void Initialize(int starAmount); // TODO Refactor into a constructor
 	void Update(float offset);
 	void Render();
 
@@ -126,35 +124,35 @@ struct Background
 
 struct Game
 {
-	// Gamestate
+	// Gamestate					// TODO Remove redudant comments
 	State gameState = {};
 
 	// Score
-	int score;
+	int score;						// TODO Add default 
 
-	// for later, make a file where you can adjust the number of walls (config file) 
+	// for later, make a file where you can adjust the number of walls (config file)	// TODO Consider, do or remove
 	int wallCount = 5;
 
-	//Aliens shooting
+	//Aliens shooting				// TODO Clarify comment, then if logic already is self-explanatory, remove
 	float shootTimer = 0;
 
 	//Aliens stuff? (idk cause liv wrote this)
-	Rectangle rec = { 0, 0 ,0 ,0 }; 
+	Rectangle rec = { 0, 0 ,0 ,0 };				// TODO Rename to clarify
 
-	int formationWidth = 8;
+	int formationWidth = 8;						// TODO Set static constexpr for all these
 	int formationHeight = 5;
 	int alienSpacing = 80;
 	int formationX = 100;
 	int formationY = 50;
 
-	bool newHighScore = false;
+	bool newHighScore = false;					// TODO Consider renaming to "queueNewHighscore" or "newHighscoreTip"
 	
-
-	void Start();
+	// TODO apply const, constexpr and noexcept where applicable
+	void Start();						// TODO Rename to clarify what these do 
 	void End();
 
-	void Continue();
-	void Launch();
+	void Continue();					// TODO Rename to clarify transition to start screen
+	void Launch();						// TODO Refactor away
 
 	void Update();
 	void Render();
@@ -163,16 +161,16 @@ struct Game
 
 	bool CheckCollision(Vector2 circlePos, float circleRadius, Vector2 lineTop, Vector2 lineBottom);
 
-	bool CheckNewHighScore();
+	bool CheckNewHighScore();			
 
-	void InsertNewHighScore(std::string name);
+	void InsertNewHighScore(std::string name);	// TODO Consider using string_view
 
-	void LoadLeaderboard();
-	void SaveLeaderboard();
+	void LoadLeaderboard();						// TODO Consider implementing or removing (unused)
+	void SaveLeaderboard();						// TODO Finish implementing this or remove (used but incomplete)
 
 
 	// Entity Storage and Resources
-	Resources resources;
+	Resources resources;						// TODO Consider refactoring into namespace / static vars or into Game class. Does this need to be a separate struct? 
 
 	Player player;
 
