@@ -1,0 +1,33 @@
+Refactor Summary for the final presentation
+
+Theodor Rydberg
+
+
+The most common smells and bad practises:
+
+- Never using const or constexpr
+	- funcs like drawing funcs or math funcs should be const
+	- Variables should be (static) constexpr unless obviously changed during runtime,
+		like positions. It is confusing when variables like radius may or may
+		not be changed during runtime, when it most likely is not intended.
+
+- Poor separation of duties 
+	- (game.h and game.cpp contain menu-scene, end-scene, leaderboard, 
+		each entity logic, math funcs, all rendering, all on top of typical gameplay logic)
+
+- Poor file/folder organisation 
+	- (level.h/cpp outside Source folder, cloc.exe with unclear purpose)
+	- (hitHurt.ogg should have it's own folder for sfx/assets)
+
+- Lot's of unused code and unused files 
+	- (config.txt and README.md are almost empty)
+	- (hitHurt.ogg, cloc.exe and the how-to are not used)
+	- (many varaibles are made redundant by an equivalent variable or by being unused)
+
+- Raw for-loops that can almost all be reaplced with for-each loops (more readable)
+
+- Lot's of printing using std::cout
+	- Should nowadays be std::print() for simplicity and clarity
+	- Though more importantly, the prints can almost all be removed as they serve 
+		little purpose than debugging, and so should be handled using breakpoints or
+		put in when fixing the logic. Outside of that they only clutter the output stream.
