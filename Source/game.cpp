@@ -5,23 +5,8 @@
 #include <thread>
 #include <fstream>
 #include "raymath.h"
+#include "common.h"
 
-// TODO Move these math funcs into a dedicated header file (keep as namespace-funcs and make inline)
-// MATH FUNCTIONS
-
-bool pointInCircle(Vector2 circlePos, float radius, Vector2 point) // Uses pythagoras to calculate if a point is within a circle or not
-{
-	float distanceToCentre = lineLength(circlePos, point);
-
-	if (distanceToCentre < radius)
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
-}
 
 
 void Game::Start() // TODO Rename to clarify this initialized the level and changes state to gameplay
