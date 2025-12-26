@@ -5,14 +5,14 @@
 #include <string>
 
 
-enum struct State
+enum struct State						// TODO Consider moving into game struct, as it is specifically the game state
 {
 	STARTSCREEN,
 	GAMEPLAY,
 	ENDSCREEN
 };
 
-enum struct EntityType
+enum struct EntityType					// TODO Refactor away, the types themself serve this role
 {
 	PLAYER,
 	ENEMY,
@@ -20,78 +20,78 @@ enum struct EntityType
 	ENEMY_PROJECTILE
 };
 
-struct PlayerData
+struct PlayerData						// TODO Consider moving to a leaderboard.h
 {
 	std::string name;
 	int score;
 };
 
-struct Player
-{
-public:									// TODO Consider if any properties should be private, and remove this public: (redundant)
+struct Player							// TODO Consider moving to it's own file
+{										// TODO Make into class, keep constructor, Render() and Update() public
+public:
 
 	float x_pos = 0;
-	float speed = 7;					// TODO Set static constexpr
-	float player_base_height = 70.0f;	// TODO Set static constexpr
-	float radius = 50;					// TODO Set static constexpr
+	float speed = 7;					// TODO Make static constexpr
+	float player_base_height = 70.0f;	// TODO Make static constexpr // TODO this is used as a y position var. merge with x_pos
+	float radius = 50;					// TODO Make static constexpr
 	int lives = 3;
 	int direction = 0;					// TODO Clarify, consider an enum instead
 	int activeTexture = 0;				// TODO Clarify, if this is the texture index used, name it so. Review usage and consider enum
-	float timer = 0;
+	float timer = 0;					// TODO Clarify
 
 	EntityType type = EntityType::PLAYER;		// TODO What is this for? Refactor away
 
-	void Initialize();
-	void Render(Texture2D texture);
+	void Initialize();					// TODO Refactor into a contructor
+	void Render(Texture2D texture);		// TODO Make const
 	void Update();
 	
 };
 
 
-struct Projectile
-{
+struct Projectile						// TODO Consider moving to it's own file
+{										// TODO Make into class
 public: 
 	// INITIALIZE PROJECTILE WHILE DEFINING IF ITS PLAYER OR ENEMY 
-	Vector2 position = {0,0};
-	int speed = 15; 
-	bool active = true;  
-	EntityType type = {};
+	Vector2 position = {0,0};			// TODO Add a constructor with position param
+	int speed = 15;						// TODO Make static constexpr
+	bool active = true;					// TODO Remove, shouldn't be needed if inside vector (consider renaming to queueDelete)
+	EntityType type = {};				// TODO Remove, shouldn't be needed as long as we dont spawn our projectiles inside ourselves
 
 	// LINE WILL UPDATE WITH POSITION FOR CALCULATIONS
-	Vector2 lineStart = { 0, 0 };
-	Vector2 lineEnd = { 0, 0 };
+	Vector2 lineStart = { 0, 0 };		// TODO Remove, we already have pos... can make a "length" static constexpr to get start/end points
+	Vector2 lineEnd = { 0, 0 };			// TODO Remove
 
 	void Update();
 
-	void Render(Texture2D texture);
+	void Render(Texture2D texture);		// TODO Make const
 };
 
-struct Wall 
-{
+struct Wall 							// TODO Consider moving to it's own file
+{										// TODO Make into class
 public: 
-	Vector2 position; 
-	Rectangle rec; 
-	bool active; 
-	Color color; 
+	Vector2 position;					// TODO Add constructor with pos param
+	Rectangle rec;						// TODO Is this used, even though there is a position and radius?
+	bool active; 						// TODO Add default // TODO Is this even needed? why not just remove, if it's in a vector?
+	Color color;						// TODO Add default and make static constexpr
 	int health = 50;
-	int radius = 60;
+	int radius = 60;					// TODO make constexpr, doesn't change
 
 
-	void Render(Texture2D texture); 
+	void Render(Texture2D texture);		// TODO Make const
 	void Update(); 
 };
 
-struct Alien
-{
+struct Alien							// TODO Consider moving to it's own file
+{										// TODO Make into class
 public:
 	
-	Color color = WHITE; 
-	Vector2 position = {0, 0};
-	int x = 0; 
-	int y = 0; 
-	float radius = 30;
-	bool active = true;  
-	bool moveRight = true; 
+	Color color = WHITE;				// TODO Make static constexpr
+	Vector2 position = {0, 0};			// TODO Add constructor with pos param
+	int x = 0;							// TODO Remove, positino should already have this
+	int y = 0; 							// TODO Remove, positino should already have this
+	float radius = 30;					// TODO Make static constexpr
+	bool active = true;					// TODO Remove, shouldn't be needed if in a vector
+	bool moveRight = true;				// TODO Rename to clarify it's a variable ("movingRight" or similar) as it sounds like an action (func-like)
 	
 	EntityType type = EntityType::ENEMY; 
 
@@ -122,18 +122,19 @@ struct Background	// TODO Consider moving to separate file
 
 };
 
+// TODO apply const, constexpr and noexcept where applicable
 struct Game
 {
-	// Gamestate					// TODO Remove redudant comments
-	State gameState = {};
+	// Gamestate								// TODO Remove redudant comments
+	State gameState = {};						// TODO Separate non-gameplay info and states into their own classes
 
 	// Score
-	int score;						// TODO Add default 
+	int score;									// TODO Add default 
 
 	// for later, make a file where you can adjust the number of walls (config file)	// TODO Consider, do or remove
 	int wallCount = 5;
 
-	//Aliens shooting				// TODO Clarify comment, then if logic already is self-explanatory, remove
+	//Aliens shooting							// TODO Clarify comment, then if logic already is self-explanatory, remove
 	float shootTimer = 0;
 
 	//Aliens stuff? (idk cause liv wrote this)
@@ -147,21 +148,21 @@ struct Game
 
 	bool newHighScore = false;					// TODO Consider renaming to "queueNewHighscore" or "newHighscoreTip"
 	
-	// TODO apply const, constexpr and noexcept where applicable
-	void Start();						// TODO Rename to clarify what these do 
+	
+	void Start();								// TODO Rename to clarify what these do 
 	void End();
 
-	void Continue();					// TODO Rename to clarify transition to start screen
-	void Launch();						// TODO Refactor away
+	void Continue();							// TODO Rename to clarify transition to start screen
+	void Launch();								// TODO Refactor away
 
 	void Update();
-	void Render();
+	void Render();								// TODO Make const
 
 	void SpawnAliens();
 
-	bool CheckCollision(Vector2 circlePos, float circleRadius, Vector2 lineTop, Vector2 lineBottom);
+	bool CheckCollision(Vector2 circlePos, float circleRadius, Vector2 lineTop, Vector2 lineBottom);	// TODO Rename to clarify that it checks line-circle overlap
 
-	bool CheckNewHighScore();			
+	bool CheckNewHighScore();					// TODO Rename to clarify, like "isHighScore()" or "justBeatHighScore()"
 
 	void InsertNewHighScore(std::string name);	// TODO Consider using string_view
 
@@ -186,20 +187,20 @@ struct Game
 
 
 
-	Vector2 playerPos;
-	Vector2 alienPos; 
-	Vector2 cornerPos;
-	float offset;
+	Vector2 playerPos;		// TODO Remove, this should be part of the Player class
+	Vector2 alienPos;		// TODO Remove, this should be part of the Alien class
+	Vector2 cornerPos;		// TODO Remove, used as a local variable
+	float offset;			// TODO Remove, used as a local variable
 
 
 
-	//TEXTBOX ENTER
-	char name[9 + 1] = "\0";      //One extra space required for null terminator char '\0'
-	int letterCount = 0;
+	//TEXTBOX ENTER																			// TODO Make into it's own class, including vars below
+	char name[9 + 1] = "\0";      //One extra space required for null terminator char '\0'	// TODO Make into string
+	int letterCount = 0;																	// TODO Remove, redundant if name is a string
 
-	Rectangle textBox = { 600, 500, 225, 50 };
-	bool mouseOnText = false;
+	Rectangle textBox = { 600, 500, 225, 50 };												
+	bool mouseOnText = false;																// TODO Remove, used as a local variable
 
-	int framesCounter = 0;
+	int framesCounter = 0;																	// TODO Move into textbox class
 
 };

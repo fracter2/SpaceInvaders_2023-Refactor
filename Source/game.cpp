@@ -110,28 +110,28 @@ void Game::Update()
 			End();
 		}
 
-		//Update Player
+		//Update Player					// TODO Remove, redudant
 		player.Update();
 		
 		//Update Aliens and Check if they are past player
-		for (int i = 0; i < Aliens.size(); i++)
+		for (int i = 0; i < Aliens.size(); i++) // TODO make into a for each loop
 		{
 			Aliens[i].Update(); 
 
-			if (Aliens[i].position.y > GetScreenHeight() - player.player_base_height)
+			if (Aliens[i].position.y > GetScreenHeight() - player.player_base_height)	// TODO Can't this be simplified to more/less than player y?
 			{
 				End();
 			}
 		}
 
-		//End game if player dies
-		if (player.lives < 1)
+		//End game if player dies		// TODO Remove, redudant
+		if (player.lives < 1)			// TODO Shouldn't this go after projectile update?
 		{
 			End();
 		}
 
-		//Spawn new aliens if aliens run out
-		if (Aliens.size() < 1)
+		//Spawn new aliens if aliens run out	// TODO Remove, redudant
+		if (Aliens.size() < 1)	// TODO Use .empty() for clarity
 		{
 			SpawnAliens();
 		}
@@ -140,17 +140,17 @@ void Game::Update()
 		// Update background with offset
 		playerPos = { player.x_pos, (float)player.player_base_height };
 		cornerPos = { 0, (float)player.player_base_height };
-		offset = lineLength(playerPos, cornerPos) * -1;
-		background.Update(offset / 15);
+		offset = lineLength(playerPos, cornerPos) * -1;					// TODO Simplify, both args have the same y, and cornerPos.x is always 0... so it's always just abs(playerPos.x)
+		background.Update(offset / 15);									// TODO Clarify 15
 
 
-		//UPDATE PROJECTILE
-		for (int i = 0; i < Projectiles.size(); i++)
+		//UPDATE PROJECTILE									// TODO Remove, redudant
+		for (int i = 0; i < Projectiles.size(); i++)		// TODO Make foreach loop
 		{
 			Projectiles[i].Update();
 		}
-		//UPDATE PROJECTILE
-		for (int i = 0; i < Walls.size(); i++)
+		//UPDATE PROJECTILE									// TODO Remove, redudant
+		for (int i = 0; i < Walls.size(); i++)				// TODO Make foreach loop
 		{
 			Walls[i].Update();
 		}
@@ -415,7 +415,7 @@ void Game::Render()
 			// BELOW CODE IS FOR NAME INPUT RENDER
 			DrawText("PLACE MOUSE OVER INPUT BOX!", 600, 400, 20, YELLOW);
 
-			DrawRectangleRec(textBox, LIGHTGRAY);
+			DrawRectangleRec(textBox, LIGHTGRAY);																		// TODO Make textbox into a class that can draw itself
 			if (mouseOnText)
 			{
 				// HOVER CONFIRMIATION
@@ -482,7 +482,7 @@ void Game::Render()
 	}
 }
 
-void Game::SpawnAliens()
+void Game::SpawnAliens()				// TODO Move to ded
 {
 	for (int row = 0; row < formationHeight; row++) {		// TODO Consider refactoring to remove raw loop / nesting... otherwise fine
 		for (int col = 0; col < formationWidth; col++) {
@@ -508,22 +508,22 @@ bool Game::CheckNewHighScore()
 	return false;
 }
 
-void Game::InsertNewHighScore(std::string name)
+void Game::InsertNewHighScore(std::string name) // TODO Consider string_view
 {
 	PlayerData newData;
 	newData.name = name;
 	newData.score = score;
 
-	for (int i = 0; i < Leaderboard.size(); i++)
+	for (int i = 0; i < Leaderboard.size(); i++)	// TODO Consider replacing with an algorithm w lambda
 	{
 		if (newData.score > Leaderboard[i].score)
 		{
 
 			Leaderboard.insert(Leaderboard.begin() + i, newData);
 
-			Leaderboard.pop_back();
+			Leaderboard.pop_back();		// TODO Consider removing. is this to limit size? then use an if(). Unclear.
 
-			i = Leaderboard.size();
+			i = Leaderboard.size();		// TODO Replace with return
 
 		}
 	}
@@ -567,8 +567,8 @@ void Game::SaveLeaderboard()
 	// CLOSE FILE
 }
 
-
-bool Game::CheckCollision(Vector2 circlePos, float circleRadius, Vector2 lineStart, Vector2 lineEnd)
+// TODO Move to separate file, this does not depend on Game:: and is just math with the args
+bool Game::CheckCollision(Vector2 circlePos, float circleRadius, Vector2 lineStart, Vector2 lineEnd) 
 {
 	// our objective is to calculate the distance between the closest point on the line to the centre of the circle, 
 	// and determine if it is shorter than the radius.
@@ -579,7 +579,7 @@ bool Game::CheckCollision(Vector2 circlePos, float circleRadius, Vector2 lineSta
 		return true;
 	}
 
-	// simplify variables
+	// simplify variables		// TODO consider renaming to follow variable convention
 	Vector2 A = lineStart;
 	Vector2 B = lineEnd;
 	Vector2 C = circlePos;
@@ -588,7 +588,7 @@ bool Game::CheckCollision(Vector2 circlePos, float circleRadius, Vector2 lineSta
 	float length = lineLength(A, B);
 	
 	// calculate the dot product
-	float dotP = (((C.x - A.x) * (B.x - A.x)) + ((C.y - A.y) * (B.y - A.y))) / pow(length, 2);
+	float dotP = (((C.x - A.x) * (B.x - A.x)) + ((C.y - A.y) * (B.y - A.y))) / pow(length, 2);		// TODO Make separate func
 
 	// use dot product to find closest point
 	float closestX = A.x + (dotP * (B.x - A.x));
@@ -599,14 +599,14 @@ bool Game::CheckCollision(Vector2 circlePos, float circleRadius, Vector2 lineSta
 	// if the distance of the vectors combined is the same as the length the point is on the line
 
 	//since we are using floating points, we will allow the distance to be slightly innaccurate to create a smoother collision
-	float buffer = 0.1;
+	float buffer = 0.1;																				// TODO Make static constexpr
 
 	float closeToStart = lineLength(A, { closestX, closestY }); //closestX + Y compared to line Start
 	float closeToEnd = lineLength(B, { closestX, closestY });	//closestX + Y compared to line End
 
 	float closestLength = closeToStart + closeToEnd;
 
-	if (closestLength == length + buffer || closestLength == length - buffer)
+	if (closestLength == length + buffer || closestLength == length - buffer)						// BUG Shouldn't this be <= and >= ?
 	{
 		//Point is on the line!
 
@@ -658,7 +658,7 @@ void Player::Update()
 
 	x_pos += speed * direction;
 
-	if (x_pos < 0 + radius)
+	if (x_pos < 0 + radius)				// TODO Clarify this is border colission
 	{
 		x_pos = 0 + radius;
 	}
@@ -671,9 +671,9 @@ void Player::Update()
 	//Determine frame for animation
 	timer += GetFrameTime();
 
-	if (timer > 0.4 && activeTexture == 2)
+	if (timer > 0.4 && activeTexture == 2)		// TODO Make these numbers into static constexpr vars
 	{
-		activeTexture = 0;
+		activeTexture = 0;						// TODO Simplify both ifs into one by using modulo to avoid max (2 here)
 		timer = 0;
 	}
 	else if (timer > 0.4)
@@ -685,10 +685,11 @@ void Player::Update()
 	
 }
 
-void Player::Render(Texture2D texture) 
+void Player::Render(Texture2D texture)			// TODO Make const and make Texture2D&
 {
-	float window_height = GetScreenHeight(); 
+	float window_height = GetScreenHeight(); // TODO Remove, only used once and doesn't make this any more readable
 
+	// TODO Consider moving some / most / all these args into static constexpr variables
 	DrawTexturePro(texture,
 		{
 			0,
@@ -711,22 +712,23 @@ void Projectile::Update()
 {
 	position.y -= speed;
 
-	// UPDATE LINE POSITION
+	// UPDATE LINE POSITION				// TODO Remove this block, this is just the position variable again
 	lineStart.y = position.y - 15;
 	lineEnd.y   = position.y + 15;
 
 	lineStart.x = position.x;
 	lineEnd.x   = position.x;
 
-	if (position.y < 0 || position.y > 1500)
+	if (position.y < 0 || position.y > 1500)		// TODO Clarify magic numbers
 	{
 		active = false;
 	}
 }
 
-void Projectile::Render(Texture2D texture)
+void Projectile::Render(Texture2D texture)			// TODO Make const and make Texture2D&
 {
-	//DrawCircle((int)position.x, (int)position.y, 10, RED);
+	//DrawCircle((int)position.x, (int)position.y, 10, RED);		// TODO Remove old comment
+	// TODO Consider moving some / most / all these args into static constexpr variables
 	DrawTexturePro(texture,
 		{
 			0,
@@ -744,8 +746,9 @@ void Projectile::Render(Texture2D texture)
 		WHITE);
 }
 
-void Wall::Render(Texture2D texture)
+void Wall::Render(Texture2D texture)			// TODO Make const and make Texture2D&
 {
+	// TODO Consider moving some / most / all these args into static constexpr variables
 	DrawTexturePro(texture,
 		{
 			0,
@@ -762,15 +765,15 @@ void Wall::Render(Texture2D texture)
 		0,
 		WHITE);
 
-
-	DrawText(TextFormat("%i", health), position.x-21, position.y+10, 40, RED);
+	// TODO Consider moving some / most / all these args into static constexpr variables
+	DrawText(TextFormat("%i", health), position.x-21, position.y+10, 40, RED);		// TODO Consider using modern std::format
 	
 }
 
 void Wall::Update() 
 {
 
-	// set walls as inactive when out of health
+	// set walls as inactive when out of health		// TODO Remove, redudant
 	if (health < 1)
 	{
 		active = false;
@@ -781,16 +784,16 @@ void Wall::Update()
 
 void Alien::Update() 
 {
-	int window_width = GetScreenWidth(); 
+	int window_width = GetScreenWidth();	// TODO Remove, isn't even used
 
-	if (moveRight)
+	if (moveRight)			// TODO Move statement to just the position.x update, perhaps as ternary operator
 	{
 		position.x += speed; 
 
 		if (position.x >= GetScreenWidth())
 		{
-			moveRight = false; 
-			position.y += 50; 
+			moveRight = false;		// TODO Consider making into an int, like with player direction
+			position.y += 50;		// TODO Make into static constexpr
 		}
 	}
 	else 
@@ -811,7 +814,7 @@ void Alien::Render(Texture2D texture)
 	//DrawCircle((int)position.x, (int)position.y, radius, GREEN);
 	
 	
-
+	// TODO Consider moving some / most / all these args into static constexpr variables
 	DrawTexturePro(texture,
 		{
 			0,
@@ -838,7 +841,7 @@ void Star::Update(float starOffset)
 
 }
 
-void Star::Render()
+void Star::Render() // TODO Make const
 {
 	DrawCircle((int)position.x, (int)position.y, size, color);
 }
@@ -872,7 +875,7 @@ void Background::Update(float offset)
 	
 }
 
-void Background::Render()
+void Background::Render() // TODO Make const
 {
 	for (int i = 0; i < Stars.size(); i++)
 	{
