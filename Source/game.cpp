@@ -4,15 +4,10 @@
 #include <chrono>		// TODO Remove unused headers
 #include <thread>
 #include <fstream>
+#include "raymath.h"
 
 // TODO Move these math funcs into a dedicated header file (keep as namespace-funcs and make inline)
 // MATH FUNCTIONS
-float lineLength(Vector2 A, Vector2 B) //Uses pythagoras to calculate the length of a line
-{
-	float length = sqrtf(pow(B.x - A.x, 2) + pow(B.y - A.y, 2));
-
-	return length;
-}
 
 bool pointInCircle(Vector2 circlePos, float radius, Vector2 point) // Uses pythagoras to calculate if a point is within a circle or not
 {
@@ -140,7 +135,7 @@ void Game::Update()
 		// Update background with offset
 		playerPos = { player.x_pos, (float)player.player_base_height };
 		cornerPos = { 0, (float)player.player_base_height };
-		offset = lineLength(playerPos, cornerPos) * -1;					// TODO Simplify, both args have the same y, and cornerPos.x is always 0... so it's always just abs(playerPos.x)
+		offset = Vector2Distance(playerPos, cornerPos) * -1;					// TODO Simplify, both args have the same y, and cornerPos.x is always 0... so it's always just abs(playerPos.x)
 		background.Update(offset / 15);									// TODO Clarify 15
 
 
