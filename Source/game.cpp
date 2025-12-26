@@ -1,10 +1,7 @@
 #include "game.h"
 #include <iostream>
 #include <vector>
-#include <chrono>		// TODO Remove unused headers
-#include <thread>
 #include <fstream>
-#include "raymath.h"
 #include "common.h"
 
 
