@@ -131,7 +131,6 @@ struct Game
 	// Score
 	int score;									// TODO Add default 
 
-	// for later, make a file where you can adjust the number of walls (config file)	// TODO Consider, do or remove
 	int wallCount = 5;
 
 	//Aliens shooting							// TODO Clarify comment, then if logic already is self-explanatory, remove
