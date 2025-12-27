@@ -562,7 +562,7 @@ bool Game::CheckCollision(Vector2 circlePos, float circleRadius, Vector2 lineSta
 	Vector2 C = circlePos;
 
 	// calculate the length of the line
-	float length = lineLength(A, B);
+	float length = Vector2Distance(A, B);
 	
 	// calculate the dot product
 	float dotP = (((C.x - A.x) * (B.x - A.x)) + ((C.y - A.y) * (B.y - A.y))) / pow(length, 2);		// TODO Make separate func
@@ -578,8 +578,8 @@ bool Game::CheckCollision(Vector2 circlePos, float circleRadius, Vector2 lineSta
 	//since we are using floating points, we will allow the distance to be slightly innaccurate to create a smoother collision
 	float buffer = 0.1;																				// TODO Make static constexpr
 
-	float closeToStart = lineLength(A, { closestX, closestY }); //closestX + Y compared to line Start
-	float closeToEnd = lineLength(B, { closestX, closestY });	//closestX + Y compared to line End
+	float closeToStart = Vector2Distance(A, { closestX, closestY }); //closestX + Y compared to line Start
+	float closeToEnd = Vector2Distance(B, { closestX, closestY });	//closestX + Y compared to line End
 
 	float closestLength = closeToStart + closeToEnd;
 
@@ -589,7 +589,7 @@ bool Game::CheckCollision(Vector2 circlePos, float circleRadius, Vector2 lineSta
 
 		//Compare length between closest point and circle centre with circle radius
 
-		float closeToCentre = lineLength(A, { closestX, closestY }); //closestX + Y compared to circle centre
+		float closeToCentre = Vector2Distance(A, { closestX, closestY }); //closestX + Y compared to circle centre
 
 		if (closeToCentre < circleRadius)
 		{
