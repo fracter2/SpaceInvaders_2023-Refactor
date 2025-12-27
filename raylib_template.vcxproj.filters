@@ -21,7 +21,7 @@
     <ClCompile Include="Source\game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Resources.cpp">
+    <ClCompile Include="Source\resources.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\level.cpp">
@@ -32,7 +32,7 @@
     <ClInclude Include="Source\game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Resources.h">
+    <ClInclude Include="Source\resources.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\common.h">
