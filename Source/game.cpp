@@ -68,7 +68,7 @@ void Game::Launch()
 
 void Game::Update()
 {
-	switch (gameState)
+	switch (gameState)					// TODO Separate each state into their own classes
 	{
 	case State::STARTSCREEN:
 		//Code							// TODO Remove, redudant
@@ -245,7 +245,7 @@ void Game::Update()
 	case State::ENDSCREEN:
 		//Code
 	
-		//Exit endscreen
+		//Exit endscreen										// TODO Clarify if this is a separate state from when there is a highscore
 		if (IsKeyReleased(KEY_ENTER) && !newHighScore)
 		{
 			Continue();
@@ -253,12 +253,12 @@ void Game::Update()
 
 	
 
-		if (newHighScore)
+		if (newHighScore)										// TODO Pull out from nesting
 		{
-			if (CheckCollisionPointRec(GetMousePosition(), textBox)) mouseOnText = true;
+			if (CheckCollisionPointRec(GetMousePosition(), textBox)) mouseOnText = true;		// TODO Simplify, can be one line
 			else mouseOnText = false;
 
-			if (mouseOnText)
+			if (mouseOnText)									// TODO Pull out from nesting
 			{
 				// Set the window's cursor to the I-Beam
 				SetMouseCursor(MOUSE_CURSOR_IBEAM);
@@ -290,7 +290,7 @@ void Game::Update()
 			}
 			else SetMouseCursor(MOUSE_CURSOR_DEFAULT);
 
-			if (mouseOnText)
+			if (mouseOnText)		// TODO This is for the textbox cursor blink animation, this should be handles by the textbox itself
 			{
 				framesCounter++;
 			}
@@ -317,7 +317,7 @@ void Game::Update()
 
 		break;
 	default:
-		//SHOULD NOT HAPPEN
+		//SHOULD NOT HAPPEN			// TODO Add an assert
 		break;
 	}
 }
@@ -506,7 +506,7 @@ void Game::InsertNewHighScore(std::string name) // TODO Consider string_view
 	}
 }
 
-void Game::LoadLeaderboard()
+void Game::LoadLeaderboard()		// TODO Consider removing (unused) Move to separate file along with SaveLeaderboard()
 {
 	// CLEAR LEADERBOARD
 
@@ -519,7 +519,7 @@ void Game::LoadLeaderboard()
 	//CLOSE FILE
 }
 
-void Game::SaveLeaderboard()
+void Game::SaveLeaderboard()		// TODO Consider removing, used once, not fully implemented yet
 {
 	// SAVE LEADERBOARD AS ARRAY
 
@@ -556,7 +556,7 @@ bool Game::CheckCollision(Vector2 circlePos, float circleRadius, Vector2 lineSta
 		return true;
 	}
 
-	// simplify variables		// TODO consider renaming to follow variable convention
+	// simplify variables		// TODO consider renaming to follow variable naming convention
 	Vector2 A = lineStart;
 	Vector2 B = lineEnd;
 	Vector2 C = circlePos;
@@ -613,9 +613,9 @@ bool Game::CheckCollision(Vector2 circlePos, float circleRadius, Vector2 lineSta
 void Player::Initialize() // TODO Refactor into a contructor
 {
 	
-	float window_width = (float)GetScreenWidth();
+	float window_width = (float)GetScreenWidth(); // TODO Remove, redudant, not used more than once
 	x_pos = window_width / 2;
-	std::cout<< "Find Player -X:" << GetScreenWidth() / 2 << "Find Player -Y" << GetScreenHeight() - player_base_height << std::endl;	// TODO Remove, redudant
+	std::cout<< "Find Player -X:" << GetScreenWidth() / 2 << "Find Player -Y" << GetScreenHeight() - player_base_height << std::endl;	// TODO Remove, redudant printing
 
 }
 
