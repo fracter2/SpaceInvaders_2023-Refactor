@@ -54,9 +54,6 @@ int main(void)
     
     //--------------------------------------------------------------------------------------
 
-    InitAudioDevice();                                                                  // TODO Move into "Initialization" group right above´, where it belongs
-    
-
 
 
     // Main game loop
@@ -94,8 +91,6 @@ int main(void)
         //----------------------------------------------------------------------------------
     }
 
-    CloseAudioDevice();                                                                 // TODO Move into comment group below where it obviously belongs
-    
     // De-Initialization
     //--------------------------------------------------------------------------------------
     CloseWindow();        // Close window and OpenGL context
