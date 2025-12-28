@@ -27,7 +27,6 @@
 //
 // Refactor by Theodor Rydberg, for the final asignment of the "Modern c++" course 2025-2026
 
-// TODO Consider renaming solution and project to better reflect... the project
 
 #include "raylib.h"
 #include "game.h"
