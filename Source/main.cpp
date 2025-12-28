@@ -56,7 +56,5 @@ int main(void)
 
     CloseWindow();        // Close window and OpenGL context
 
-    std::string filename = "level.txt";                                                 // TODO Remove, unused, TODO remove file as well if unused
-
     return 0;
 }
