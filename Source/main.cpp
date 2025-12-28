@@ -55,8 +55,6 @@ int main(void)
     //--------------------------------------------------------------------------------------
 
     InitAudioDevice();                                                                  // TODO Move into "Initialization" group right above´, where it belongs
-
-    auto sound = LoadSound("./hitHurt.ogg");                                            // TODO Implement into update code or remove, both here and as a file (unused)
     
 
 
