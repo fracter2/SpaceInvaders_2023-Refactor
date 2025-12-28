@@ -16,13 +16,17 @@
 *
 *   Example licensed under an unmodified zlib/libpng license, which is an OSI-certified,
 *   BSD-like license that allows static linking with closed source software
-*b
+*
 *   Copyright (c) 2013-2022 Ramon Santamaria (@raysan5)
 *
 ********************************************************************************************/
 
-// TODO Check if this liscence header can be removed. 
-// TODO Remove the obviously accidental "b"
+// This project is a "best practice" refactor of Liv and Eric's Space Invaders remake, which
+// itself is based on the source code of "raylib [core] example - Basic window", as seen 
+// above.
+//
+// Refactor by Theodor Rydberg, for the final asignment of the "Modern c++" course 2025-2026
+
 // TODO Consider renaming solution and project to better reflect... the project
 
 #include "raylib.h"
