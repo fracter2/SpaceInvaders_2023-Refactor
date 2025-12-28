@@ -31,3 +31,6 @@ The most common smells and bad practises:
 	- Though more importantly, the prints can almost all be removed as they serve 
 		little purpose than debugging, and so should be handled using breakpoints or
 		put in when fixing the logic. Outside of that they only clutter the output stream.
+
+- No constructors!
+	- Would abvoid all 2-step init!
