@@ -31,70 +31,30 @@
 #include "raylib.h"
 #include "game.h"
 
-
-//------------------------------------------------------------------------------------  // TODO Consider removing, mostly redudant but unintrusive organisation
-// Program main entry point
-//------------------------------------------------------------------------------------
 int main(void)
 {    
-    // Initialization
-    //--------------------------------------------------------------------------------------
     const int screenWidth = 1920;   // TODO make constexpr
     const int screenHeight = 1080;
-
     InitWindow(screenWidth, screenHeight, "SPACE INVADERS");
-
-    SetTargetFPS(60);               // Set our game to run at 60 frames-per-second      // TODO Remove, redundant comment
+    SetTargetFPS(60);
     
     Game game = { State::STARTSCREEN };                                                 // TODO remove arg if this is the only relavant instance of it (unused feature -> redudant)
     Resources resources;
     game.resources = resources;                                                         // TODO Move into Game constructor (two step init)
     game.Launch();                                                                      // TODO Consider renaming / clarifying that this is basically an "init()" func
                                                                                         // TODO Consider moving into constructor
-    
-    //--------------------------------------------------------------------------------------
 
-
-
-    // Main game loop
     while (!WindowShouldClose())    // Detect window close button or ESC key
     {
-        // Update                                                                       // TODO Remove redundant comments here/below
-        //----------------------------------------------------------------------------------
-        // TODO: Update your variables here                                             // TODO old todo, remove along with this whole comment chunk
-        //----------------------------------------------------------------------------------
-
-        //if (IsKeyPressed(KEY_SPACE))
-        //{
-        //    PlaySound(sound);
-        //}
-
-        //if (IsKeyPressed(KEY_BACKSPACE))
-        //{
-        //    StopSound(sound);
-        //}
-
         game.Update();
       
-
-        // Draw                                                                         // TODO Remove redudant comments
-        //----------------------------------------------------------------------------------
         BeginDrawing();                                                                 // TODO Consider moving into the game.Render() func for brevity
-
         ClearBackground(BLACK);
-
-       
-
         game.Render();
-
         EndDrawing();
-        //----------------------------------------------------------------------------------
     }
 
-    // De-Initialization
-    //--------------------------------------------------------------------------------------
     CloseWindow();        // Close window and OpenGL context
-    //--------------------------------------------------------------------------------------
 
     std::string filename = "level.txt";                                                 // TODO Remove, unused, TODO remove file as well if unused
 
