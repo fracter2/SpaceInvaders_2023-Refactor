@@ -38,7 +38,7 @@ int main(void)
     InitWindow(screenWidth, screenHeight, "SPACE INVADERS");
     SetTargetFPS(60);
     
-    Game game = { State::STARTSCREEN };                                                 // TODO remove arg if this is the only relavant instance of it (unused feature -> redudant)
+    Game game = {};
     Resources resources;
     game.resources = resources;                                                         // TODO Move into Game constructor (two step init)
     game.Launch();                                                                      // TODO Consider renaming / clarifying that this is basically an "init()" func
