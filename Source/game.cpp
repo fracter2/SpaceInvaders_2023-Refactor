@@ -66,7 +66,7 @@ void Game::Launch()
 	resources.Load();					// TODO Refactor away 2-step init of loading resources. Move to resource constructor, which should be constructed by the Game constructor
 }
 
-void Game::Update()
+void Game::Update() noexcept
 {
 	switch (gameState)					// TODO Separate each state into their own classes
 	{
@@ -323,7 +323,7 @@ void Game::Update()
 }
 
 
-void Game::Render()
+void Game::Render() const noexcept
 {
 	switch (gameState)
 	{
@@ -443,7 +443,7 @@ void Game::Render()
 
 			for (int i = 0; i < Leaderboard.size(); i++)
 			{
-				char* tempNameDisplay = Leaderboard[i].name.data();
+				const char* tempNameDisplay = Leaderboard[i].name.data();
 				DrawText(tempNameDisplay, 50, 140 + (i * 40), 40, YELLOW);
 				DrawText(TextFormat("%i", Leaderboard[i].score), 350, 140 + (i * 40), 40, YELLOW);
 			}
@@ -662,12 +662,12 @@ void Player::Update()
 	
 }
 
-void Player::Render(Texture2D texture)			// TODO Make const and make Texture2D&
+void Player::Render(Texture2D texture) const noexcept			// TODO Make Texture2D&
 {
 	float window_height = GetScreenHeight(); // TODO Remove, only used once and doesn't make this any more readable
 
 	// TODO Consider moving some / most / all these args into static constexpr variables
-	DrawTexturePro(texture,
+	DrawTexturePro(texture,						// TODO Make sure this is noexcept
 		{
 			0,
 			0,
@@ -702,7 +702,7 @@ void Projectile::Update()
 	}
 }
 
-void Projectile::Render(Texture2D texture)			// TODO Make const and make Texture2D&
+void Projectile::Render(Texture2D texture) const noexcept			// TODO Make Texture2D&
 {
 	//DrawCircle((int)position.x, (int)position.y, 10, RED);		// TODO Remove old comment
 	// TODO Consider moving some / most / all these args into static constexpr variables
@@ -723,7 +723,7 @@ void Projectile::Render(Texture2D texture)			// TODO Make const and make Texture
 		WHITE);
 }
 
-void Wall::Render(Texture2D texture)			// TODO Make const and make Texture2D&
+void Wall::Render(Texture2D texture) const noexcept			// TODO Make Texture2D&
 {
 	// TODO Consider moving some / most / all these args into static constexpr variables
 	DrawTexturePro(texture,
@@ -785,7 +785,7 @@ void Alien::Update()
 	}
 }
 
-void Alien::Render(Texture2D texture) 
+void Alien::Render(Texture2D texture) const noexcept
 {
 	//DrawRectangle((int)position.x - 25, (int)position.y, 30, 30, RED);
 	//DrawCircle((int)position.x, (int)position.y, radius, GREEN);
@@ -818,9 +818,9 @@ void Star::Update(float starOffset)
 
 }
 
-void Star::Render() // TODO Make const
+void Star::Render() const noexcept
 {
-	DrawCircle((int)position.x, (int)position.y, size, color);
+	DrawCircle((int)position.x, (int)position.y, size, color);	// TODO Make sure that this is noexcept
 }
 
 
@@ -852,7 +852,7 @@ void Background::Update(float offset)
 	
 }
 
-void Background::Render() // TODO Make const
+void Background::Render() const noexcept
 {
 	for (int i = 0; i < Stars.size(); i++)
 	{

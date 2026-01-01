@@ -3,6 +3,7 @@
 #include <vector>
 #include "Resources.h"
 #include <string>
+#include "scene.h"
 
 
 enum struct State						// TODO Consider moving into game struct, as it is specifically the game state
@@ -42,7 +43,7 @@ public:
 	EntityType type = EntityType::PLAYER;		// TODO What is this for? Refactor away
 
 	void Initialize();					// TODO Refactor into a contructor
-	void Render(Texture2D texture);		// TODO Make const
+	void Render(Texture2D texture) const noexcept;
 	void Update();
 	
 };
@@ -63,7 +64,7 @@ public:
 
 	void Update();
 
-	void Render(Texture2D texture);		// TODO Make const
+	void Render(Texture2D texture) const noexcept;
 };
 
 struct Wall 							// TODO Consider moving to it's own file
@@ -77,7 +78,7 @@ public:
 	int radius = 60;					// TODO make constexpr, doesn't change
 
 
-	void Render(Texture2D texture);		// TODO Make const
+	void Render(Texture2D texture) const noexcept;
 	void Update(); 
 };
 
@@ -98,7 +99,7 @@ public:
 	int speed = 2; 
 		 
 	void Update(); 
-	void Render(Texture2D texture); 
+	void Render(Texture2D texture) const noexcept;
 };
 
 
@@ -109,7 +110,7 @@ struct Star	// TODO Refactor away into Background struct (the only user)
 	Color color = GRAY;					// TODO Constexpr or remove
 	float size = 0;
 	void Update(float starOffset);		// TODO Irrellavant because it's set to the same for all starts, see Background. Refactor away.
-	void Render();
+	void Render() const noexcept;
 };
 
 struct Background	// TODO Consider moving to separate file
@@ -118,15 +119,19 @@ struct Background	// TODO Consider moving to separate file
 
 	void Initialize(int starAmount); // TODO Refactor into a constructor
 	void Update(float offset);
-	void Render();
+	void Render() const noexcept;
 
 };
 
 // TODO apply const, constexpr and noexcept where applicable
-struct Game
+struct Game: public Scene
 {
+	Game() noexcept = default;
+
+
+
 	// Gamestate								// TODO Remove redudant comments
-	State gameState = {};						// TODO Separate non-gameplay info and states into their own classes
+	State gameState = State::STARTSCREEN;		// TODO Separate non-gameplay info and states into their own classes
 
 	// Score
 	int score;									// TODO Add default 
@@ -154,8 +159,8 @@ struct Game
 	void Continue();							// TODO Rename to clarify transition to start screen
 	void Launch();								// TODO Refactor away
 
-	void Update();
-	void Render();								// TODO Make const
+	void Update() noexcept override;
+	void Render() const noexcept override;
 
 	void SpawnAliens();
 
