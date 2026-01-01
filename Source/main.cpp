@@ -46,7 +46,7 @@ int main(void)
 
     while (!WindowShouldClose())    // Detect window close button or ESC key
     {
-        game.Update();
+        game.Update();      // TODO Create a scene manager "App" that handles the "scenes" Game, Menu and EndScreen, each having a signal / emitter callback
       
         BeginDrawing();                                                                 // TODO Consider moving into the game.Render() func for brevity
         ClearBackground(BLACK);
