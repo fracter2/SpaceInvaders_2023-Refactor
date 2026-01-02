@@ -4,7 +4,9 @@
 #include "Resources.h"
 #include <string>
 #include "scene.h"
+#include <functional>
 
+#include "leaderboard.h"
 
 enum struct State						// TODO Consider moving into game struct, as it is specifically the game state
 {
@@ -19,12 +21,6 @@ enum struct EntityType					// TODO Refactor away, the types themself serve this 
 	ENEMY,
 	PLAYER_PROJECTILE,
 	ENEMY_PROJECTILE
-};
-
-struct PlayerData						// TODO Consider moving to a leaderboard.h
-{
-	std::string name;
-	int score;
 };
 
 struct Player							// TODO Consider moving to it's own file
@@ -126,17 +122,15 @@ struct Background	// TODO Consider moving to separate file
 // TODO apply const, constexpr and noexcept where applicable
 struct Game: public Scene
 {
-	Game() noexcept = default;
+	Game(const std::function<void(SceneId)>& transitionFunc, Leaderboard& lb) noexcept;
 
-
+	std::function<void(SceneId)> transitionTo;
+	Leaderboard& leaderboard;					// TODO Refactor away if possible, consider const raw pointer (see cppguidelines)
 
 	// Gamestate								// TODO Remove redudant comments
 	State gameState = State::STARTSCREEN;		// TODO Separate non-gameplay info and states into their own classes
 
-	// Score
-	int score;									// TODO Add default 
-
-	int wallCount = 5;
+	int wallCount = 5;							// TODO Clarify if const or if can be changed
 
 	//Aliens shooting							// TODO Clarify comment, then if logic already is self-explanatory, remove
 	float shootTimer = 0;
@@ -150,28 +144,12 @@ struct Game: public Scene
 	int formationX = 100;
 	int formationY = 50;
 
-	bool newHighScore = false;					// TODO Consider renaming to "queueNewHighscore" or "newHighscoreTip"
-	
-	
-	void Start();								// TODO Rename to clarify what these do 
-	void End();
-
-	void Continue();							// TODO Rename to clarify transition to start screen
-	void Launch();								// TODO Refactor away
-
 	void Update() noexcept override;
 	void Render() const noexcept override;
 
 	void SpawnAliens();
 
 	bool CheckCollision(Vector2 circlePos, float circleRadius, Vector2 lineTop, Vector2 lineBottom);	// TODO Rename to clarify that it checks line-circle overlap
-
-	bool CheckNewHighScore();					// TODO Rename to clarify, like "isHighScore()" or "justBeatHighScore()"
-
-	void InsertNewHighScore(std::string name);	// TODO Consider using string_view
-
-	void LoadLeaderboard();						// TODO Consider implementing or removing (unused)
-	void SaveLeaderboard();						// TODO Finish implementing this or remove (used but incomplete)
 
 
 	// Entity Storage and Resources
@@ -184,8 +162,6 @@ struct Game: public Scene
 	std::vector<Wall> Walls;
 
 	std::vector<Alien> Aliens;
-
-	std::vector<PlayerData> Leaderboard = { {"Player 1", 500}, {"Player 2", 400}, {"Player 3", 300}, {"Player 4", 200}, {"Player 5", 100} };
 	
 	Background background;
 
@@ -195,16 +171,5 @@ struct Game: public Scene
 	Vector2 alienPos;		// TODO Remove, this should be part of the Alien class
 	Vector2 cornerPos;		// TODO Remove, used as a local variable
 	float offset;			// TODO Remove, used as a local variable
-
-
-
-	//TEXTBOX ENTER																			// TODO Make into it's own class, including vars below
-	char name[9 + 1] = "\0";      //One extra space required for null terminator char '\0'	// TODO Make into string
-	int letterCount = 0;																	// TODO Remove, redundant if name is a string
-
-	Rectangle textBox = { 600, 500, 225, 50 };												
-	bool mouseOnText = false;																// TODO Remove, used as a local variable
-
-	int framesCounter = 0;																	// TODO Move into textbox class
 
 };

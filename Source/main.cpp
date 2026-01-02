@@ -29,7 +29,7 @@
 
 
 #include "raylib.h"
-#include "game.h"
+#include "App.h"
 
 int main(void)
 {    
@@ -38,19 +38,16 @@ int main(void)
     InitWindow(screenWidth, screenHeight, "SPACE INVADERS");
     SetTargetFPS(60);
     
-    Game game = {};
-    Resources resources;
-    game.resources = resources;                                                         // TODO Move into Game constructor (two step init)
-    game.Launch();                                                                      // TODO Consider renaming / clarifying that this is basically an "init()" func
-                                                                                        // TODO Consider moving into constructor
+    App app = App();
+
 
     while (!WindowShouldClose())    // Detect window close button or ESC key
     {
-        game.Update();      // TODO Create a scene manager "App" that handles the "scenes" Game, Menu and EndScreen, each having a signal / emitter callback
+        app.Update();      // TODO Create a scene manager "App" that handles the "scenes" Game, Menu and EndScreen, each having a signal / emitter callback
       
         BeginDrawing();                                                                 // TODO Consider moving into the game.Render() func for brevity
         ClearBackground(BLACK);
-        game.Render();
+        app.Render();
         EndDrawing();
     }
 
