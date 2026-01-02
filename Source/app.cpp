@@ -7,16 +7,16 @@
 #include "end_screen.h"
 
 
-App::App(SceneId sceneId) noexcept {
+App::App(SceneId sceneId) {
 	ChangeTo(sceneId);
 }
 
-void App::ChangeTo(SceneId id) noexcept {
+void App::ChangeTo(SceneId id) {
 	assert(id < SceneId::Max);
 
 	using std::placeholders::_1;
 	std::function<void(SceneId)> transitionFunc = std::bind(&App::ChangeTo, this, _1);
-
+	
 	switch (id) {
 	case SceneId::MainMenu:  { currentScene = std::unique_ptr<Scene>(new MainMenu(transitionFunc)); break; }
 	case SceneId::Game:		 { currentScene = std::unique_ptr<Scene>(new Game(transitionFunc, leaderboard)); break; }

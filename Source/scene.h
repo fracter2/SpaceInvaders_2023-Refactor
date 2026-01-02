@@ -20,5 +20,5 @@ enum struct SceneId : int {
 struct SceneManager {
 	//SceneManager() = delete;				// TODO Check if this does anything, may be redudant with ChangeTo() = 0;
 	virtual ~SceneManager() = default;
-	virtual void ChangeTo(SceneId id) noexcept = 0;
+	virtual void ChangeTo(SceneId id) = 0;
 };
