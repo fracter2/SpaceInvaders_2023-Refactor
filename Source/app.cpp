@@ -7,9 +7,7 @@
 #include "end_screen.h"
 
 
-App::App(SceneId sceneId) noexcept 
-	//: currentScene(new MainMenu()) 
-{
+App::App(SceneId sceneId) noexcept {
 	ChangeTo(sceneId);
 }
 

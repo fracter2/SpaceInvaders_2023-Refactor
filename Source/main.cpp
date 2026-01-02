@@ -28,30 +28,29 @@
 // Refactor by Theodor Rydberg, for the final asignment of the "Modern c++" course 2025-2026
 
 
-#include "raylib.h"
+#include "raylib.h"					// TODO Consider removing for brevity (already included from App.h)
 #include "App.h"
 
 int main(void)
 {    
-    const int screenWidth = 1920;   // TODO make constexpr
-    const int screenHeight = 1080;
-    InitWindow(screenWidth, screenHeight, "SPACE INVADERS");
-    SetTargetFPS(60);
-    
-    App app = App();
+	const int screenWidth = 1920;	// TODO make constexpr
+	const int screenHeight = 1080;
+	InitWindow(screenWidth, screenHeight, "SPACE INVADERS");
+	SetTargetFPS(60);
+	
+	App app = App();
 
+	while (!WindowShouldClose())	// Detect window close button or ESC key
+	{
+		app.Update();
+	  
+		BeginDrawing();				// TODO Consider moving into the Render() func for brevity
+		ClearBackground(BLACK);
+		app.Render();
+		EndDrawing();
+	}
 
-    while (!WindowShouldClose())    // Detect window close button or ESC key
-    {
-        app.Update();      // TODO Create a scene manager "App" that handles the "scenes" Game, Menu and EndScreen, each having a signal / emitter callback
-      
-        BeginDrawing();                                                                 // TODO Consider moving into the game.Render() func for brevity
-        ClearBackground(BLACK);
-        app.Render();
-        EndDrawing();
-    }
+	CloseWindow();					// Close window and OpenGL context
 
-    CloseWindow();        // Close window and OpenGL context
-
-    return 0;
+	return 0;
 }
