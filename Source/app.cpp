@@ -13,7 +13,6 @@ App::App(SceneId sceneId) noexcept {
 
 void App::ChangeTo(SceneId id) noexcept {
 	assert(id < SceneId::Max);
-	currentSceneId = id;
 
 	using std::placeholders::_1;
 	std::function<void(SceneId)> transitionFunc = std::bind(&App::ChangeTo, this, _1);
