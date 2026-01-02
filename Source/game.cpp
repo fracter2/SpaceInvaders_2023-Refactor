@@ -201,24 +201,24 @@ void Game::Render() const noexcept
 	DrawText(TextFormat("Lives: %i", player.lives), 50, 70, 40, YELLOW);
 
 	//player rendering															// TODO Remove, redudant
-	player.Render(resources->shipTextures[player.activeTexture]);
+	player.Render(*resources);
 
 	//projectile rendering														// TODO Remove, redudant
 	for (int i = 0; i < Projectiles.size(); i++)
 	{
-		Projectiles[i].Render(resources->laserTexture);
+		Projectiles[i].Render(*resources);
 	}
 
 	// wall rendering															// TODO Remove, redudant
 	for (int i = 0; i < Walls.size(); i++)
 	{
-		Walls[i].Render(resources->barrierTexture);
+		Walls[i].Render(*resources);
 	}
 
 	//alien rendering															// TODO Remove, redudant
 	for (int i = 0; i < Aliens.size(); i++)
 	{
-		Aliens[i].Render(resources->alienTexture);
+		Aliens[i].Render(*resources);
 	}
 }
 
@@ -327,28 +327,15 @@ void Player::Update()
 
 	// Border collision
 	position.x = Clamp(position.x, 0 + radius, GetScreenWidth() - radius);
-
-	//Determine frame for animation
-	timer += GetFrameTime();
-
-	if (timer > 0.4 && activeTexture == 2)		// TODO Make these numbers into static constexpr vars
-	{
-		activeTexture = 0;						// TODO Simplify both ifs into one by using modulo to avoid max (2 here)
-		timer = 0;
-	}
-	else if (timer > 0.4)
-	{
-		activeTexture++;
-		timer = 0;
-	}
-
 	
 }
 
-void Player::Render(Texture2D texture) const noexcept			// TODO Make Texture2D&
+void Player::Render(const Resources& res) const noexcept			// TODO Make Texture2D&
 {
+	static constexpr float timePerFrame = 0.4;
+	auto frames = res.shipTextures;
 	// TODO Consider moving some / most / all these args into static constexpr variables
-	DrawTexturePro(texture,						// TODO Make sure this is noexcept
+	DrawTexturePro(frames[(int)(GetTime() / timePerFrame) % frames.size()],						// TODO Make sure this is noexcept
 		{
 			0,
 			0,
@@ -384,11 +371,11 @@ void Projectile::Update()
 	}
 }
 
-void Projectile::Render(Texture2D texture) const noexcept			// TODO Make Texture2D&
+void Projectile::Render(const Resources& res) const noexcept			// TODO Make Texture2D&
 {
 	//DrawCircle((int)position.x, (int)position.y, 10, RED);		// TODO Remove old comment
 	// TODO Consider moving some / most / all these args into static constexpr variables
-	DrawTexturePro(texture,
+	DrawTexturePro(res.laserTexture,
 		{
 			0,
 			0,
@@ -405,10 +392,10 @@ void Projectile::Render(Texture2D texture) const noexcept			// TODO Make Texture
 		WHITE);
 }
 
-void Wall::Render(Texture2D texture) const noexcept			// TODO Make Texture2D&
+void Wall::Render(const Resources& res) const noexcept			// TODO Make Texture2D&
 {
 	// TODO Consider moving some / most / all these args into static constexpr variables
-	DrawTexturePro(texture,
+	DrawTexturePro(res.barrierTexture,
 		{
 			0,
 			0,
@@ -472,14 +459,14 @@ void Alien::Update()
 	}
 }
 
-void Alien::Render(Texture2D texture) const noexcept
+void Alien::Render(const Resources& res) const noexcept
 {
 	//DrawRectangle((int)position.x - 25, (int)position.y, 30, 30, RED);
 	//DrawCircle((int)position.x, (int)position.y, radius, GREEN);
 	
 	
 	// TODO Consider moving some / most / all these args into static constexpr variables
-	DrawTexturePro(texture,
+	DrawTexturePro(res.alienTexture,
 		{
 			0,
 			0,

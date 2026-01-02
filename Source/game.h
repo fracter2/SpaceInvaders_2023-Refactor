@@ -21,7 +21,7 @@ public:
 	float timer = 0;					// TODO Clarify
 
 	Player() noexcept;
-	void Render(Texture2D texture) const noexcept;
+	void Render(const Resources& res) const noexcept;
 	void Update();
 	
 };
@@ -42,7 +42,7 @@ public:
 
 	void Update();
 
-	void Render(Texture2D texture) const noexcept;
+	void Render(const Resources& res) const noexcept;
 };
 
 struct Wall 							// TODO Consider moving to it's own file
@@ -54,7 +54,7 @@ public:
 	int health = 50;
 	int radius = 60;					// TODO make constexpr, doesn't change
 
-	void Render(Texture2D texture) const noexcept;
+	void Render(const Resources& res) const noexcept;
 	void Update(); 
 };
 
@@ -71,7 +71,7 @@ public:
 
 	Alien(Vector2 pos) noexcept;
 	void Update(); 
-	void Render(Texture2D texture) const noexcept;
+	void Render(const Resources& res) const noexcept;
 };
 
 
