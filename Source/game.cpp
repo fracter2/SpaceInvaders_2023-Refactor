@@ -10,9 +10,8 @@ Game::Game(const std::function<void(SceneId)>& transitionFunc, Leaderboard& lb, 
 	, leaderboard(&lb)
 	, resources(&res)
 {
-//void Game::Start() // TODO Rename to clarify this initialized the level and changes state to gameplay
 
-	// creating walls	// TODO Capitalize comments and make them Imperative (eg, "create walls") or remove
+	// creating walls									// TODO Capitalize comments and make them Imperative (eg, "create walls") or remove
 	float window_width = (float)GetScreenWidth();		// TODO Move to where they are used, since their only used once
 	float window_height = (float)GetScreenHeight();		// TODO Move to where they are used, since their only used once
 	float wall_distance = window_width / (wallCount + 1); 
@@ -30,7 +29,7 @@ Game::Game(const std::function<void(SceneId)>& transitionFunc, Leaderboard& lb, 
 	//creating player
 	Player newPlayer;
 	player = newPlayer;
-	player.Initialize();		// TODO Refactor away 2 step init. Make this all one line
+	player.Initialize();				// TODO Refactor away 2 step init. Make this all one line
 
 	//creating aliens
 	SpawnAliens();
@@ -47,17 +46,17 @@ Game::Game(const std::function<void(SceneId)>& transitionFunc, Leaderboard& lb, 
 
 void Game::Update() noexcept
 {
-	//Code							// TODO Remove, redudant
+	//Code										// TODO Remove, redudant
 	if (IsKeyReleased(KEY_Q))
 	{
 		transitionTo(SceneId::EndScreen);
 	}
 
-	//Update Player					// TODO Remove, redudant
+	//Update Player								// TODO Remove, redudant
 	player.Update();
 		
 	//Update Aliens and Check if they are past player
-	for (int i = 0; i < Aliens.size(); i++) // TODO make into a for each loop
+	for (int i = 0; i < Aliens.size(); i++)		// TODO make into a for each loop
 	{
 		Aliens[i].Update(); 
 
@@ -67,14 +66,14 @@ void Game::Update() noexcept
 		}
 	}
 
-	//End game if player dies		// TODO Remove, redudant
-	if (player.lives < 1)			// TODO Shouldn't this go after projectile update?
+	//End game if player dies					// TODO Remove, redudant
+	if (player.lives < 1)						// TODO Shouldn't this go after projectile update?
 	{
 		transitionTo(SceneId::EndScreen);
 	}
 
-	//Spawn new aliens if aliens run out	// TODO Remove, redudant
-	if (Aliens.size() < 1)	// TODO Use .empty() for clarity
+	//Spawn new aliens if aliens run out		// TODO Remove, redudant
+	if (Aliens.size() < 1)						// TODO Use .empty() for clarity
 	{
 		SpawnAliens();
 	}
