@@ -12,7 +12,6 @@ Game::Game(const std::function<void(SceneId)>& transitionFunc, Leaderboard& lb, 
 	, background(Background(600))		// TODO Clarify magic number
 {
 
-	// creating walls									// TODO Capitalize comments and make them Imperative (eg, "create walls") or remove
 	float window_width = (float)GetScreenWidth();		// TODO Move to where they are used, since their only used once
 	float window_height = (float)GetScreenHeight();		// TODO Move to where they are used, since their only used once
 	float wall_distance = window_width / (wallCount + 1); 
@@ -26,25 +25,20 @@ Game::Game(const std::function<void(SceneId)>& transitionFunc, Leaderboard& lb, 
 
 	}
 
-	//creating aliens
 	SpawnAliens();
 
-	//reset score
 	leaderboard->currentScore = 0;
 }
 
 void Game::Update() noexcept
 {
-	//Code										// TODO Remove, redudant
 	if (IsKeyReleased(KEY_Q))
 	{
 		transitionTo(SceneId::EndScreen);
 	}
 
-	//Update Player								// TODO Remove, redudant
 	player.Update();
 		
-	//Update Aliens and Check if they are past player
 	for (int i = 0; i < Aliens.size(); i++)		// TODO make into a for each loop
 	{
 		Aliens[i].Update(); 
@@ -55,28 +49,22 @@ void Game::Update() noexcept
 		}
 	}
 
-	//End game if player dies					// TODO Remove, redudant
 	if (player.lives < 1)						// TODO Shouldn't this go after projectile update?
 	{
 		transitionTo(SceneId::EndScreen);
 	}
 
-	//Spawn new aliens if aliens run out		// TODO Remove, redudant
 	if (Aliens.size() < 1)						// TODO Use .empty() for clarity
 	{
 		SpawnAliens();
 	}
 
+	background.offset = abs(player.position.x) / 15;	// TODO Clarify 15 as offset-multiplier
 
-	// Update background with offset
-	background.offset = abs(player.position.x) / 15;			// TODO Clarify 15 as offset-multiplier
-
-	//UPDATE PROJECTILE									// TODO Remove, redudant
 	for (int i = 0; i < Projectiles.size(); i++)		// TODO Make foreach loop
 	{
 		Projectiles[i].Update();
 	}
-	//UPDATE PROJECTILE									// TODO Remove, redudant
 	for (int i = 0; i < Walls.size(); i++)				// TODO Make foreach loop
 	{
 		Walls[i].Update();
@@ -93,7 +81,6 @@ void Game::Update() noexcept
 				{
 					// Kill!
 					std::cout << "Hit! \n";
-					// Set them as inactive, will be killed later
 					Projectiles[i].active = false;
 					Aliens[a].active = false;
 					leaderboard->currentScore += 100;
@@ -122,14 +109,12 @@ void Game::Update() noexcept
 			{
 				// Kill!
 				std::cout << "Hit! \n";
-				// Set them as inactive, will be killed later
 				Projectiles[i].active = false;
 				Walls[b].health -= 1;
 			}
 		}
 	}
 
-	//MAKE PROJECTILE
 	if (IsKeyPressed(KEY_SPACE))
 	{
 		float window_height = (float)GetScreenHeight();
@@ -140,8 +125,7 @@ void Game::Update() noexcept
 		Projectiles.push_back(newProjectile);
 	}
 
-	//Aliens Shooting
-	shootTimer += 1;
+	shootTimer += 1;												// TODO Refactor away using GetTime() and modulo
 	if (shootTimer > 59) //once per second
 	{
 		int randomAlienIndex = 0;
@@ -163,7 +147,7 @@ void Game::Update() noexcept
 	// REMOVE INACTIVE/DEAD ENITITIES
 	for (int i = 0; i < Projectiles.size(); i++)
 	{
-		if (Projectiles[i].active == false)
+		if (Projectiles[i].active == false)				// TODO Check if there's an algorithm for this (there always is)
 		{
 			Projectiles.erase(Projectiles.begin() + i);
 			// Prevent the loop from skipping an instance because of index changes, since all insances after
@@ -173,7 +157,7 @@ void Game::Update() noexcept
 	}
 	for (int i = 0; i < Aliens.size(); i++)
 	{
-		if (Aliens[i].active == false)
+		if (Aliens[i].active == false)					// TODO Check if there's an algorithm for this (there always is)
 		{
 			Aliens.erase(Aliens.begin() + i);
 			i--;
@@ -181,7 +165,7 @@ void Game::Update() noexcept
 	}
 	for (int i = 0; i < Walls.size(); i++)
 	{
-		if (Walls[i].active == false)
+		if (Walls[i].active == false)					// TODO Check if there's an algorithm for this (there always is)
 		{
 			Walls.erase(Walls.begin() + i);
 			i--;
@@ -192,30 +176,23 @@ void Game::Update() noexcept
 
 void Game::Render() const noexcept
 {
-	//Code																		// TODO Remove, redudant
-	//background render LEAVE THIS AT TOP
 	background.Render();
 
-	//DrawText("GAMEPLAY", 50, 30, 40, YELLOW);									// TODO Remove, redudant
 	DrawText(TextFormat("Score: %i", leaderboard->currentScore), 50, 20, 40, YELLOW);
 	DrawText(TextFormat("Lives: %i", player.lives), 50, 70, 40, YELLOW);
 
-	//player rendering															// TODO Remove, redudant
 	player.Render(*resources);
 
-	//projectile rendering														// TODO Remove, redudant
 	for (int i = 0; i < Projectiles.size(); i++)
 	{
 		Projectiles[i].Render(*resources);
 	}
 
-	// wall rendering															// TODO Remove, redudant
 	for (int i = 0; i < Walls.size(); i++)
 	{
 		Walls[i].Render(*resources);
 	}
 
-	//alien rendering															// TODO Remove, redudant
 	for (int i = 0; i < Aliens.size(); i++)
 	{
 		Aliens[i].Render(*resources);
@@ -330,7 +307,7 @@ void Player::Update()
 	
 }
 
-void Player::Render(const Resources& res) const noexcept			// TODO Make Texture2D&
+void Player::Render(const Resources& res) const noexcept
 {
 	static constexpr float timePerFrame = 0.4;
 	auto frames = res.shipTextures;
@@ -358,7 +335,7 @@ void Projectile::Update()
 {
 	position.y -= speed;
 
-	// UPDATE LINE POSITION				// TODO Remove this block, this is just the position variable again
+	// UPDATE LINE POSITION							// TODO Remove this block, this is just the position variable again
 	lineStart.y = position.y - 15;
 	lineEnd.y   = position.y + 15;
 
@@ -371,9 +348,8 @@ void Projectile::Update()
 	}
 }
 
-void Projectile::Render(const Resources& res) const noexcept			// TODO Make Texture2D&
+void Projectile::Render(const Resources& res) const noexcept
 {
-	//DrawCircle((int)position.x, (int)position.y, 10, RED);		// TODO Remove old comment
 	// TODO Consider moving some / most / all these args into static constexpr variables
 	DrawTexturePro(res.laserTexture,
 		{
@@ -418,8 +394,6 @@ void Wall::Render(const Resources& res) const noexcept			// TODO Make Texture2D&
 
 void Wall::Update() 
 {
-
-	// set walls as inactive when out of health		// TODO Remove, redudant
 	if (health < 1)
 	{
 		active = false;
@@ -435,9 +409,7 @@ Alien::Alien(Vector2 pos) noexcept
 
 void Alien::Update() 
 {
-	int window_width = GetScreenWidth();	// TODO Remove, isn't even used
-
-	if (moveRight)			// TODO Move statement to just the position.x update, perhaps as ternary operator
+	if (moveRight)					// TODO Move statement to just the position.x update, perhaps as ternary operator
 	{
 		position.x += speed; 
 
@@ -460,11 +432,7 @@ void Alien::Update()
 }
 
 void Alien::Render(const Resources& res) const noexcept
-{
-	//DrawRectangle((int)position.x - 25, (int)position.y, 30, 30, RED);
-	//DrawCircle((int)position.x, (int)position.y, radius, GREEN);
-	
-	
+{		
 	// TODO Consider moving some / most / all these args into static constexpr variables
 	DrawTexturePro(res.alienTexture,
 		{
@@ -520,62 +488,3 @@ void Background::Render() const noexcept
 		Stars[i].Render(offset);
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*LEGACY CODE
-	// our objective is to calculate the distance between the closest point of the line to the centre of the circle,
-	// and determine if it is shorter than the radius.
-
-	// we can imagine the edges of the line and circle centre to form a triangle. calculating the height of the
-	// triangle will give us the distance, if the line serves as the base
-
-	// simplify variables
-	Vector2 A = lineStart;
-	Vector2 B = lineEnd;
-	Vector2 C = circlePos;
-
-	// calculate area using determinant method
-
-	float triangle_area = fabsf(A.x * (B.y - C.y) + B.x * (C.y - A.y) + C.x * (A.y - B.y)) / 2;
-
-
-	// Caculate vectors AB to calculate base length
-	Vector2 AB;
-	AB.x = B.x - A.x;
-	AB.y = B.y - A.y;
-
-	//get the base length
-	float trangle_base_length = (float)sqrt(pow(AB.x, 2) + pow(AB.y, 2));
-
-	// we double the area to turn in into a rectangle, and then divide the base length to get the height.
-	float triangle_height = (triangle_area * 2 ) / trangle_base_length;
-
-	std::cout << triangle_area << "\n";
-
-	if (triangle_height < circleRadius)
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
-
-
-	*/
-
