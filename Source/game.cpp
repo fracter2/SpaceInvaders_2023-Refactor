@@ -224,11 +224,17 @@ void Game::Render() const noexcept
 
 void Game::SpawnAliens()				// TODO Move to ded
 {
+	static constexpr int formationWidth = 8;						// TODO Set static constexpr for all these
+	static constexpr int formationHeight = 5;
+	static constexpr int alienSpacing = 80;
+	static constexpr int formationX = 550;
+	static constexpr int formationY = 50;
+
 	for (int row = 0; row < formationHeight; row++) {		// TODO Consider refactoring to remove raw loop / nesting... otherwise fine
 		for (int col = 0; col < formationWidth; col++) {
 			Alien newAlien = Alien();	// TODO Refactor this below into a constructor (2 step init)
 			newAlien.active = true;
-			newAlien.position.x = formationX + 450 + (col * alienSpacing);	// TODO Clarify 450 as constexpr or in a comment... is it just the spawn offset?
+			newAlien.position.x = formationX + (col * alienSpacing);
 			newAlien.position.y = formationY + (row * alienSpacing);
 			Aliens.push_back(newAlien);
 			std::cout << "Find Alien -X:" << newAlien.position.x << std::endl;	// TODO Remove, redundant 

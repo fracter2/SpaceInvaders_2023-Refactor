@@ -111,12 +111,6 @@ struct Game: public Scene
 	//Aliens shooting							// TODO Clarify comment, then if logic already is self-explanatory, remove
 	float shootTimer = 0;
 
-	int formationWidth = 8;						// TODO Set static constexpr for all these
-	int formationHeight = 5;
-	int alienSpacing = 80;
-	int formationX = 100;
-	int formationY = 50;
-
 	void Update() noexcept override;
 	void Render() const noexcept override;
 
