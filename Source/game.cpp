@@ -49,7 +49,7 @@ void Game::Update() noexcept
 	{
 		Aliens[i].Update(); 
 
-		if (Aliens[i].position.y > GetScreenHeight() - player.player_base_height)	// TODO Can't this be simplified to more/less than player y?
+		if (Aliens[i].position.y > player.position.y)
 		{
 			transitionTo(SceneId::EndScreen);
 		}
@@ -69,7 +69,7 @@ void Game::Update() noexcept
 
 
 	// Update background with offset
-	background.offset = abs(player.x_pos) / 15;			// TODO Clarify 15 as offset-multiplier
+	background.offset = abs(player.position.x) / 15;			// TODO Clarify 15 as offset-multiplier
 
 	//UPDATE PROJECTILE									// TODO Remove, redudant
 	for (int i = 0; i < Projectiles.size(); i++)		// TODO Make foreach loop
@@ -106,7 +106,7 @@ void Game::Update() noexcept
 		{
 			if (!Projectiles[i].fromPlayer)
 			{
-				if (CheckCollision({player.x_pos, GetScreenHeight() - player.player_base_height }, player.radius, Projectiles[i].lineStart, Projectiles[i].lineEnd))
+				if (CheckCollision({player.position.x, player.position.y }, player.radius, Projectiles[i].lineStart, Projectiles[i].lineEnd))
 				{
 					std::cout << "dead!\n"; 
 					Projectiles[i].active = false; 
@@ -134,7 +134,7 @@ void Game::Update() noexcept
 	{
 		float window_height = (float)GetScreenHeight();
 		Projectile newProjectile;									// TODO Fix multiple-step initialization
-		newProjectile.position.x = player.x_pos;
+		newProjectile.position.x = player.position.x;
 		newProjectile.position.y = window_height - 130;
 		newProjectile.fromPlayer = true;
 		Projectiles.push_back(newProjectile);
@@ -309,12 +309,13 @@ bool Game::CheckCollision(Vector2 circlePos, float circleRadius, Vector2 lineSta
 
 }
 
-Player::Player() noexcept // TODO Refactor into a contructor
+Player::Player() noexcept
 {
-	
-	float window_width = (float)GetScreenWidth(); // TODO Remove, redudant, not used more than once
-	x_pos = window_width / 2;
-	std::cout<< "Find Player -X:" << GetScreenWidth() / 2 << "Find Player -Y" << GetScreenHeight() - player_base_height << std::endl;	// TODO Remove, redudant printing
+	position = Vector2(
+		(float)GetScreenWidth() / 2,
+		(float)(GetScreenHeight() - player_y_offset)
+	);
+	std::cout<< "Find Player -X:" << position.x << "Find Player -Y" << position.y << std::endl;	// TODO Remove, redudant printing
 
 }
 
@@ -332,15 +333,15 @@ void Player::Update()
 		direction++;
 	}
 
-	x_pos += speed * direction;
+	position.x += speed * direction;
 
-	if (x_pos < 0 + radius)				// TODO Clarify this is border colission
+	if (position.x < 0 + radius)				// TODO Clarify this is border colission
 	{
-		x_pos = 0 + radius;
+		position.x = 0 + radius;
 	}
-	else if (x_pos > GetScreenWidth() - radius)
+	else if (position.x > GetScreenWidth() - radius)
 	{
-		x_pos = GetScreenWidth() - radius;
+		position.x = GetScreenWidth() - radius;
 	}
 
 
@@ -363,8 +364,6 @@ void Player::Update()
 
 void Player::Render(Texture2D texture) const noexcept			// TODO Make Texture2D&
 {
-	float window_height = GetScreenHeight(); // TODO Remove, only used once and doesn't make this any more readable
-
 	// TODO Consider moving some / most / all these args into static constexpr variables
 	DrawTexturePro(texture,						// TODO Make sure this is noexcept
 		{
@@ -374,7 +373,8 @@ void Player::Render(Texture2D texture) const noexcept			// TODO Make Texture2D&
 			352,
 		},
 		{
-			x_pos, window_height - player_base_height,
+			position.x, 
+			position.y,
 			100,
 			100,
 		}, { 50, 50 },

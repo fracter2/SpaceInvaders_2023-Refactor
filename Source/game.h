@@ -12,9 +12,9 @@
 struct Player							// TODO Consider moving to it's own file
 {										// TODO Make into class, keep constructor, Render() and Update() public
 public:
-	float x_pos = 0;
+	Vector2 position = {};
 	float speed = 7;					// TODO Make static constexpr
-	float player_base_height = 70.0f;	// TODO Make static constexpr // TODO this is used as a y position var. merge with x_pos
+	static constexpr float player_y_offset = 70.0f;
 	float radius = 50;					// TODO Make static constexpr
 	int lives = 3;
 	int direction = 0;					// TODO Clarify, consider an enum instead
