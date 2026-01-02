@@ -8,12 +8,6 @@
 
 #include "leaderboard.h"
 
-enum struct State						// TODO Consider moving into game struct, as it is specifically the game state
-{
-	STARTSCREEN,
-	GAMEPLAY,
-	ENDSCREEN
-};
 
 enum struct EntityType					// TODO Refactor away, the types themself serve this role
 {
@@ -126,9 +120,6 @@ struct Game: public Scene
 
 	std::function<void(SceneId)> transitionTo;
 	Leaderboard& leaderboard;					// TODO Refactor away if possible, consider const raw pointer (see cppguidelines)
-
-	// Gamestate								// TODO Remove redudant comments
-	State gameState = State::STARTSCREEN;		// TODO Separate non-gameplay info and states into their own classes
 
 	int wallCount = 5;							// TODO Clarify if const or if can be changed
 
