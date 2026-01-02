@@ -111,23 +111,13 @@ struct Game: public Scene
 
 	void Update() noexcept override;
 	void Render() const noexcept override;
-
 	void SpawnAliens();
 
-	bool CheckCollision(Vector2 circlePos, float circleRadius, Vector2 lineTop, Vector2 lineBottom);	// TODO Rename to clarify that it checks line-circle overlap
-
-
 	// Entity Storage and Resources
-
-
 	Player player = {};
-
 	std::vector<Projectile> Projectiles;
-
 	std::vector<Wall> Walls;
-
 	std::vector<Alien> Aliens;
-	
 	Background background;
 
 };
