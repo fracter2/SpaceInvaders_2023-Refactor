@@ -17,7 +17,6 @@ public:
 	static constexpr float player_y_offset = 70.0f;
 	float radius = 50;					// TODO Make static constexpr
 	int lives = 3;
-	int direction = 0;					// TODO Clarify, consider an enum instead
 	int activeTexture = 0;				// TODO Clarify, if this is the texture index used, name it so. Review usage and consider enum
 	float timer = 0;					// TODO Clarify
 

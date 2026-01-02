@@ -321,29 +321,12 @@ Player::Player() noexcept
 
 void Player::Update() 
 {
-
 	//Movement
-	direction = 0;
-	if (IsKeyDown(KEY_LEFT))
-	{
-		direction--;
-	}
-	if (IsKeyDown(KEY_RIGHT))
-	{
-		direction++;
-	}
-
+	int direction = IsKeyDown(KEY_RIGHT) - IsKeyDown(KEY_LEFT);
 	position.x += speed * direction;
 
-	if (position.x < 0 + radius)				// TODO Clarify this is border colission
-	{
-		position.x = 0 + radius;
-	}
-	else if (position.x > GetScreenWidth() - radius)
-	{
-		position.x = GetScreenWidth() - radius;
-	}
-
+	// Border collision
+	position.x = Clamp(position.x, 0 + radius, GetScreenWidth() - radius);
 
 	//Determine frame for animation
 	timer += GetFrameTime();
