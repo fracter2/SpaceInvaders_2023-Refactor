@@ -12,7 +12,6 @@
 struct Player							// TODO Consider moving to it's own file
 {										// TODO Make into class, keep constructor, Render() and Update() public
 public:
-
 	float x_pos = 0;
 	float speed = 7;					// TODO Make static constexpr
 	float player_base_height = 70.0f;	// TODO Make static constexpr // TODO this is used as a y position var. merge with x_pos
@@ -22,7 +21,7 @@ public:
 	int activeTexture = 0;				// TODO Clarify, if this is the texture index used, name it so. Review usage and consider enum
 	float timer = 0;					// TODO Clarify
 
-	void Initialize();					// TODO Refactor into a contructor
+	Player() noexcept;
 	void Render(Texture2D texture) const noexcept;
 	void Update();
 	
@@ -130,7 +129,7 @@ struct Game: public Scene
 	// Entity Storage and Resources
 
 
-	Player player;
+	Player player = {};
 
 	std::vector<Projectile> Projectiles;
 

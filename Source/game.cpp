@@ -25,12 +25,6 @@ Game::Game(const std::function<void(SceneId)>& transitionFunc, Leaderboard& lb, 
 
 	}
 
-
-	//creating player
-	Player newPlayer;
-	player = newPlayer;
-	player.Initialize();				// TODO Refactor away 2 step init. Make this all one line
-
 	//creating aliens
 	SpawnAliens();
 	
@@ -318,7 +312,7 @@ bool Game::CheckCollision(Vector2 circlePos, float circleRadius, Vector2 lineSta
 
 }
 
-void Player::Initialize() // TODO Refactor into a contructor
+Player::Player() // TODO Refactor into a contructor
 {
 	
 	float window_width = (float)GetScreenWidth(); // TODO Remove, redudant, not used more than once
