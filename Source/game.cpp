@@ -508,6 +508,12 @@ void Alien::Render(Texture2D texture) const noexcept
 
 //BACKGROUND
 
+Star::Star(Vector2 pos, float size) noexcept
+	: position(pos)
+	, size(size)
+{
+}
+
 void Star::Render(float offset) const noexcept
 {
 	DrawCircle((int)position.x + offset, (int)position.y, size, color);	// TODO Make sure that this is noexcept
@@ -518,15 +524,14 @@ Background::Background(int starAmount)
 {
 	for (int i = 0; i < starAmount; i++)
 	{
-		Star newStar;
+		Vector2 pos = { 
+			GetRandomValue(-150, GetScreenWidth() + 150), 
+			GetRandomValue(0, GetScreenHeight())
+		};
 
-		newStar.position.x = GetRandomValue(-150, GetScreenWidth() + 150);
-		newStar.position.y = GetRandomValue(0, GetScreenHeight());
+		float size = GetRandomValue(1, 4) / 2;
 
-		newStar.size = GetRandomValue(1, 4) / 2;
-
-		Stars.push_back(newStar);
-
+		Stars.push_back(Star(pos, size));
 	}
 }
 
