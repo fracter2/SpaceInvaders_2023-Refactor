@@ -508,16 +508,10 @@ void Alien::Render(Texture2D texture) const noexcept
 
 
 //BACKGROUND
-void Star::Update(float starOffset)
-{
-	position.x = initPosition.x + starOffset;
-	position.y = initPosition.y;
 
-}
-
-void Star::Render() const noexcept
+void Star::Render(float offset) const noexcept
 {
-	DrawCircle((int)position.x, (int)position.y, size, color);	// TODO Make sure that this is noexcept
+	DrawCircle((int)position.x + offset, (int)position.y, size, color);	// TODO Make sure that this is noexcept
 }
 
 
@@ -527,8 +521,8 @@ Background::Background(int starAmount)
 	{
 		Star newStar;
 
-		newStar.initPosition.x = GetRandomValue(-150, GetScreenWidth() + 150);
-		newStar.initPosition.y = GetRandomValue(0, GetScreenHeight());
+		newStar.position.x = GetRandomValue(-150, GetScreenWidth() + 150);
+		newStar.position.y = GetRandomValue(0, GetScreenHeight());
 		
 		//random color?
 		newStar.color = SKYBLUE;
@@ -540,20 +534,16 @@ Background::Background(int starAmount)
 	}
 }
 
-void Background::Update(float offset)
+void Background::Update(float _offset)
 {
-	for (int i = 0; i < Stars.size(); i++)
-	{
-		Stars[i].Update(offset);		// TODO Refactor offset into Background struct because it is the same for all Stars[] elements, so it's irrelevant to them
-	}
-	
+	offset = _offset;
 }
 
 void Background::Render() const noexcept
 {
 	for (int i = 0; i < Stars.size(); i++)
 	{
-		Stars[i].Render();
+		Stars[i].Render(offset);
 	}
 }
 

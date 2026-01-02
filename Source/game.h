@@ -80,20 +80,19 @@ public:
 
 struct Star	// TODO Refactor away into Background struct (the only user)
 {
-	Vector2 initPosition = { 0, 0 };
 	Vector2 position = { 0, 0 };		// TODO Irrellavant because it's set to the same for all starts, see Background. Refactor away.
 	Color color = GRAY;					// TODO Constexpr or remove
 	float size = 0;
-	void Update(float starOffset);		// TODO Irrellavant because it's set to the same for all starts, see Background. Refactor away.
-	void Render() const noexcept;
+	void Render(float offset) const noexcept;
 };
 
 struct Background	// TODO Consider moving to separate file
 {
 	std::vector<Star> Stars;
+	float offset = 0;
 
 	Background(int starAmount);
-	void Update(float offset);
+	void Update(float offset);				// TODO Refactor away, is just setting offset
 	void Render() const noexcept;
 
 };
