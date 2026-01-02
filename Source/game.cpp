@@ -16,8 +16,8 @@ Game::Game(const std::function<void(SceneId)>& transitionFunc, Leaderboard& lb, 
 	for (int i = 0; i < wallCount; i++)
 	{
 		Vector2 pos = { 
-			(float)GetScreenHeight() - 250, 
-			wallDistance* (i + 1)
+			wallDistance* (i + 1),
+			(float)GetScreenHeight() - 250
 		};
 		Walls.push_back(Wall(pos));
 	}
