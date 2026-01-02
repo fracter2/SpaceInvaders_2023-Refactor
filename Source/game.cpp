@@ -7,8 +7,8 @@
 
 Game::Game(const std::function<void(SceneId)>& transitionFunc, Leaderboard& lb, Resources& res) noexcept
 	: transitionTo(transitionFunc)
-	, leaderboard(lb)
-	, resources(res)
+	, leaderboard(&lb)
+	, resources(&res)
 {
 //void Game::Start() // TODO Rename to clarify this initialized the level and changes state to gameplay
 
@@ -42,8 +42,7 @@ Game::Game(const std::function<void(SceneId)>& transitionFunc, Leaderboard& lb, 
 	background = newBackground;
 
 	//reset score
-	leaderboard.currentScore = 0;							// TODO Move to dedicated persistent object
-
+	leaderboard->currentScore = 0;
 }
 
 void Game::Update() noexcept
@@ -113,7 +112,7 @@ void Game::Update() noexcept
 					// Set them as inactive, will be killed later
 					Projectiles[i].active = false;
 					Aliens[a].active = false;
-					leaderboard.currentScore += 100;
+					leaderboard->currentScore += 100;
 				}
 			}
 		}
@@ -214,28 +213,28 @@ void Game::Render() const noexcept
 	background.Render();
 
 	//DrawText("GAMEPLAY", 50, 30, 40, YELLOW);									// TODO Remove, redudant
-	DrawText(TextFormat("Score: %i", leaderboard.currentScore), 50, 20, 40, YELLOW);
+	DrawText(TextFormat("Score: %i", leaderboard->currentScore), 50, 20, 40, YELLOW);
 	DrawText(TextFormat("Lives: %i", player.lives), 50, 70, 40, YELLOW);
 
 	//player rendering															// TODO Remove, redudant
-	player.Render(resources.shipTextures[player.activeTexture]);
+	player.Render(resources->shipTextures[player.activeTexture]);
 
 	//projectile rendering														// TODO Remove, redudant
 	for (int i = 0; i < Projectiles.size(); i++)
 	{
-		Projectiles[i].Render(resources.laserTexture);
+		Projectiles[i].Render(resources->laserTexture);
 	}
 
 	// wall rendering															// TODO Remove, redudant
 	for (int i = 0; i < Walls.size(); i++)
 	{
-		Walls[i].Render(resources.barrierTexture); 
+		Walls[i].Render(resources->barrierTexture);
 	}
 
 	//alien rendering															// TODO Remove, redudant
 	for (int i = 0; i < Aliens.size(); i++)
 	{
-		Aliens[i].Render(resources.alienTexture);
+		Aliens[i].Render(resources->alienTexture);
 	}
 }
 

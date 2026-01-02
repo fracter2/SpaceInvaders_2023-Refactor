@@ -107,7 +107,8 @@ struct Game: public Scene
 	Game(const std::function<void(SceneId)>& transitionFunc, Leaderboard& lb, Resources& res) noexcept;
 
 	std::function<void(SceneId)> transitionTo;
-	Leaderboard& leaderboard;					// TODO Refactor away if possible, consider const raw pointer (see cppguidelines)
+	Leaderboard* leaderboard;					// NOTE non-owning
+	const Resources* resources;					// NOTE non-owning, 
 
 	int wallCount = 5;							// TODO Clarify if const or if can be changed
 
@@ -132,7 +133,7 @@ struct Game: public Scene
 
 
 	// Entity Storage and Resources
-	Resources& resources;
+
 
 	Player player;
 
