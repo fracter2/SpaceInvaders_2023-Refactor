@@ -222,15 +222,15 @@ void Game::Render() const noexcept
 	}
 }
 
-void Game::SpawnAliens()				// TODO Move to ded
+void Game::SpawnAliens()
 {
-	static constexpr int formationWidth = 8;						// TODO Set static constexpr for all these
+	static constexpr int formationWidth = 8;
 	static constexpr int formationHeight = 5;
 	static constexpr int alienSpacing = 80;
 	static constexpr int formationX = 550;
 	static constexpr int formationY = 50;
 
-	for (int row = 0; row < formationHeight; row++) {		// TODO Consider refactoring to remove raw loop / nesting... otherwise fine
+	for (int row = 0; row < formationHeight; row++) {
 		for (int col = 0; col < formationWidth; col++) {
 			Vector2 pos = {
 				formationX + (col * alienSpacing),
@@ -239,7 +239,6 @@ void Game::SpawnAliens()				// TODO Move to ded
 			Aliens.push_back(Alien(pos));
 		}
 	}
-
 }
 
 

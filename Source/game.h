@@ -64,7 +64,7 @@ struct Alien							// TODO Consider moving to it's own file
 public:
 	
 	Color color = WHITE;				// TODO Make static constexpr
-	Vector2 position = {0, 0};			// TODO Add constructor with pos param
+	Vector2 position = {0, 0};
 	int x = 0;							// TODO Remove, positino should already have this
 	int y = 0; 							// TODO Remove, positino should already have this
 	float radius = 30;					// TODO Make static constexpr
