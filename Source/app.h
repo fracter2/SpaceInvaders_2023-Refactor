@@ -16,6 +16,4 @@ struct App: public SceneManager {		// TODO Make into a class since it an invaria
 private:
 	std::unique_ptr<Scene> currentScene;
 	Leaderboard leaderboard = {};
-
-	// TODO make persistent data into a struct, currently just the score
 };

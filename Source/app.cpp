@@ -16,6 +16,7 @@ void App::ChangeTo(SceneId id) noexcept {
 
 	using std::placeholders::_1;
 	std::function<void(SceneId)> transitionFunc = std::bind(&App::ChangeTo, this, _1);
+
 	switch (id) {
 	case SceneId::MainMenu:  { currentScene = std::unique_ptr<Scene>(new MainMenu(transitionFunc)); break; }
 	case SceneId::Game:		 { currentScene = std::unique_ptr<Scene>(new Game(transitionFunc, leaderboard)); break; }
