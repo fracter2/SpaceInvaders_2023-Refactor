@@ -69,8 +69,7 @@ void Game::Update() noexcept
 
 
 	// Update background with offset
-	background.Update(abs(player.x_pos) / 15);				// TODO Clarify 15 as offset-multiplier
-
+	background.offset = abs(player.x_pos) / 15;			// TODO Clarify 15 as offset-multiplier
 
 	//UPDATE PROJECTILE									// TODO Remove, redudant
 	for (int i = 0; i < Projectiles.size(); i++)		// TODO Make foreach loop
@@ -532,11 +531,6 @@ Background::Background(int starAmount)
 		Stars.push_back(newStar);
 
 	}
-}
-
-void Background::Update(float _offset)
-{
-	offset = _offset;
 }
 
 void Background::Render() const noexcept

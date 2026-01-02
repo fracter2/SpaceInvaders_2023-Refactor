@@ -92,9 +92,7 @@ struct Background	// TODO Consider moving to separate file
 	float offset = 0;
 
 	Background(int starAmount);
-	void Update(float offset);				// TODO Refactor away, is just setting offset
 	void Render() const noexcept;
-
 };
 
 // TODO apply const, constexpr and noexcept where applicable
