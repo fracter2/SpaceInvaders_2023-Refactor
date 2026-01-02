@@ -9,14 +9,6 @@
 #include "leaderboard.h"
 
 
-enum struct EntityType					// TODO Refactor away, the types themself serve this role
-{
-	PLAYER,
-	ENEMY,
-	PLAYER_PROJECTILE,
-	ENEMY_PROJECTILE
-};
-
 struct Player							// TODO Consider moving to it's own file
 {										// TODO Make into class, keep constructor, Render() and Update() public
 public:
@@ -29,8 +21,6 @@ public:
 	int direction = 0;					// TODO Clarify, consider an enum instead
 	int activeTexture = 0;				// TODO Clarify, if this is the texture index used, name it so. Review usage and consider enum
 	float timer = 0;					// TODO Clarify
-
-	EntityType type = EntityType::PLAYER;		// TODO What is this for? Refactor away
 
 	void Initialize();					// TODO Refactor into a contructor
 	void Render(Texture2D texture) const noexcept;
@@ -46,7 +36,7 @@ public:
 	Vector2 position = {0,0};			// TODO Add a constructor with position param
 	int speed = 15;						// TODO Make static constexpr
 	bool active = true;					// TODO Remove, shouldn't be needed if inside vector (consider renaming to queueDelete)
-	EntityType type = {};				// TODO Remove, shouldn't be needed as long as we dont spawn our projectiles inside ourselves
+	bool fromPlayer = false;
 
 	// LINE WILL UPDATE WITH POSITION FOR CALCULATIONS
 	Vector2 lineStart = { 0, 0 };		// TODO Remove, we already have pos... can make a "length" static constexpr to get start/end points
@@ -83,8 +73,6 @@ public:
 	float radius = 30;					// TODO Make static constexpr
 	bool active = true;					// TODO Remove, shouldn't be needed if in a vector
 	bool moveRight = true;				// TODO Rename to clarify it's a variable ("movingRight" or similar) as it sounds like an action (func-like)
-	
-	EntityType type = EntityType::ENEMY; 
 
 	int speed = 2; 
 		 

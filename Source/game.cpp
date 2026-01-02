@@ -106,7 +106,7 @@ void Game::Update() noexcept
 	//CHECK ALL COLLISONS HERE
 	for (int i = 0; i < Projectiles.size(); i++)
 	{
-		if (Projectiles[i].type == EntityType::PLAYER_PROJECTILE)
+		if (Projectiles[i].fromPlayer)
 		{
 			for (int a = 0; a < Aliens.size(); a++)
 			{
@@ -125,7 +125,7 @@ void Game::Update() noexcept
 		//ENEMY PROJECTILES HERE
 		for (int i = 0; i < Projectiles.size(); i++)
 		{
-			if (Projectiles[i].type == EntityType::ENEMY_PROJECTILE)
+			if (!Projectiles[i].fromPlayer)
 			{
 				if (CheckCollision({player.x_pos, GetScreenHeight() - player.player_base_height }, player.radius, Projectiles[i].lineStart, Projectiles[i].lineEnd))
 				{
@@ -157,7 +157,7 @@ void Game::Update() noexcept
 		Projectile newProjectile;
 		newProjectile.position.x = player.x_pos;
 		newProjectile.position.y = window_height - 130;
-		newProjectile.type = EntityType::PLAYER_PROJECTILE;
+		newProjectile.fromPlayer = true;
 		Projectiles.push_back(newProjectile);
 	}
 
@@ -176,7 +176,7 @@ void Game::Update() noexcept
 		newProjectile.position = Aliens[randomAlienIndex].position;
 		newProjectile.position.y += 40;
 		newProjectile.speed = -15;
-		newProjectile.type = EntityType::ENEMY_PROJECTILE;
+		newProjectile.fromPlayer = false;
 		Projectiles.push_back(newProjectile);
 		shootTimer = 0;
 	}
