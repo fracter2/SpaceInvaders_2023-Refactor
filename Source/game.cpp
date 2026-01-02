@@ -80,10 +80,7 @@ void Game::Update() noexcept
 
 
 	// Update background with offset
-	playerPos = { player.x_pos, (float)player.player_base_height };
-	cornerPos = { 0, (float)player.player_base_height };
-	offset = Vector2Distance(playerPos, cornerPos) * -1;					// TODO Simplify, both args have the same y, and cornerPos.x is always 0... so it's always just abs(playerPos.x)
-	background.Update(offset / 15);									// TODO Clarify 15
+	background.Update(abs(player.x_pos) / 15);				// TODO Clarify 15 as offset-multiplier
 
 
 	//UPDATE PROJECTILE									// TODO Remove, redudant

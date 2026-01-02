@@ -145,11 +145,4 @@ struct Game: public Scene
 	
 	Background background;
 
-
-
-	Vector2 playerPos;		// TODO Remove, this should be part of the Player class
-	Vector2 alienPos;		// TODO Remove, this should be part of the Alien class
-	Vector2 cornerPos;		// TODO Remove, used as a local variable
-	float offset;			// TODO Remove, used as a local variable
-
 };
