@@ -32,6 +32,7 @@ void Game::Update() noexcept
 	if (IsKeyReleased(KEY_Q))
 	{
 		transitionTo(SceneId::EndScreen);
+		return;
 	}
 
 	player.Update();
@@ -43,12 +44,14 @@ void Game::Update() noexcept
 		if (Aliens[i].position.y > player.position.y)
 		{
 			transitionTo(SceneId::EndScreen);
+			return;
 		}
 	}
 
 	if (player.lives < 1)						// TODO Shouldn't this go after projectile update?
 	{
 		transitionTo(SceneId::EndScreen);
+		return;
 	}
 
 	if (Aliens.size() < 1)						// TODO Use .empty() for clarity
