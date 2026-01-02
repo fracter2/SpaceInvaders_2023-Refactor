@@ -232,13 +232,13 @@ void Game::SpawnAliens()				// TODO Move to ded
 
 	for (int row = 0; row < formationHeight; row++) {		// TODO Consider refactoring to remove raw loop / nesting... otherwise fine
 		for (int col = 0; col < formationWidth; col++) {
-			Alien newAlien = Alien();	// TODO Refactor this below into a constructor (2 step init)
-			newAlien.active = true;
-			newAlien.position.x = formationX + (col * alienSpacing);
-			newAlien.position.y = formationY + (row * alienSpacing);
-			Aliens.push_back(newAlien);
-			std::cout << "Find Alien -X:" << newAlien.position.x << std::endl;	// TODO Remove, redundant 
-			std::cout << "Find Alien -Y:" << newAlien.position.y << std::endl;	// TODO Remove, redundant
+			Vector2 pos = {
+				formationX + (col * alienSpacing),
+				formationY + (row * alienSpacing)
+			};
+			Aliens.push_back(Alien(pos));
+			//std::cout << "Find Alien -X:" << newAlien.position.x << std::endl;	// TODO Remove, redundant 
+			//std::cout << "Find Alien -Y:" << newAlien.position.y << std::endl;	// TODO Remove, redundant
 		}
 	}
 
@@ -459,6 +459,11 @@ void Wall::Update()
 	}
 
 
+}
+
+Alien::Alien(Vector2 pos) noexcept
+	: position(pos)
+{
 }
 
 void Alien::Update() 
