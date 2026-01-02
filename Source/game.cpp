@@ -44,10 +44,6 @@ Game::Game(const std::function<void(SceneId)>& transitionFunc, Leaderboard& lb, 
 	//reset score
 	leaderboard.currentScore = 0;							// TODO Move to dedicated persistent object
 
-	//LOAD SOME RESOURCES HERE			// TODO Remove redudant comment
-	resources.Load();					// TODO Refactor away 2-step init of loading resources. Move to resource constructor, which should be constructed by the Game constructor
-
-
 }
 
 void Game::Update() noexcept

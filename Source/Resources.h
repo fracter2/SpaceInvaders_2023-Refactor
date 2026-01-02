@@ -6,7 +6,7 @@
 
 struct Resources
 {
-	void Load();							// TODO Make this into contructor, 
+	Resources();
 	//void Unload();						// TODO remove, unused
 
 	std::vector<Texture2D> shipTextures;	// Does it need to be a vector? is the size known at compile-time? PROBABLY, convert to std::array or equivolent to better reflect usage

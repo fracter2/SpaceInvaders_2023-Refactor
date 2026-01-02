@@ -1,7 +1,7 @@
 #include "Resources.h"
 #include <iostream>;
 
-void Resources::Load()
+Resources::Resources()
 {
 	std::cout << "Yay"; // yes											// TODO remove, redundant (lol)
 	alienTexture = LoadTexture("./Assets/Alien.png");
