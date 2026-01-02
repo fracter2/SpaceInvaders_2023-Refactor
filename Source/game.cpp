@@ -307,7 +307,7 @@ bool Game::CheckCollision(Vector2 circlePos, float circleRadius, Vector2 lineSta
 
 }
 
-Player::Player() // TODO Refactor into a contructor
+Player::Player() noexcept // TODO Refactor into a contructor
 {
 	
 	float window_width = (float)GetScreenWidth(); // TODO Remove, redudant, not used more than once
