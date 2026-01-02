@@ -92,7 +92,7 @@ struct Background	// TODO Consider moving to separate file
 {
 	std::vector<Star> Stars;
 
-	void Initialize(int starAmount); // TODO Refactor into a constructor
+	Background(int starAmount);
 	void Update(float offset);
 	void Render() const noexcept;
 

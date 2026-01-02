@@ -9,6 +9,7 @@ Game::Game(const std::function<void(SceneId)>& transitionFunc, Leaderboard& lb, 
 	: transitionTo(transitionFunc)
 	, leaderboard(&lb)
 	, resources(&res)
+	, background(Background(600))		// TODO Clarify magic number
 {
 
 	// creating walls									// TODO Capitalize comments and make them Imperative (eg, "create walls") or remove
@@ -27,12 +28,6 @@ Game::Game(const std::function<void(SceneId)>& transitionFunc, Leaderboard& lb, 
 
 	//creating aliens
 	SpawnAliens();
-	
-
-	//creating background
-	Background newBackground;			// TODO Refactor away 2step init
-	newBackground.Initialize(600);		// TODO Clarify magic number
-	background = newBackground;
 
 	//reset score
 	leaderboard->currentScore = 0;
@@ -526,7 +521,7 @@ void Star::Render() const noexcept
 }
 
 
-void Background::Initialize(int starAmount)
+Background::Background(int starAmount)
 {
 	for (int i = 0; i < starAmount; i++)
 	{
