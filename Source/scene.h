@@ -1,11 +1,13 @@
 #pragma once
 
+
 struct Scene {
 	//Scene() = delete;						// TODO Check if this does anything, may be redudant with Update() = 0;
 	virtual ~Scene() = default;
 	virtual void Update() noexcept = 0;
 	virtual void Render() const noexcept = 0;
 };
+
 
 enum struct SceneId : int {
 	MainMenu,
@@ -14,9 +16,9 @@ enum struct SceneId : int {
 	Max
 };
 
+
 struct SceneManager {
 	//SceneManager() = delete;				// TODO Check if this does anything, may be redudant with ChangeTo() = 0;
 	virtual ~SceneManager() = default;
 	virtual void ChangeTo(SceneId id) noexcept = 0;
 };
-
