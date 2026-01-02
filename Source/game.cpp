@@ -237,8 +237,6 @@ void Game::SpawnAliens()				// TODO Move to ded
 				formationY + (row * alienSpacing)
 			};
 			Aliens.push_back(Alien(pos));
-			//std::cout << "Find Alien -X:" << newAlien.position.x << std::endl;	// TODO Remove, redundant 
-			//std::cout << "Find Alien -Y:" << newAlien.position.y << std::endl;	// TODO Remove, redundant
 		}
 	}
 
