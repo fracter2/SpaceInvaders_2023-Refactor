@@ -4,6 +4,7 @@
 
 #include "scene.h"
 #include "leaderboard.h"
+#include "resources.h"
 
 class App: public SceneManager {
 public:
@@ -17,4 +18,5 @@ public:
 private:
 	std::unique_ptr<Scene> currentScene;
 	Leaderboard leaderboard = {};
+	Resources resources = {};
 };

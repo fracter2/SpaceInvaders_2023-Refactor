@@ -5,9 +5,10 @@
 
 
 
-Game::Game(const std::function<void(SceneId)>& transitionFunc, Leaderboard& lb) noexcept
+Game::Game(const std::function<void(SceneId)>& transitionFunc, Leaderboard& lb, Resources& res) noexcept
 	: transitionTo(transitionFunc)
 	, leaderboard(lb)
+	, resources(res)
 {
 //void Game::Start() // TODO Rename to clarify this initialized the level and changes state to gameplay
 
@@ -44,7 +45,6 @@ Game::Game(const std::function<void(SceneId)>& transitionFunc, Leaderboard& lb) 
 	leaderboard.currentScore = 0;							// TODO Move to dedicated persistent object
 
 	//LOAD SOME RESOURCES HERE			// TODO Remove redudant comment
-	resources = {};
 	resources.Load();					// TODO Refactor away 2-step init of loading resources. Move to resource constructor, which should be constructed by the Game constructor
 
 

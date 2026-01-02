@@ -20,7 +20,7 @@ void App::ChangeTo(SceneId id) {
 	// TODO Consider making this a non-owning raw ptr, pointing to an already stored scene of each. Re-making each scene on-call
 	switch (id) {
 	case SceneId::MainMenu:  { currentScene = std::unique_ptr<Scene>(new MainMenu(transitionFunc)); break; }
-	case SceneId::Game:		 { currentScene = std::unique_ptr<Scene>(new Game(transitionFunc, leaderboard)); break; }
+	case SceneId::Game:		 { currentScene = std::unique_ptr<Scene>(new Game(transitionFunc, leaderboard, resources)); break; }
 	case SceneId::EndScreen: { currentScene = std::unique_ptr<Scene>(new EndScreen(transitionFunc, leaderboard)); break; }
 	}
 }

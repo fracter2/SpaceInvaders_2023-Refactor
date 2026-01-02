@@ -104,7 +104,7 @@ struct Background	// TODO Consider moving to separate file
 // TODO apply const, constexpr and noexcept where applicable
 struct Game: public Scene
 {
-	Game(const std::function<void(SceneId)>& transitionFunc, Leaderboard& lb) noexcept;
+	Game(const std::function<void(SceneId)>& transitionFunc, Leaderboard& lb, Resources& res) noexcept;
 
 	std::function<void(SceneId)> transitionTo;
 	Leaderboard& leaderboard;					// TODO Refactor away if possible, consider const raw pointer (see cppguidelines)
@@ -132,7 +132,7 @@ struct Game: public Scene
 
 
 	// Entity Storage and Resources
-	Resources resources;						// TODO Consider refactoring into namespace / static vars or into Game class. Does this need to be a separate struct? 
+	Resources& resources;
 
 	Player player;
 
