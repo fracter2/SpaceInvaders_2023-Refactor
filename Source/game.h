@@ -51,12 +51,10 @@ struct Wall 							// TODO Consider moving to it's own file
 {										// TODO Make into class
 public: 
 	Vector2 position;					// TODO Add constructor with pos param
-	Rectangle rec;						// TODO Is this used, even though there is a position and radius?
 	bool active; 						// TODO Add default // TODO Is this even needed? why not just remove, if it's in a vector?
 	Color color;						// TODO Add default and make static constexpr
 	int health = 50;
 	int radius = 60;					// TODO make constexpr, doesn't change
-
 
 	void Render(Texture2D texture) const noexcept;
 	void Update(); 
@@ -114,9 +112,6 @@ struct Game: public Scene
 
 	//Aliens shooting							// TODO Clarify comment, then if logic already is self-explanatory, remove
 	float shootTimer = 0;
-
-	//Aliens stuff? (idk cause liv wrote this)
-	Rectangle rec = { 0, 0 ,0 ,0 };				// TODO Rename to clarify
 
 	int formationWidth = 8;						// TODO Set static constexpr for all these
 	int formationHeight = 5;
