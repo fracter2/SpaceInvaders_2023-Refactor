@@ -54,6 +54,7 @@ public:
 	int health = 50;
 	int radius = 60;					// TODO make constexpr, doesn't change
 
+	Wall(Vector2 pos) noexcept;
 	void Render(const Resources& res) const noexcept;
 	void Update(); 
 };

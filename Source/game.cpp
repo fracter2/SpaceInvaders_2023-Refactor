@@ -12,17 +12,14 @@ Game::Game(const std::function<void(SceneId)>& transitionFunc, Leaderboard& lb, 
 	, background(Background(600))		// TODO Clarify magic number
 {
 
-	float window_width = (float)GetScreenWidth();		// TODO Move to where they are used, since their only used once
-	float window_height = (float)GetScreenHeight();		// TODO Move to where they are used, since their only used once
-	float wall_distance = window_width / (wallCount + 1); 
+	float wallDistance = (float)GetScreenWidth() / (float)(wallCount + 1);
 	for (int i = 0; i < wallCount; i++)
 	{
-		Wall newWalls;									// TODO Refactor away 2-step init with the position
-		newWalls.position.y = window_height - 250; 
-		newWalls.position.x = wall_distance * (i + 1); 
-
-		Walls.push_back(newWalls); 
-
+		Vector2 pos = { 
+			(float)GetScreenHeight() - 250, 
+			wallDistance* (i + 1)
+		};
+		Walls.push_back(Wall(pos));
 	}
 
 	SpawnAliens();
@@ -366,6 +363,11 @@ void Projectile::Render(const Resources& res) const noexcept
 		}, { 25 , 25 },
 		0,
 		WHITE);
+}
+
+Wall::Wall(Vector2 pos) noexcept 
+	:position(pos)
+{
 }
 
 void Wall::Render(const Resources& res) const noexcept			// TODO Make Texture2D&
