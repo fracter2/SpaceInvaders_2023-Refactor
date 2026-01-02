@@ -62,17 +62,14 @@ public:
 struct Alien							// TODO Consider moving to it's own file
 {										// TODO Make into class
 public:
-	
-	Color color = WHITE;				// TODO Make static constexpr
 	Vector2 position = {0, 0};
-	int x = 0;							// TODO Remove, positino should already have this
-	int y = 0; 							// TODO Remove, positino should already have this
-	float radius = 30;					// TODO Make static constexpr
 	bool active = true;
 	bool moveRight = true;				// TODO Rename to clarify it's a variable ("movingRight" or similar) as it sounds like an action (func-like)
 
-	int speed = 2; 
-	
+	static constexpr int speed = 2;
+	static constexpr Color color = WHITE;
+	static constexpr float radius = 30;
+
 	Alien(Vector2 pos) noexcept;
 	void Update(); 
 	void Render(Texture2D texture) const noexcept;
