@@ -522,9 +522,6 @@ Background::Background(int starAmount)
 
 		newStar.position.x = GetRandomValue(-150, GetScreenWidth() + 150);
 		newStar.position.y = GetRandomValue(0, GetScreenHeight());
-		
-		//random color?
-		newStar.color = SKYBLUE;
 
 		newStar.size = GetRandomValue(1, 4) / 2;
 

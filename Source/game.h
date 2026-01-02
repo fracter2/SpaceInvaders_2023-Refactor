@@ -80,8 +80,8 @@ public:
 
 struct Star	// TODO Refactor away into Background struct (the only user)
 {
+	static constexpr Color color = GRAY;
 	Vector2 position = { 0, 0 };		// TODO Irrellavant because it's set to the same for all starts, see Background. Refactor away.
-	Color color = GRAY;					// TODO Constexpr or remove
 	float size = 0;
 	void Render(float offset) const noexcept;
 };
