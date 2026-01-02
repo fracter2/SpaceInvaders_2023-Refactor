@@ -123,7 +123,7 @@ void Game::Update() noexcept
 		}
 
 		//ENEMY PROJECTILES HERE
-		for (int i = 0; i < Projectiles.size(); i++)
+		for (int i = 0; i < Projectiles.size(); i++)		// TODO Merge with other projectile loop
 		{
 			if (!Projectiles[i].fromPlayer)
 			{
@@ -154,7 +154,7 @@ void Game::Update() noexcept
 	if (IsKeyPressed(KEY_SPACE))
 	{
 		float window_height = (float)GetScreenHeight();
-		Projectile newProjectile;
+		Projectile newProjectile;									// TODO Fix multiple-step initialization
 		newProjectile.position.x = player.x_pos;
 		newProjectile.position.y = window_height - 130;
 		newProjectile.fromPlayer = true;
