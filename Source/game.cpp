@@ -116,9 +116,9 @@ void Game::Update() noexcept
 
 	if (IsKeyPressed(KEY_SPACE))
 	{
-		Projectiles.push_back(
-			Projectile(player.position, { 0, -1 }, true)
-		);
+		static constexpr Vector2 direction = { 0, -1 };
+		const Vector2 pos = Vector2Add(player.position, { 0, -60 });
+		Projectiles.push_back(Projectile(pos, direction, true));
 	}
 
 	shootTimer += 1;												// TODO Refactor away using GetTime() and modulo
@@ -132,9 +132,9 @@ void Game::Update() noexcept
 			randomAlienIndex = rand() % Aliens.size();
 		}
 
-		Projectiles.push_back(
-			Projectile(Aliens[randomAlienIndex].position, { 0, 1 }, false)
-		);
+		static constexpr Vector2 direction = { 0, 1 };
+		const Vector2 pos = Vector2Add(Aliens[randomAlienIndex].position, { 0, -60 });
+		Projectiles.push_back(Projectile(pos, direction, false));
 	}
 
 	// REMOVE INACTIVE/DEAD ENITITIES
