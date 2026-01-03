@@ -4,7 +4,6 @@
 #include "common.h"
 
 
-
 Game::Game(const std::function<void(SceneId)>& transitionFunc, Leaderboard& lb, Resources& res) noexcept
 	: transitionTo(transitionFunc)
 	, leaderboard(&lb)
@@ -77,7 +76,7 @@ void Game::Update() noexcept
 		{
 			for (int a = 0; a < Aliens.size(); a++)
 			{
-				if (CheckCollision(Aliens[a].position, Aliens[a].radius, Projectiles[i].lineStart, Projectiles[i].lineEnd))
+				if (CheckCollisionCircleLine(Aliens[a].position, Aliens[a].radius, Projectiles[i].lineStart, Projectiles[i].lineEnd))
 				{
 					// Kill!
 					std::cout << "Hit! \n";
@@ -93,7 +92,7 @@ void Game::Update() noexcept
 		{
 			if (!Projectiles[i].fromPlayer)
 			{
-				if (CheckCollision({player.position.x, player.position.y }, player.radius, Projectiles[i].lineStart, Projectiles[i].lineEnd))
+				if (CheckCollisionCircleLine({player.position.x, player.position.y }, player.radius, Projectiles[i].lineStart, Projectiles[i].lineEnd))
 				{
 					std::cout << "dead!\n"; 
 					Projectiles[i].active = false; 
@@ -105,7 +104,7 @@ void Game::Update() noexcept
 
 		for (int b = 0; b < Walls.size(); b++)
 		{
-			if (CheckCollision(Walls[b].position, Walls[b].radius, Projectiles[i].lineStart, Projectiles[i].lineEnd))
+			if (CheckCollisionCircleLine(Walls[b].position, Walls[b].radius, Projectiles[i].lineStart, Projectiles[i].lineEnd))
 			{
 				// Kill!
 				std::cout << "Hit! \n";
