@@ -4,6 +4,14 @@
 #include "common.h"
 #include <algorithm>
 
+template<typename T>
+void ClearInactive(std::vector<T>& vec) {
+	vec.erase(
+		std::remove_if(vec.begin(), vec.end(),
+			[](const T e) { return !e.active; }),
+		vec.end()
+	);
+}
 
 
 Game::Game(const std::function<void(SceneId)>& transitionFunc, Leaderboard& lb, Resources& res) noexcept
@@ -142,24 +150,9 @@ void Game::Update() noexcept
 	}
 
 	// REMOVE INACTIVE/DEAD ENITITIES								// TODO Move to it's own func
-	Projectiles.erase(
-		std::remove_if(Projectiles.begin(), Projectiles.end(),
-			[](const Projectile p) { return !p.active; }), 
-		Projectiles.end()
-	);
-
-	Aliens.erase(
-		std::remove_if(Aliens.begin(), Aliens.end(),
-			[](const Alien p) { return !p.active; }),
-		Aliens.end()
-	);
-
-	Walls.erase(
-		std::remove_if(Walls.begin(), Walls.end(),
-			[](const Wall p) { return !p.active; }),
-		Walls.end()
-	);
-
+	ClearInactive(Projectiles);
+	ClearInactive(Aliens);
+	ClearInactive(Walls);
 }
 
 
