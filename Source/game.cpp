@@ -2,6 +2,8 @@
 #include <iostream>
 #include <vector>
 #include "common.h"
+#include <algorithm>
+
 
 
 Game::Game(const std::function<void(SceneId)>& transitionFunc, Leaderboard& lb, Resources& res) noexcept
@@ -140,32 +142,24 @@ void Game::Update() noexcept
 	}
 
 	// REMOVE INACTIVE/DEAD ENITITIES								// TODO Move to it's own func
-	for (int i = 0; i < Projectiles.size(); i++)
-	{
-		if (Projectiles[i].active == false)							// TODO Check if there's an algorithm for this (there always is)
-		{
-			Projectiles.erase(Projectiles.begin() + i);
-			// Prevent the loop from skipping an instance because of index changes, since all insances after
-			// the killed objects are moved down in index. This is the same for all loops with similar function
-			i--;
-		}
-	}
-	for (int i = 0; i < Aliens.size(); i++)
-	{
-		if (Aliens[i].active == false)								// TODO Check if there's an algorithm for this (there always is)
-		{
-			Aliens.erase(Aliens.begin() + i);
-			i--;
-		}
-	}
-	for (int i = 0; i < Walls.size(); i++)
-	{
-		if (Walls[i].active == false)								// TODO Check if there's an algorithm for this (there always is)
-		{
-			Walls.erase(Walls.begin() + i);
-			i--;
-		}
-	}
+	Projectiles.erase(
+		std::remove_if(Projectiles.begin(), Projectiles.end(),
+			[](const Projectile p) { return !p.active; }), 
+		Projectiles.end()
+	);
+
+	Aliens.erase(
+		std::remove_if(Aliens.begin(), Aliens.end(),
+			[](const Alien p) { return !p.active; }),
+		Aliens.end()
+	);
+
+	Walls.erase(
+		std::remove_if(Walls.begin(), Walls.end(),
+			[](const Wall p) { return !p.active; }),
+		Walls.end()
+	);
+
 }
 
 
