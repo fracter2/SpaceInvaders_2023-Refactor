@@ -76,7 +76,7 @@ void Game::Update() noexcept
 		{
 			for (int a = 0; a < Aliens.size(); a++)
 			{
-				if (CheckCollisionCircleLine(Aliens[a].position, Aliens[a].radius, Projectiles[i].lineStart, Projectiles[i].lineEnd))
+				if (CheckCollisionCircleLine(Aliens[a].position, Aliens[a].radius, Projectiles[i].getLineStart(), Projectiles[i].getLineEnd()))
 				{
 					// Kill!
 					std::cout << "Hit! \n";
@@ -92,7 +92,7 @@ void Game::Update() noexcept
 		{
 			if (!Projectiles[i].fromPlayer)
 			{
-				if (CheckCollisionCircleLine({player.position.x, player.position.y }, player.radius, Projectiles[i].lineStart, Projectiles[i].lineEnd))
+				if (CheckCollisionCircleLine({player.position.x, player.position.y }, player.radius, Projectiles[i].getLineStart(), Projectiles[i].getLineEnd()))
 				{
 					std::cout << "dead!\n"; 
 					Projectiles[i].active = false; 
@@ -104,7 +104,7 @@ void Game::Update() noexcept
 
 		for (int b = 0; b < Walls.size(); b++)
 		{
-			if (CheckCollisionCircleLine(Walls[b].position, Walls[b].radius, Projectiles[i].lineStart, Projectiles[i].lineEnd))
+			if (CheckCollisionCircleLine(Walls[b].position, Walls[b].radius, Projectiles[i].getLineStart(), Projectiles[i].getLineEnd()))
 			{
 				// Kill!
 				std::cout << "Hit! \n";
@@ -265,13 +265,6 @@ void Player::Render(const Resources& res) const noexcept
 void Projectile::Update()
 {
 	position.y -= speed;
-
-	// UPDATE LINE POSITION							// TODO Remove this block, this is just the position variable again
-	lineStart.y = position.y - 15;
-	lineEnd.y   = position.y + 15;
-
-	lineStart.x = position.x;
-	lineEnd.x   = position.x;
 
 	if (position.y < 0 || position.y > 1500)		// TODO Clarify magic numbers
 	{

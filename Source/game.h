@@ -7,7 +7,7 @@
 #include <functional>
 
 #include "leaderboard.h"
-
+#include "common.h"
 
 struct Player							// TODO Consider moving to it's own file
 {										// TODO Make into class, keep constructor, Render() and Update() public
@@ -31,17 +31,18 @@ struct Projectile						// TODO Consider moving to it's own file
 {										// TODO Make into class
 public: 
 	// INITIALIZE PROJECTILE WHILE DEFINING IF ITS PLAYER OR ENEMY 
-	Vector2 position = {0,0};			// TODO Add a constructor with position param
-	int speed = 15;						// TODO Make static constexpr
-	bool active = true;					// TODO Remove, shouldn't be needed if inside vector (consider renaming to queueDelete)
+	Vector2 position = { 0, 0 };			// TODO Add a constructor with position param
+	bool active = true;						// TODO Remove, shouldn't be needed if inside vector (consider renaming to queueDelete)
 	bool fromPlayer = false;
+	float speed = 15;
+	//Vector2 direction = { 0, 0 };
+	//static constexpr float speed = 15;
+	static constexpr Vector2 lineStartOffset = { 0, 15 };
+	static constexpr Vector2 lineEndOffset = { 0, -15 };
 
-	// LINE WILL UPDATE WITH POSITION FOR CALCULATIONS
-	Vector2 lineStart = { 0, 0 };		// TODO Remove, we already have pos... can make a "length" static constexpr to get start/end points
-	Vector2 lineEnd = { 0, 0 };			// TODO Remove
-
+	inline Vector2 getLineStart() const { return Vector2Add(position, lineStartOffset); }	// TODO Consider adding Vector2 '+' overload in common.h
+	inline Vector2 getLineEnd() const { return Vector2Add(position, lineEndOffset); }
 	void Update();
-
 	void Render(const Resources& res) const noexcept;
 };
 
