@@ -39,6 +39,11 @@ Redundant comments!
 	- Comments that say the "obvious", re-stating the name of the method.
 	- Comments that serve as organizational headers can be fine, "// code" doesn't say much.
 
+Everything is public!
+
+Implemented collision checking that already exists in raylib
+	- Reinventing the wheel. Which is fine and good for learning, but best practise is to
+		rely on libraries when possible
 
 
 Some specific references used:
