@@ -120,6 +120,7 @@ void Game::Update() noexcept
 		Projectile newProjectile;									// TODO Fix multiple-step initialization
 		newProjectile.position.x = player.position.x;
 		newProjectile.position.y = window_height - 130;
+		newProjectile.direction = { 0, -1 };
 		newProjectile.fromPlayer = true;
 		Projectiles.push_back(newProjectile);
 	}
@@ -137,7 +138,7 @@ void Game::Update() noexcept
 		Projectile newProjectile;
 		newProjectile.position = Aliens[randomAlienIndex].position;
 		newProjectile.position.y += 40;
-		newProjectile.speed = -15;
+		newProjectile.direction = { 0, 1 };
 		newProjectile.fromPlayer = false;
 		Projectiles.push_back(newProjectile);
 		shootTimer = 0;
@@ -264,7 +265,7 @@ void Player::Render(const Resources& res) const noexcept
 
 void Projectile::Update()
 {
-	position.y -= speed;
+	position = Vector2Add(position, direction * speed);
 
 	if (position.y < 0 || position.y > 1500)		// TODO Clarify magic numbers
 	{
