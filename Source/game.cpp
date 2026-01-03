@@ -114,6 +114,7 @@ void Game::Update() noexcept
 		}
 	}
 
+	// PLAYER PEWPEW CHECK
 	if (IsKeyPressed(KEY_SPACE))
 	{
 		static constexpr Vector2 direction = { 0, -1 };
@@ -121,6 +122,7 @@ void Game::Update() noexcept
 		Projectiles.push_back(Projectile(pos, direction, true));
 	}
 
+	// ALIEN PEWPEW CHECK
 	shootTimer += 1;												// TODO Refactor away using GetTime() and modulo
 	if (shootTimer > 59) //once per second
 	{

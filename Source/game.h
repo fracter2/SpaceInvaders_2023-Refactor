@@ -32,8 +32,8 @@ struct Projectile						// TODO Consider moving to it's own file
 public: 
 	// INITIALIZE PROJECTILE WHILE DEFINING IF ITS PLAYER OR ENEMY 
 	Vector2 position = { 0, 0 };			// TODO Add a constructor with position param
-	bool active = true;						// TODO Remove, shouldn't be needed if inside vector (consider renaming to queueDelete)
-	bool fromPlayer = false;
+	bool active = true;						// TODO Cconsider renaming to queueDelete
+	bool fromPlayer = false;				// TODO Consider refactoring away by having 2 separate Projectile vectors
 	Vector2 direction = { 0, 0 };
 	static constexpr float speed = 15;
 	static constexpr Vector2 lineStartOffset = { 0, 15 };
