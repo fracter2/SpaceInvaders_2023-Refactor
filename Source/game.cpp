@@ -30,12 +30,12 @@ void Game::Update() noexcept
 {
 	if (IsKeyReleased(KEY_Q))
 	{
-		transitionTo(SceneId::EndScreen);
+		transitionTo(SceneId::EndScreen);		// TODO Move all End checks together
 		return;
 	}
 
-	player.Update();
-		
+	player.Update();							// TODO Move all updates() together
+			
 	for (int i = 0; i < Aliens.size(); i++)		// TODO make into a for each loop
 	{
 		Aliens[i].Update(); 
@@ -115,14 +115,14 @@ void Game::Update() noexcept
 	}
 
 	// PLAYER PEWPEW CHECK
-	if (IsKeyPressed(KEY_SPACE))
+	if (IsKeyPressed(KEY_SPACE))									// TODO Move to it's own func
 	{
 		static constexpr Vector2 direction = { 0, -1 };
 		const Vector2 pos = Vector2Add(player.position, { 0, -60 });
 		Projectiles.push_back(Projectile(pos, direction, true));
 	}
 
-	// ALIEN PEWPEW CHECK
+	// ALIEN PEWPEW CHECK											// TODO Move to it's own func
 	shootTimer += 1;												// TODO Refactor away using GetTime() and modulo
 	if (shootTimer > 59) //once per second
 	{
@@ -139,10 +139,10 @@ void Game::Update() noexcept
 		Projectiles.push_back(Projectile(pos, direction, false));
 	}
 
-	// REMOVE INACTIVE/DEAD ENITITIES
+	// REMOVE INACTIVE/DEAD ENITITIES								// TODO Move to it's own func
 	for (int i = 0; i < Projectiles.size(); i++)
 	{
-		if (Projectiles[i].active == false)				// TODO Check if there's an algorithm for this (there always is)
+		if (Projectiles[i].active == false)							// TODO Check if there's an algorithm for this (there always is)
 		{
 			Projectiles.erase(Projectiles.begin() + i);
 			// Prevent the loop from skipping an instance because of index changes, since all insances after
@@ -152,7 +152,7 @@ void Game::Update() noexcept
 	}
 	for (int i = 0; i < Aliens.size(); i++)
 	{
-		if (Aliens[i].active == false)					// TODO Check if there's an algorithm for this (there always is)
+		if (Aliens[i].active == false)								// TODO Check if there's an algorithm for this (there always is)
 		{
 			Aliens.erase(Aliens.begin() + i);
 			i--;
@@ -160,7 +160,7 @@ void Game::Update() noexcept
 	}
 	for (int i = 0; i < Walls.size(); i++)
 	{
-		if (Walls[i].active == false)					// TODO Check if there's an algorithm for this (there always is)
+		if (Walls[i].active == false)								// TODO Check if there's an algorithm for this (there always is)
 		{
 			Walls.erase(Walls.begin() + i);
 			i--;
@@ -223,7 +223,7 @@ Player::Player() noexcept
 
 }
 
-void Player::Update() 
+void Player::Update()	// TODO Move all input checks together in here or in a separate func
 {
 	//Movement
 	int direction = IsKeyDown(KEY_RIGHT) - IsKeyDown(KEY_LEFT);
