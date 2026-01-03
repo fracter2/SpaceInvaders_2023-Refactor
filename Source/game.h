@@ -106,6 +106,8 @@ public:
 
 private:
 	void SpawnAliens();
+	void PlayerPewPew();
+	void AlienPewPew();
 
 	std::function<void(SceneId)> transitionTo;
 	Leaderboard* leaderboard;					// NOTE non-owning

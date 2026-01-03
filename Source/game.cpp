@@ -124,35 +124,33 @@ void Game::Update() noexcept
 		}
 	}
 
-	// PLAYER PEWPEW CHECK
+	PlayerPewPew();
+	AlienPewPew();
+
+	ClearInactive(Projectiles);
+	ClearInactive(Aliens);
+	ClearInactive(Walls);
+}
+
+void Game::PlayerPewPew() {
 	if (IsKeyPressed(KEY_SPACE))									// TODO Move to it's own func
 	{
 		static constexpr Vector2 direction = { 0, -1 };
 		const Vector2 pos = Vector2Add(player.position, { 0, -60 });
 		Projectiles.push_back(Projectile(pos, direction, true));
 	}
+}
 
-	// ALIEN PEWPEW CHECK											// TODO Move to it's own func
+void Game::AlienPewPew() {
 	shootTimer += 1;												// TODO Refactor away using GetTime() and modulo
 	if (shootTimer > 59) //once per second
 	{
 		shootTimer = 0;
-		int randomAlienIndex = 0;
-
-		if (Aliens.size() > 1)										// TODO Remove, redundant check since e're using index 0 either way
-		{
-			randomAlienIndex = rand() % Aliens.size();
-		}
 
 		static constexpr Vector2 direction = { 0, 1 };
-		const Vector2 pos = Vector2Add(Aliens[randomAlienIndex].position, { 0, -60 });
+		const Vector2 pos = Vector2Add(Aliens[rand() % Aliens.size()].position, { 0, -60 });
 		Projectiles.push_back(Projectile(pos, direction, false));
 	}
-
-	// REMOVE INACTIVE/DEAD ENITITIES								// TODO Move to it's own func
-	ClearInactive(Projectiles);
-	ClearInactive(Aliens);
-	ClearInactive(Walls);
 }
 
 
