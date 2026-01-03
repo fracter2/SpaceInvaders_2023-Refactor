@@ -97,28 +97,26 @@ struct Background	// TODO Consider moving to separate file
 };
 
 // TODO apply const, constexpr and noexcept where applicable
-struct Game: public Scene
+class Game: public Scene
 {
+public:
 	Game(const std::function<void(SceneId)>& transitionFunc, Leaderboard& lb, Resources& res) noexcept;
+	void Update() noexcept override;
+	void Render() const noexcept override;
+
+private:
+	void SpawnAliens();
 
 	std::function<void(SceneId)> transitionTo;
 	Leaderboard* leaderboard;					// NOTE non-owning
 	const Resources* resources;					// NOTE non-owning, 
 
+	float shootTimer = 0;
 	int wallCount = 5;							// TODO Clarify if const or if can be changed
 
-	//Aliens shooting							// TODO Clarify comment, then if logic already is self-explanatory, remove
-	float shootTimer = 0;
-
-	void Update() noexcept override;
-	void Render() const noexcept override;
-	void SpawnAliens();
-
-	// Entity Storage and Resources
 	Player player = {};
+	Background background;
 	std::vector<Projectile> Projectiles;
 	std::vector<Wall> Walls;
 	std::vector<Alien> Aliens;
-	Background background;
-
 };
