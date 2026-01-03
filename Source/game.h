@@ -41,6 +41,7 @@ public:
 
 	inline Vector2 getLineStart() const { return Vector2Add(position, lineStartOffset); }	// TODO Consider adding Vector2 '+' overload in common.h
 	inline Vector2 getLineEnd() const { return Vector2Add(position, lineEndOffset); }
+	Projectile(Vector2 pos, Vector2 direction, bool fromPlayer) noexcept;
 	void Update();
 	void Render(const Resources& res) const noexcept;
 };

@@ -116,32 +116,25 @@ void Game::Update() noexcept
 
 	if (IsKeyPressed(KEY_SPACE))
 	{
-		float window_height = (float)GetScreenHeight();
-		Projectile newProjectile;									// TODO Fix multiple-step initialization
-		newProjectile.position.x = player.position.x;
-		newProjectile.position.y = window_height - 130;
-		newProjectile.direction = { 0, -1 };
-		newProjectile.fromPlayer = true;
-		Projectiles.push_back(newProjectile);
+		Projectiles.push_back(
+			Projectile(player.position, { 0, -1 }, true)
+		);
 	}
 
 	shootTimer += 1;												// TODO Refactor away using GetTime() and modulo
 	if (shootTimer > 59) //once per second
 	{
+		shootTimer = 0;
 		int randomAlienIndex = 0;
 
-		if (Aliens.size() > 1)
+		if (Aliens.size() > 1)										// TODO Remove, redundant check since e're using index 0 either way
 		{
 			randomAlienIndex = rand() % Aliens.size();
 		}
 
-		Projectile newProjectile;
-		newProjectile.position = Aliens[randomAlienIndex].position;
-		newProjectile.position.y += 40;
-		newProjectile.direction = { 0, 1 };
-		newProjectile.fromPlayer = false;
-		Projectiles.push_back(newProjectile);
-		shootTimer = 0;
+		Projectiles.push_back(
+			Projectile(Aliens[randomAlienIndex].position, { 0, 1 }, false)
+		);
 	}
 
 	// REMOVE INACTIVE/DEAD ENITITIES
@@ -261,7 +254,12 @@ void Player::Render(const Resources& res) const noexcept
 		WHITE);
 }
 
-
+Projectile::Projectile(Vector2 pos, Vector2 direction, bool fromPlayer) noexcept
+	: position(pos)
+	, direction(direction)
+	, fromPlayer(fromPlayer)
+{
+}
 
 void Projectile::Update()
 {
