@@ -20,15 +20,16 @@ void ClearInactive(std::vector<T>& vec) {
 	);
 }
 
+
 template<typename T>
 concept IsCircle = requires (T a) {
-	{ a.position } -> std::same_as<Vector2>;
-	{ a.radius } -> std::floating_point;
+	{ a.position } -> std::convertible_to<Vector2>;
+	{ a.radius } -> std::convertible_to<float>;
 };
 
 template<typename T> requires IsCircle<T>
 bool IsColliding(const Projectile& p, const T& other) {
-	return CheckCollisionCircleLine(other.position, other.radius, p.getLineStart(), p.getLineEnd())
+	return CheckCollisionCircleLine(other.position, other.radius, p.getLineStart(), p.getLineEnd());
 }
 
 
@@ -104,8 +105,7 @@ void Game::Update() noexcept
 		{
 			for (int a = 0; a < Aliens.size(); a++)
 			{
-				if (CheckCollisionCircleLine(Aliens[a].position, Aliens[a].radius, Projectiles[i].getLineStart(), Projectiles[i].getLineEnd()))
-				{
+				if (IsColliding(Projectiles[i], Aliens[a])) {
 					// Kill!
 					std::cout << "Hit! \n";
 					Projectiles[i].active = false;
@@ -115,8 +115,7 @@ void Game::Update() noexcept
 			}
 		}
 		else {
-			if (CheckCollisionCircleLine({ player.position.x, player.position.y }, player.radius, Projectiles[i].getLineStart(), Projectiles[i].getLineEnd()))
-			{
+			if (IsColliding(Projectiles[i], player)) {
 				std::cout << "dead!\n";
 				Projectiles[i].active = false;
 				player.lives -= 1;
@@ -126,8 +125,7 @@ void Game::Update() noexcept
 
 		for (int b = 0; b < Walls.size(); b++)
 		{
-			if (CheckCollisionCircleLine(Walls[b].position, Walls[b].radius, Projectiles[i].getLineStart(), Projectiles[i].getLineEnd()))
-			{
+			if (IsColliding(Projectiles[i], Walls[b])) {
 				// Kill!
 				std::cout << "Hit! \n";
 				Projectiles[i].active = false;
