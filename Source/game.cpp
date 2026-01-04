@@ -96,18 +96,12 @@ void Game::Update() noexcept
 				}
 			}
 		}
-
-		//ENEMY PROJECTILES HERE
-		for (int i = 0; i < Projectiles.size(); i++)		// TODO Merge with other projectile loop, double nested proj loop
-		{
-			if (!Projectiles[i].fromPlayer)
+		else {
+			if (CheckCollisionCircleLine({ player.position.x, player.position.y }, player.radius, Projectiles[i].getLineStart(), Projectiles[i].getLineEnd()))
 			{
-				if (CheckCollisionCircleLine({player.position.x, player.position.y }, player.radius, Projectiles[i].getLineStart(), Projectiles[i].getLineEnd()))
-				{
-					std::cout << "dead!\n"; 
-					Projectiles[i].active = false; 
-					player.lives -= 1; 
-				}
+				std::cout << "dead!\n";
+				Projectiles[i].active = false;
+				player.lives -= 1;
 			}
 		}
 
