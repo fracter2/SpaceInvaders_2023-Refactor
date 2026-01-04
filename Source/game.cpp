@@ -50,7 +50,7 @@ void Game::Update() noexcept
 	{
 		Aliens[i].Update(); 
 
-		if (Aliens[i].position.y > player.position.y)
+		if (Aliens[i].position.y > player.position.y)		// TODO Use algorithm std::any_of
 		{
 			transitionTo(SceneId::EndScreen);
 			return;
@@ -76,7 +76,7 @@ void Game::Update() noexcept
 	}
 	for (int i = 0; i < Walls.size(); i++)				// TODO Make foreach loop
 	{
-		Walls[i].Update();
+		Walls[i].Update();			// TODO Refactor away, only checks HP, move to func or other on-hit logic
 	}
 
 	//CHECK ALL COLLISONS HERE
@@ -98,7 +98,7 @@ void Game::Update() noexcept
 		}
 
 		//ENEMY PROJECTILES HERE
-		for (int i = 0; i < Projectiles.size(); i++)		// TODO Merge with other projectile loop
+		for (int i = 0; i < Projectiles.size(); i++)		// TODO Merge with other projectile loop, double nested proj loop
 		{
 			if (!Projectiles[i].fromPlayer)
 			{
@@ -133,7 +133,7 @@ void Game::Update() noexcept
 }
 
 void Game::PlayerPewPew() {
-	if (IsKeyPressed(KEY_SPACE))									// TODO Move to it's own func
+	if (IsKeyPressed(KEY_SPACE))
 	{
 		static constexpr Vector2 direction = { 0, -1 };
 		const Vector2 pos = Vector2Add(player.position, { 0, -60 });
@@ -209,7 +209,7 @@ Player::Player() noexcept
 }
 
 void Player::Update()	// TODO Move all input checks together in here or in a separate func
-{
+{						// TODO Rename to "move" or similar
 	//Movement
 	int direction = IsKeyDown(KEY_RIGHT) - IsKeyDown(KEY_LEFT);
 	position.x += speed * direction;
@@ -248,7 +248,7 @@ Projectile::Projectile(Vector2 pos, Vector2 direction, bool fromPlayer) noexcept
 {
 }
 
-void Projectile::Update()
+void Projectile::Update()		// TODO Rename to "move" or similar. Or move all checks here
 {
 	position = Vector2Add(position, direction * speed);
 
@@ -307,7 +307,7 @@ void Wall::Render(const Resources& res) const noexcept			// TODO Make Texture2D&
 	
 }
 
-void Wall::Update() 
+void Wall::Update()			// TODO Refactor away, attacker already deals with modifying dmg, let it check this too (or make func)
 {
 	if (health < 1)
 	{
