@@ -3,14 +3,32 @@
 #include <vector>
 #include "common.h"
 #include <algorithm>
+#include <concepts>
 
-template<typename T>
+
+template<typename T> 
+concept CanBeActive = requires (T a) {
+	{ a.active } -> std::_Boolean_testable;
+};
+
+template<typename T> requires CanBeActive<T>
 void ClearInactive(std::vector<T>& vec) {
 	vec.erase(
 		std::remove_if(vec.begin(), vec.end(),
 			[](const T e) { return !e.active; }),
 		vec.end()
 	);
+}
+
+template<typename T>
+concept IsCircle = requires (T a) {
+	{ a.position } -> std::same_as<Vector2>;
+	{ a.radius } -> std::floating_point;
+};
+
+template<typename T> requires IsCircle<T>
+bool IsColliding(const Projectile& p, const T& other) {
+	return CheckCollisionCircleLine(other.position, other.radius, p.getLineStart(), p.getLineEnd())
 }
 
 
