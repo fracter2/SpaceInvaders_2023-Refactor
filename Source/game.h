@@ -119,7 +119,7 @@ private:
 
 	Player player = {};
 	Background background;
-	std::vector<Projectile> Projectiles;
-	std::vector<Wall> Walls;
-	std::vector<Alien> Aliens;
+	std::vector<Projectile> Projectiles;		// TODO Correct capitalization
+	std::vector<Wall> Walls;					// TODO Correct capitalization
+	std::vector<Alien> Aliens;					// TODO Correct capitalization
 };
