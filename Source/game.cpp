@@ -105,12 +105,7 @@ void Game::Update() noexcept
 void Game::CheckEndConditions() noexcept {
 
 	auto isAlienBelowPlayer = [this](const Alien& alien) { return alien.position.y > player.position.y; };
-	// OPTIMIZATION NOTE 
-	// If this game had a considerable ammount of Aliens (data-wise), we may want to perform 
-	// this check during the Aliens update loop, to preserve cpu data locality.
-	// Could make use of a bool in an intermediate object inside Game::Update().
-	// But we don't care aboudatt.
-	
+
 	if (IsKeyReleased(KEY_Q) || player.lives < 1 || std::any_of(Aliens.begin(), Aliens.end(), isAlienBelowPlayer)) {
 		transitionTo(SceneId::EndScreen);
 	}
