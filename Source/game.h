@@ -60,7 +60,6 @@ public:
 
 	Wall(Vector2 pos) noexcept;
 	void Render(const Resources& res) const noexcept;
-	void Update(); 
 	void GetPewd();
 };
 

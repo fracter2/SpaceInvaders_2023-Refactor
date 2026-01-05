@@ -85,9 +85,6 @@ void Game::Update() noexcept
 	for (Projectile& projectile : Projectiles) {
 		projectile.Update();
 	}
-	for (Wall& wall : Walls) {
-		wall.Update();										// TODO Refactor away, only checks HP, move to func or other on-hit logic
-	}
 
 	CheckCollisions();
 	UpdateScore();
@@ -319,18 +316,11 @@ void Wall::Render(const Resources& res) const noexcept			// TODO Make Texture2D&
 	
 }
 
-void Wall::Update()			// TODO Refactor away, attacker already deals with modifying dmg, let it check this too (or make func)
-{
-	if (health < 1)
-	{
-		active = false;
-	}
-
-
-}
-
 void Wall::GetPewd() {
 	health -= 1;
+	if (health < 1) {
+		active = false;
+	}
 }
 
 Alien::Alien(Vector2 pos) noexcept
