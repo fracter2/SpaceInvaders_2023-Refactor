@@ -1,8 +1,10 @@
 #include "game.h"
+#include "common.h"
+
 #include <iostream>
 #include <vector>
-#include "common.h"
 #include <algorithm>
+#include <ranges>
 #include <concepts>
 
 
@@ -72,19 +74,12 @@ void Game::Update() noexcept
 {
 	CheckAlienSpawnConditions();
 
-	for (Alien& alien : Aliens) {
-		alien.Update();
-	}
-
 	player.Update();
+	std::ranges::for_each(Aliens,	   [](Alien& a)		 { a.Update(); });			// Yes I know this is needlessly verbose and that it can (and should)
+	std::ranges::for_each(Projectiles, [](Projectile& p) { p.Update(); });			// be a simple foreach loop. I just want to show how cool I am.
 
 	background.offset = abs(player.position.x) / 15;		// TODO Clarify 15 as offset-multiplier	// TODO Move to dedicated func
-
-	for (Projectile& projectile : Projectiles) {
-		projectile.Update();
-	}
-
-	CheckCollisions();
+	CheckCollisions();		// TODO Rename "ApplyCollisions"
 	UpdateScore();
 
 	PlayerPewPew();
@@ -130,7 +125,7 @@ void Game::CheckCollisions() {
 }
 
 void Game::UpdateScore() {
-	for (Alien& alien : Aliens) {							// TODO Consider algorithm std::for_each 
+	for (Alien& alien : Aliens) {
 		if (!alien.active) { 
 			leaderboard->currentScore += 100; 
 		}		
