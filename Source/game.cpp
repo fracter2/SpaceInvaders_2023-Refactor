@@ -410,7 +410,7 @@ Background::Background(int starAmount)
 	for (int i = 0; i < starAmount; i++)
 	{
 		Vector2 pos = { 
-			GetRandomValue(-150, GetScreenWidth() + 150), 
+			GetRandomValue(-150, GetScreenWidth() + 150),		// TODO Clarify magic numbers
 			GetRandomValue(0, GetScreenHeight())
 		};
 
@@ -422,8 +422,7 @@ Background::Background(int starAmount)
 
 void Background::Render() const noexcept
 {
-	for (int i = 0; i < Stars.size(); i++)
-	{
-		Stars[i].Render(offset);
+	for (const Star& star : Stars) {
+		star.Render(offset);
 	}
 }
