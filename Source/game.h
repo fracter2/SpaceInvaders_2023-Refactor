@@ -105,7 +105,7 @@ struct Background	// TODO Consider moving to separate file
 class Game: public Scene
 {
 public:
-	Game(const std::function<void(SceneId)>& transitionFunc, Leaderboard& lb, Resources& res) noexcept;
+	Game(const std::function<void(SceneId)>& transitionFunc, Leaderboard& lb, const Resources& res) noexcept;
 	void Update() noexcept override;
 	void Render() const noexcept override;
 
@@ -117,8 +117,8 @@ private:
 	void UpdateScore();
 
 	std::function<void(SceneId)> transitionTo;
-	Leaderboard* leaderboard;					// NOTE non-owning	// TODO Consider making it excplicicly not_null
-	const Resources* resources;					// NOTE non-owning, // TODO Consider making it excplicicly not_null
+	Leaderboard* leaderboard;					// NOTE non-owning		// TODO Consider std::reference_wrapper<> instead (con: have to .get() )
+	const Resources* resources;					// NOTE non-owning		// TODO Consider std::reference_wrapper<> instead (con: have to .get() )
 
 	float shootTimer = 0;
 	int wallCount = 5;							// TODO Clarify if const or if can be changed

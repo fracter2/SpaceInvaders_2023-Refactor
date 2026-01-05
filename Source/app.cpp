@@ -22,7 +22,6 @@ void App::ChangeTo(SceneId id) {
 	assert(!SceneIsBusy());
 	assert(id < SceneId::Max);
 
-	// TODO Consider refactoring scenes to not need a std::function, and instead have a std::ref (reference wrapper) of this
 	std::function<void(SceneId)> transitionFunc = std::bind_front(&App::QueueTransitionTo, this);		
 	
 	// TODO Consider making this a non-owning raw ptr, pointing to an already stored scene of each. Re-making each scene on-call

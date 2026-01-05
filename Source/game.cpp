@@ -6,6 +6,8 @@
 #include <concepts>
 
 
+
+// Internal helper funcs								// TODO Consider moving to separate file
 template<typename T> 
 concept CanBeActive = requires (T a) {
 	{ a.active } -> std::_Boolean_testable;
@@ -19,7 +21,6 @@ void ClearInactive(std::vector<T>& vec) {
 		vec.end()
 	);
 }
-
 
 template<typename T>
 concept IsCollisionCircle = requires (T a) {
@@ -44,7 +45,9 @@ void CheckAndCollide(Projectile& proj, IsCollisionCircle auto& other) {		// TODO
 	}
 }
 
-Game::Game(const std::function<void(SceneId)>& transitionFunc, Leaderboard& lb, Resources& res) noexcept
+
+// Core implementation
+Game::Game(const std::function<void(SceneId)>& transitionFunc, Leaderboard& lb, const Resources& res) noexcept
 	: transitionTo(transitionFunc)
 	, leaderboard(&lb)
 	, resources(&res)
