@@ -118,7 +118,7 @@ private:
 	void SpawnWalls();
 	void PlayerPewPew();
 	void AlienPewPew();
-	void CheckCollisions();
+	void ApplyCollisions();
 	void UpdateScore();
 
 	std::function<void(SceneId)> transitionTo;

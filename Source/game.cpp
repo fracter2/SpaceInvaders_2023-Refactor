@@ -67,7 +67,7 @@ void Game::Update() noexcept
 	std::ranges::for_each(Aliens,	   [](Alien& a)		 { a.Update(); });			// Yes I know this is needlessly verbose and that it can (and should)
 	std::ranges::for_each(Projectiles, [](Projectile& p) { p.Update(); });			// be a simple foreach loop. I just want to show how cool I am.
 
-	CheckCollisions();		// TODO Rename "ApplyCollisions"
+	ApplyCollisions();
 	UpdateScore();
 
 	PlayerPewPew();
@@ -95,7 +95,7 @@ void Game::CheckEndConditions() noexcept {
 	}
 }
 
-void Game::CheckCollisions() {
+void Game::ApplyCollisions() {
 	for (Projectile& proj : Projectiles) {
 		for (Wall& wall : Walls) {
 			CheckAndCollide(proj, wall);					// TODO Allow passing a vector to simplify further
