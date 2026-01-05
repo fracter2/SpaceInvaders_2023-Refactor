@@ -108,9 +108,11 @@ class Game: public Scene
 public:
 	Game(const std::function<void(SceneId)>& transitionFunc, Leaderboard& lb, const Resources& res) noexcept;
 	void Update() noexcept override;
+
 	void Render() const noexcept override;
 
 private:
+	void CheckAlienSpawnConditions() noexcept;
 	void CheckEndConditions() noexcept;
 	void SpawnAliens();
 	void PlayerPewPew();
