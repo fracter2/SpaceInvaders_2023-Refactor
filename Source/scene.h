@@ -12,11 +12,11 @@ enum struct SceneId : int {
 	MainMenu,
 	Game,
 	EndScreen,
-	Max
+	Max							// TODO Is this even needed? Is it already enforeced to be in-range by being an enum?
 };
 
 
 struct SceneManager {
 	virtual ~SceneManager() = default;
-	virtual void ChangeTo(SceneId id) = 0;
+	virtual void QueueTransitionTo(SceneId id) noexcept = 0;	// NOTE Must let Update() and Render() return before transition to avoid use-after-free issues
 };
