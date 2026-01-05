@@ -48,7 +48,7 @@ Game::Game(const std::function<void(SceneId)>& transitionFunc, Leaderboard& lb, 
 	: transitionTo(transitionFunc)
 	, leaderboard(&lb)
 	, resources(&res)
-	, background(Background(600))		// TODO Clarify magic number
+	, background(Background(600))							// TODO Clarify magic number
 {
 
 	float wallDistance = (float)GetScreenWidth() / (float)(wallCount + 1);
@@ -69,40 +69,40 @@ void Game::Update() noexcept
 {
 	if (IsKeyReleased(KEY_Q))
 	{
-		transitionTo(SceneId::EndScreen);		// TODO Move all End checks together
+		transitionTo(SceneId::EndScreen);					// TODO Move all End checks together
 		return;
 	}
 
-	player.Update();							// TODO Move all updates() together
+	player.Update();										// TODO Move all updates() together
 	
 	for (Alien& alien : Aliens) {
 		alien.Update();
 
-		if (alien.position.y > player.position.y)		// TODO Use algorithm std::any_of
+		if (alien.position.y > player.position.y)			// TODO Use algorithm std::any_of
 		{
 			transitionTo(SceneId::EndScreen);
 			return;
 		}
 	}
 
-	if (player.lives < 1)						// TODO Shouldn't this go after projectile update?
+	if (player.lives < 1)									// TODO Shouldn't this go after projectile update?
 	{
 		transitionTo(SceneId::EndScreen);
 		return;
 	}
 
-	if (Aliens.size() < 1)						// TODO Use .empty() for clarity
+	if (Aliens.size() < 1)									// TODO Use .empty() for clarity
 	{
 		SpawnAliens();
 	}
 
-	background.offset = abs(player.position.x) / 15;	// TODO Clarify 15 as offset-multiplier
+	background.offset = abs(player.position.x) / 15;		// TODO Clarify 15 as offset-multiplier
 
 	for (Projectile& projectile : Projectiles) {
 		projectile.Update();
 	}
 	for (Wall& wall : Walls) {
-		wall.Update();			// TODO Refactor away, only checks HP, move to func or other on-hit logic
+		wall.Update();										// TODO Refactor away, only checks HP, move to func or other on-hit logic
 	}
 
 	CheckCollisions();
@@ -119,7 +119,7 @@ void Game::Update() noexcept
 void Game::CheckCollisions() {
 	for (Projectile& proj : Projectiles) {
 		for (Wall& wall : Walls) {
-			CheckAndCollide(proj, wall);		// TODO Allow passing a vector to simplify further
+			CheckAndCollide(proj, wall);					// TODO Allow passing a vector to simplify further
 		}
 
 		if (proj.fromPlayer) {
@@ -134,8 +134,10 @@ void Game::CheckCollisions() {
 }
 
 void Game::UpdateScore() {
-	for (Alien& alien : Aliens) {											// TODO Consider algorithm std::for_each 
-		if (!alien.active) { leaderboard->currentScore += 100; }		
+	for (Alien& alien : Aliens) {							// TODO Consider algorithm std::for_each 
+		if (!alien.active) { 
+			leaderboard->currentScore += 100; 
+		}		
 	}
 }
 

@@ -117,8 +117,8 @@ private:
 	void UpdateScore();
 
 	std::function<void(SceneId)> transitionTo;
-	Leaderboard* leaderboard;					// NOTE non-owning
-	const Resources* resources;					// NOTE non-owning, 
+	Leaderboard* leaderboard;					// NOTE non-owning	// TODO Consider making it excplicicly not_null
+	const Resources* resources;					// NOTE non-owning, // TODO Consider making it excplicicly not_null
 
 	float shootTimer = 0;
 	int wallCount = 5;							// TODO Clarify if const or if can be changed

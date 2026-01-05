@@ -25,7 +25,7 @@ void App::ChangeTo(SceneId id) {
 	}
 }
 
-void App::Update() noexcept {
+void App::Update() noexcept {	// TODO Reconsider if this can really be noexcept
 	currentScene->Update();
 }
 

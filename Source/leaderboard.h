@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 
-struct FinishedGameScore
+struct FinishedGameScore		// TODO Consider renaming to "GameScore" or similar
 {
 	std::string name;
 	int score;
@@ -17,7 +17,7 @@ public:
 		return stats; 
 	}
 
-	bool CheckNewHighScore() const;					// TODO Rename to clarify, like "isHighScore()" or "justBeatHighScore()"
+	bool CheckNewHighScore() const;				// TODO Rename to clarify, like "isHighScore()" or "justBeatHighScore()"
 
 	void InsertNewHighScore(std::string name);	// TODO Consider using string_view
 
