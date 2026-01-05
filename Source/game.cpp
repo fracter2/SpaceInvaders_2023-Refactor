@@ -55,18 +55,8 @@ Game::Game(const std::function<void(SceneId)>& transitionFunc, Leaderboard& lb, 
 	, resources(&res)
 	, background(Background(600))							// TODO Clarify magic number
 {
-
-	float wallDistance = (float)GetScreenWidth() / (float)(wallCount + 1);
-	for (int i = 0; i < wallCount; i++) {
-		Vector2 pos = { 
-			wallDistance* (i + 1),
-			(float)GetScreenHeight() - 250
-		};
-		Walls.push_back(Wall(pos));
-	}
-
+	SpawnWalls();
 	SpawnAliens();
-
 	leaderboard->currentScore = 0;
 }
 
@@ -178,7 +168,7 @@ void Game::Render() const noexcept
 	}
 }
 
-void Game::SpawnAliens()
+void Game::SpawnAliens()		// TODO Consider making this a free func since it's only used once
 {
 	static constexpr int formationWidth = 8;
 	static constexpr int formationHeight = 5;
@@ -196,6 +186,18 @@ void Game::SpawnAliens()
 		}
 	}
 }
+
+void Game::SpawnWalls() {
+	static constexpr int wallCount = 5;
+	const float wallDistance = (float)GetScreenWidth() / (float)(wallCount + 1);
+	const float wallHeightOffset = (float)GetScreenHeight() - 250;
+
+	for (int i = 0; i < wallCount; i++) {
+		Vector2 pos = { wallDistance * (i + 1), wallHeightOffset };
+		Walls.push_back(Wall(pos));
+	}
+}
+
 
 Player::Player() noexcept
 {

@@ -103,18 +103,19 @@ struct Background	// TODO Consider moving to separate file
 };
 
 // TODO apply const, constexpr and noexcept where applicable
+// TODO Consider separating private details into a GameImpl class, or just declaring the funcs in the cpp
 class Game: public Scene
 {
 public:
 	Game(const std::function<void(SceneId)>& transitionFunc, Leaderboard& lb, const Resources& res) noexcept;
 	void Update() noexcept override;
-
 	void Render() const noexcept override;
 
 private:
 	void CheckAlienSpawnConditions() noexcept;
 	void CheckEndConditions() noexcept;
 	void SpawnAliens();
+	void SpawnWalls();
 	void PlayerPewPew();
 	void AlienPewPew();
 	void CheckCollisions();
