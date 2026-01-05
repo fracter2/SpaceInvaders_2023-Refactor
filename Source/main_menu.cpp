@@ -13,6 +13,7 @@ void MainMenu::Update() noexcept {
 	if (IsKeyReleased(KEY_SPACE))
 	{
 		transitionTo(SceneId::Game);
+		return;
 	}
 }
 

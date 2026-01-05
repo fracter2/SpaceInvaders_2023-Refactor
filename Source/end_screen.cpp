@@ -18,6 +18,7 @@ void EndScreen::Update() noexcept {
 	{
 		// TODO Consider SaveLeaderboard(); here
 		transitionTo(SceneId::MainMenu);
+		return;
 	}
 
 
