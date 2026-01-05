@@ -67,11 +67,11 @@ void Game::Update() noexcept
 	std::ranges::for_each(Aliens,	   [](Alien& a)		 { a.Update(); });			// Yes I know this is needlessly verbose and that it can (and should)
 	std::ranges::for_each(Projectiles, [](Projectile& p) { p.Update(); });			// be a simple foreach loop. I just want to show how cool I am.
 
-	ApplyCollisions();
-	UpdateScore();
-
 	PlayerPewPew();
 	AlienPewPew();
+
+	ApplyCollisions();
+	UpdateScore();
 
 	ClearInactive(Projectiles);
 	ClearInactive(Aliens);
