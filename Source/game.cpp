@@ -37,6 +37,12 @@ bool IsColliding(const Projectile& proj, const T& other) {
 	return CheckCollisionCircleLine(other.position, other.radius, proj.getLineStart(), proj.getLineEnd());
 }
 
+void CheckAndCollide(Projectile& proj, IsCollisionCircle auto& other) {		// TODO Apply the same formatting to IsColliding template, or vice versa
+	if (IsColliding(proj, other)) {
+		proj.GetPewd();
+		other.GetPewd();
+	}
+}
 
 Game::Game(const std::function<void(SceneId)>& transitionFunc, Leaderboard& lb, Resources& res) noexcept
 	: transitionTo(transitionFunc)
@@ -99,9 +105,8 @@ void Game::Update() noexcept
 		wall.Update();			// TODO Refactor away, only checks HP, move to func or other on-hit logic
 	}
 
-	//CHECK ALL COLLISONS HERE
 	CheckCollisions();
-	
+	//leaderboard->currentScore += 100;	// TODO Move this to a dedicated "UpdateScore()" func checking for inactive aliens
 
 	PlayerPewPew();
 	AlienPewPew();
@@ -112,34 +117,18 @@ void Game::Update() noexcept
 }
 
 void Game::CheckCollisions() {
-	for (Projectile& projectile : Projectiles) {		// TODO Move to dedicated func
+	for (Projectile& proj : Projectiles) {
+		for (Wall& wall : Walls) {
+			CheckAndCollide(proj, wall);		// TODO Allow passing a vector to simplify further
+		}
 
-		if (projectile.fromPlayer) {					// TODO Denest this if(), use goto if needed
+		if (proj.fromPlayer) {
 			for (Alien& alien : Aliens) {
-				if (IsColliding(projectile, alien)) {
-					// Kill!
-					std::cout << "Hit! \n";
-					projectile.active = false;
-					alien.active = false;
-					leaderboard->currentScore += 100;	// TODO Move this to a dedicated "UpdateScore()" func checking for inactive aliens
-				}
+				CheckAndCollide(proj, alien);
 			}
 		}
 		else {
-			if (IsColliding(projectile, player)) {
-				std::cout << "dead!\n";
-				projectile.active = false;
-				player.lives -= 1;
-			}
-		}
-
-		for (Wall& wall : Walls) {
-			if (IsColliding(projectile, wall)) {
-				// Kill!
-				std::cout << "Hit! \n";
-				projectile.active = false;
-				wall.health -= 1;
-			}
+			CheckAndCollide(proj, player);
 		}
 	}
 }
@@ -253,6 +242,10 @@ void Player::Render(const Resources& res) const noexcept
 		WHITE);
 }
 
+void Player::GetPewd() {
+	lives -= 1;
+}
+
 Projectile::Projectile(Vector2 pos, Vector2 direction, bool fromPlayer) noexcept
 	: position(pos)
 	, direction(direction)
@@ -288,6 +281,10 @@ void Projectile::Render(const Resources& res) const noexcept
 		}, { 25 , 25 },
 		0,
 		WHITE);
+}
+
+void Projectile::GetPewd() {
+	active = false;
 }
 
 Wall::Wall(Vector2 pos) noexcept 
@@ -327,6 +324,10 @@ void Wall::Update()			// TODO Refactor away, attacker already deals with modifyi
 	}
 
 
+}
+
+void Wall::GetPewd() {
+	health -= 1;
 }
 
 Alien::Alien(Vector2 pos) noexcept
@@ -377,6 +378,11 @@ void Alien::Render(const Resources& res) const noexcept
 		0,
 		WHITE);
 }
+
+void Alien::GetPewd() {
+	active = false;
+}
+
 
 
 //BACKGROUND
