@@ -108,6 +108,7 @@ private:
 	void SpawnAliens();
 	void PlayerPewPew();
 	void AlienPewPew();
+	void CheckCollisions();
 
 	std::function<void(SceneId)> transitionTo;
 	Leaderboard* leaderboard;					// NOTE non-owning

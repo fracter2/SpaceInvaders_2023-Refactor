@@ -41,8 +41,7 @@ Game::Game(const std::function<void(SceneId)>& transitionFunc, Leaderboard& lb, 
 {
 
 	float wallDistance = (float)GetScreenWidth() / (float)(wallCount + 1);
-	for (int i = 0; i < wallCount; i++)
-	{
+	for (int i = 0; i < wallCount; i++) {
 		Vector2 pos = { 
 			wallDistance* (i + 1),
 			(float)GetScreenHeight() - 250
@@ -64,12 +63,11 @@ void Game::Update() noexcept
 	}
 
 	player.Update();							// TODO Move all updates() together
-			
-	for (int i = 0; i < Aliens.size(); i++)		// TODO make into a for each loop
-	{
-		Aliens[i].Update(); 
+	
+	for (Alien& alien : Aliens) {
+		alien.Update();
 
-		if (Aliens[i].position.y > player.position.y)		// TODO Use algorithm std::any_of
+		if (alien.position.y > player.position.y)		// TODO Use algorithm std::any_of
 		{
 			transitionTo(SceneId::EndScreen);
 			return;
@@ -89,50 +87,16 @@ void Game::Update() noexcept
 
 	background.offset = abs(player.position.x) / 15;	// TODO Clarify 15 as offset-multiplier
 
-	for (int i = 0; i < Projectiles.size(); i++)		// TODO Make foreach loop
-	{
-		Projectiles[i].Update();
+	for (Projectile& projectile : Projectiles) {
+		projectile.Update();
 	}
-	for (int i = 0; i < Walls.size(); i++)				// TODO Make foreach loop
-	{
-		Walls[i].Update();			// TODO Refactor away, only checks HP, move to func or other on-hit logic
+	for (Wall& wall : Walls) {
+		wall.Update();			// TODO Refactor away, only checks HP, move to func or other on-hit logic
 	}
 
 	//CHECK ALL COLLISONS HERE
-	for (int i = 0; i < Projectiles.size(); i++)
-	{
-		if (Projectiles[i].fromPlayer)
-		{
-			for (int a = 0; a < Aliens.size(); a++)
-			{
-				if (IsColliding(Projectiles[i], Aliens[a])) {
-					// Kill!
-					std::cout << "Hit! \n";
-					Projectiles[i].active = false;
-					Aliens[a].active = false;
-					leaderboard->currentScore += 100;
-				}
-			}
-		}
-		else {
-			if (IsColliding(Projectiles[i], player)) {
-				std::cout << "dead!\n";
-				Projectiles[i].active = false;
-				player.lives -= 1;
-			}
-		}
-
-
-		for (int b = 0; b < Walls.size(); b++)
-		{
-			if (IsColliding(Projectiles[i], Walls[b])) {
-				// Kill!
-				std::cout << "Hit! \n";
-				Projectiles[i].active = false;
-				Walls[b].health -= 1;
-			}
-		}
-	}
+	CheckCollisions();
+	
 
 	PlayerPewPew();
 	AlienPewPew();
@@ -140,6 +104,39 @@ void Game::Update() noexcept
 	ClearInactive(Projectiles);
 	ClearInactive(Aliens);
 	ClearInactive(Walls);
+}
+
+void Game::CheckCollisions() {
+	for (Projectile& projectile : Projectiles) {		// TODO Move to dedicated func
+
+		if (projectile.fromPlayer) {					// TODO Denest this if(), use goto if needed
+			for (Alien& alien : Aliens) {
+				if (IsColliding(projectile, alien)) {
+					// Kill!
+					std::cout << "Hit! \n";
+					projectile.active = false;
+					alien.active = false;
+					leaderboard->currentScore += 100;	// TODO Move this to a dedicated "UpdateScore()" func checking for inactive aliens
+				}
+			}
+		}
+		else {
+			if (IsColliding(projectile, player)) {
+				std::cout << "dead!\n";
+				projectile.active = false;
+				player.lives -= 1;
+			}
+		}
+
+		for (Wall& wall : Walls) {
+			if (IsColliding(projectile, wall)) {
+				// Kill!
+				std::cout << "Hit! \n";
+				projectile.active = false;
+				wall.health -= 1;
+			}
+		}
+	}
 }
 
 void Game::PlayerPewPew() {
