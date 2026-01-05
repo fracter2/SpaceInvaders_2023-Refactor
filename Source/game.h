@@ -93,11 +93,13 @@ struct Star
 
 struct Background	// TODO Consider moving to separate file
 {
+	static constexpr float paralaxRatio = 15;
+	static_assert(paralaxRatio != 0);
+
 	std::vector<Star> Stars;
-	float offset = 0;
 
 	Background(int starAmount);
-	void Render() const noexcept;
+	void Render(const float player_x) const noexcept;
 };
 
 // TODO apply const, constexpr and noexcept where applicable

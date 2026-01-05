@@ -78,7 +78,6 @@ void Game::Update() noexcept
 	std::ranges::for_each(Aliens,	   [](Alien& a)		 { a.Update(); });			// Yes I know this is needlessly verbose and that it can (and should)
 	std::ranges::for_each(Projectiles, [](Projectile& p) { p.Update(); });			// be a simple foreach loop. I just want to show how cool I am.
 
-	background.offset = abs(player.position.x) / 15;		// TODO Clarify 15 as offset-multiplier	// TODO Move to dedicated func
 	CheckCollisions();		// TODO Rename "ApplyCollisions"
 	UpdateScore();
 
@@ -156,7 +155,7 @@ void Game::AlienPewPew() {
 
 void Game::Render() const noexcept
 {
-	background.Render();
+	background.Render(player.position.x);
 
 	DrawText(TextFormat("Score: %i", leaderboard->currentScore), 50, 20, 40, YELLOW);
 	DrawText(TextFormat("Lives: %i", player.lives), 50, 70, 40, YELLOW);
@@ -406,8 +405,8 @@ Background::Background(int starAmount)
 	}
 }
 
-void Background::Render() const noexcept
-{
+void Background::Render(const float player_x) const noexcept {
+	const float offset = abs(player_x) / paralaxRatio;
 	for (const Star& star : Stars) {
 		star.Render(offset);
 	}
