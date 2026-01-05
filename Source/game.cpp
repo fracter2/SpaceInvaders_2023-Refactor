@@ -106,7 +106,7 @@ void Game::Update() noexcept
 	}
 
 	CheckCollisions();
-	//leaderboard->currentScore += 100;	// TODO Move this to a dedicated "UpdateScore()" func checking for inactive aliens
+	UpdateScore();
 
 	PlayerPewPew();
 	AlienPewPew();
@@ -130,6 +130,12 @@ void Game::CheckCollisions() {
 		else {
 			CheckAndCollide(proj, player);
 		}
+	}
+}
+
+void Game::UpdateScore() {
+	for (Alien& alien : Aliens) {											// TODO Consider algorithm std::for_each 
+		if (!alien.active) { leaderboard->currentScore += 100; }		
 	}
 }
 

@@ -114,6 +114,7 @@ private:
 	void PlayerPewPew();
 	void AlienPewPew();
 	void CheckCollisions();
+	void UpdateScore();
 
 	std::function<void(SceneId)> transitionTo;
 	Leaderboard* leaderboard;					// NOTE non-owning
