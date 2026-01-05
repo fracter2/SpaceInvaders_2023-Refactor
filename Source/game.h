@@ -122,8 +122,8 @@ private:
 	void UpdateScore();
 
 	std::function<void(SceneId)> transitionTo;
-	Leaderboard* leaderboard;					// NOTE non-owning		// TODO Consider std::reference_wrapper<> instead (con: have to .get() )
-	const Resources* resources;					// NOTE non-owning		// TODO Consider std::reference_wrapper<> instead (con: have to .get() )
+	Leaderboard* leaderboard;					// NOTE non-owning		// TODO Consider std::reference_wrapper<> instead (con: have to .get() )...
+	const Resources* resources;					// NOTE non-owning		// ... or use gsl::non_owning, or make an explicicly non_owning ptr templ type
 
 	float shootTimer = 0;
 	Player player = {};
