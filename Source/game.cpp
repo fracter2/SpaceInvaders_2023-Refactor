@@ -70,9 +70,7 @@ Game::Game(const std::function<void(SceneId)>& transitionFunc, Leaderboard& lb, 
 
 void Game::Update() noexcept
 {
-	if (Aliens.empty()) {
-		SpawnAliens();
-	}
+	CheckAlienSpawnConditions();
 
 	for (Alien& alien : Aliens) {
 		alien.Update();
@@ -97,6 +95,12 @@ void Game::Update() noexcept
 	ClearInactive(Walls);
 
 	CheckEndConditions();
+}
+
+void Game::CheckAlienSpawnConditions() noexcept {
+	if (Aliens.empty()) { 
+		SpawnAliens(); 
+	}
 }
 
 void Game::CheckEndConditions() noexcept {
