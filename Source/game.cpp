@@ -53,7 +53,6 @@ Game::Game(const std::function<void(SceneId)>& transitionFunc, Leaderboard& lb, 
 	: transitionTo(transitionFunc)
 	, leaderboard(&lb)
 	, resources(&res)
-	, background(Background(600))							// TODO Clarify magic number
 {
 	SpawnWalls();
 	SpawnAliens();

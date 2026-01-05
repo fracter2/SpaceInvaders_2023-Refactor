@@ -127,7 +127,8 @@ private:
 
 	float shootTimer = 0;
 	Player player = {};
-	Background background;
+	static constexpr int BackgroundStarCount = 600;
+	Background background = Background(BackgroundStarCount);
 	std::vector<Projectile> Projectiles;		// TODO Correct capitalization
 	std::vector<Wall> Walls;					// TODO Correct capitalization
 	std::vector<Alien> Aliens;					// TODO Correct capitalization
