@@ -126,8 +126,6 @@ private:
 	const Resources* resources;					// NOTE non-owning		// TODO Consider std::reference_wrapper<> instead (con: have to .get() )
 
 	float shootTimer = 0;
-	int wallCount = 5;							// TODO Clarify if const or if can be changed
-
 	Player player = {};
 	Background background;
 	std::vector<Projectile> Projectiles;		// TODO Correct capitalization
