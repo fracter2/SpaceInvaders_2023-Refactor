@@ -110,6 +110,7 @@ public:
 	void Render() const noexcept override;
 
 private:
+	void CheckEndConditions() noexcept;
 	void SpawnAliens();
 	void PlayerPewPew();
 	void AlienPewPew();

@@ -70,36 +70,17 @@ Game::Game(const std::function<void(SceneId)>& transitionFunc, Leaderboard& lb, 
 
 void Game::Update() noexcept
 {
-	if (IsKeyReleased(KEY_Q))
-	{
-		transitionTo(SceneId::EndScreen);					// TODO Move all End checks together
-		return;
-	}
-
-	player.Update();										// TODO Move all updates() together
-	
-	for (Alien& alien : Aliens) {
-		alien.Update();
-
-		if (alien.position.y > player.position.y)			// TODO Use algorithm std::any_of
-		{
-			transitionTo(SceneId::EndScreen);
-			return;
-		}
-	}
-
-	if (player.lives < 1)									// TODO Shouldn't this go after projectile update?
-	{
-		transitionTo(SceneId::EndScreen);
-		return;
-	}
-
-	if (Aliens.size() < 1)									// TODO Use .empty() for clarity
-	{
+	if (Aliens.empty()) {
 		SpawnAliens();
 	}
 
-	background.offset = abs(player.position.x) / 15;		// TODO Clarify 15 as offset-multiplier
+	for (Alien& alien : Aliens) {
+		alien.Update();
+	}
+
+	player.Update();
+
+	background.offset = abs(player.position.x) / 15;		// TODO Clarify 15 as offset-multiplier	// TODO Move to dedicated func
 
 	for (Projectile& projectile : Projectiles) {
 		projectile.Update();
@@ -117,6 +98,22 @@ void Game::Update() noexcept
 	ClearInactive(Projectiles);
 	ClearInactive(Aliens);
 	ClearInactive(Walls);
+
+	CheckEndConditions();
+}
+
+void Game::CheckEndConditions() noexcept {
+
+	auto isAlienBelowPlayer = [this](const Alien& alien) { return alien.position.y > player.position.y; };
+	// OPTIMIZATION NOTE 
+	// If this game had a considerable ammount of Aliens (data-wise), we may want to perform 
+	// this check during the Aliens update loop, to preserve cpu data locality.
+	// Could make use of a bool in an intermediate object inside Game::Update().
+	// But we don't care aboudatt.
+	
+	if (IsKeyReleased(KEY_Q) || player.lives < 1 || std::any_of(Aliens.begin(), Aliens.end(), isAlienBelowPlayer)) {
+		transitionTo(SceneId::EndScreen);
+	}
 }
 
 void Game::CheckCollisions() {
