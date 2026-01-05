@@ -22,14 +22,19 @@ void ClearInactive(std::vector<T>& vec) {
 
 
 template<typename T>
-concept IsCircle = requires (T a) {
+concept IsCollisionCircle = requires (T a) {
 	{ a.position } -> std::convertible_to<Vector2>;
 	{ a.radius } -> std::convertible_to<float>;
+	{ a.active } -> std::_Boolean_testable;
+	{ a.GetPewd() };
 };
 
-template<typename T> requires IsCircle<T>
-bool IsColliding(const Projectile& p, const T& other) {
-	return CheckCollisionCircleLine(other.position, other.radius, p.getLineStart(), p.getLineEnd());
+template<typename T> requires IsCollisionCircle<T>
+bool IsColliding(const Projectile& proj, const T& other) {
+	if (!proj.active || !other.active) {
+		return false; 
+	}
+	return CheckCollisionCircleLine(other.position, other.radius, proj.getLineStart(), proj.getLineEnd());
 }
 
 

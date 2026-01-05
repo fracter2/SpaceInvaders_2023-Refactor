@@ -9,21 +9,23 @@
 #include "leaderboard.h"
 #include "common.h"
 
-struct Player							// TODO Consider moving to it's own file
-{										// TODO Make into class, keep constructor, Render() and Update() public
+
+struct Player								// TODO Consider moving to it's own file
+{											// TODO Make into class, keep constructor, Render() and Update() public
 public:
 	Vector2 position = {};
-	float speed = 7;					// TODO Make static constexpr
+	float speed = 7;						// TODO Make static constexpr
 	static constexpr float player_y_offset = 70.0f;
-	float radius = 50;					// TODO Make static constexpr
+	float radius = 50;						// TODO Make static constexpr
 	int lives = 3;
-	int activeTexture = 0;				// TODO Clarify, if this is the texture index used, name it so. Review usage and consider enum
-	float timer = 0;					// TODO Clarify
+	int activeTexture = 0;					// TODO Clarify, if this is the texture index used, name it so. Review usage and consider enum
+	float timer = 0;						// TODO Clarify
+	static constexpr bool active = true;	// NOTE only here to satisfy concept IsCollisionCircle
 
 	Player() noexcept;
 	void Render(const Resources& res) const noexcept;
 	void Update();
-	
+	void GetPewd();
 };
 
 
@@ -44,6 +46,7 @@ public:
 	Projectile(Vector2 pos, Vector2 direction, bool fromPlayer) noexcept;
 	void Update();
 	void Render(const Resources& res) const noexcept;
+	void GetPewd();
 };
 
 struct Wall 							// TODO Consider moving to it's own file
@@ -58,6 +61,7 @@ public:
 	Wall(Vector2 pos) noexcept;
 	void Render(const Resources& res) const noexcept;
 	void Update(); 
+	void GetPewd();
 };
 
 struct Alien							// TODO Consider moving to it's own file
@@ -70,10 +74,11 @@ public:
 	static constexpr int speed = 2;
 	static constexpr Color color = WHITE;
 	static constexpr float radius = 30;
-
+	
 	Alien(Vector2 pos) noexcept;
 	void Update(); 
 	void Render(const Resources& res) const noexcept;
+	void GetPewd();
 };
 
 
