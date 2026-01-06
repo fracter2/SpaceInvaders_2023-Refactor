@@ -6,7 +6,7 @@
 #include <algorithm>
 #include <ranges>
 #include <concepts>
-
+#include <format>
 
 
 // Internal helper funcs								// TODO Consider moving to separate file
@@ -280,8 +280,7 @@ void Wall::Render(const Resources& res) const noexcept			// TODO Make Texture2D&
 	// HP label
 	static constexpr Vector2 offset = { -21, 10 };
 	static constexpr int fontsSize = 40;
-	DrawText(TextFormat("%i", health), position.x + offset.x, position.y + offset.y, fontsSize, RED);
-	// TODO Consider using modern std::format("{}", health);
+	DrawText(std::format("{}", health).c_str(), position.x + offset.x, position.y + offset.y, fontsSize, RED);
 	// TODO Consider using DrawTextPro() to mirror above texture drawing
 }
 
