@@ -322,22 +322,14 @@ void Alien::Update()
 
 void Alien::Render(const Resources& res) const noexcept
 {		
-	// TODO Consider moving some / most / all these args into static constexpr variables
-	DrawTexturePro(res.alienTexture,
-		{
-			0,
-			0,
-			352,
-			352,
-		},
-		{
-			position.x,
-			position.y,
-			100,
-			100,
-		}, {50 , 50},
-		0,
-		WHITE);
+	const auto& texture = res.alienTexture;
+	const Rectangle sourceRect = { 0, 0, (float)texture.width, (float)texture.height };					// TODO Consider making a get func in res
+
+	static constexpr Vector2 targetSize = { 100, 100 };
+	const Rectangle destinationRect = { position.x, position.y, targetSize.x, targetSize.y, };
+	const Vector2 originOffset = { targetSize.x / 2, targetSize.y / 2 };
+
+	DrawTexturePro(texture, sourceRect, destinationRect, originOffset, 0, WHITE);
 }
 
 void Alien::GetPewd() {
