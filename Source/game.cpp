@@ -247,22 +247,14 @@ void Projectile::Update()		// TODO Rename to "move" or similar. Or move all chec
 
 void Projectile::Render(const Resources& res) const noexcept
 {
-	// TODO Consider moving some / most / all these args into static constexpr variables
-	DrawTexturePro(res.laserTexture,
-		{
-			0,
-			0,
-			176,
-			176,
-		},
-		{
-			position.x,
-			position.y,
-			50,
-			50,
-		}, { 25 , 25 },
-		0,
-		WHITE);
+	const auto& texture = res.laserTexture;
+	const Rectangle sourceRect = { 0, 0, (float)texture.width, (float)texture.height };					// TODO Consider making a get func in res
+	
+	static constexpr Vector2 targetSize = { 50, 50 };
+	const Rectangle destinationRect = { position.x, position.y, targetSize.x, targetSize.y, };
+	const Vector2 originOffset = { targetSize.x / 2, targetSize.y / 2 };
+
+	DrawTexturePro(texture, sourceRect, destinationRect, originOffset, 0, WHITE);
 }
 
 void Projectile::GetPewd() {
