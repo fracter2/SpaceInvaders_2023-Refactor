@@ -47,6 +47,13 @@ void CheckAndCollide(Projectile& proj, IsCollisionCircle auto& other) {		// TODO
 	}
 }
 
+void RenderFullTextureWrap(const Texture2D& texture, Vector2 position, Vector2 size) {
+	const Rectangle sourceRect = { 0, 0, (float)texture.width, (float)texture.height };					// TODO Consider making a get func in res
+	const Rectangle destinationRect = { position.x, position.y, size.x, size.y, };
+	const Vector2 originOffset = { size.x / 2, size.y / 2 };
+	DrawTexturePro(texture, sourceRect, destinationRect, originOffset, 0, WHITE);
+}
+
 
 // Core implementation
 Game::Game(const std::function<void(SceneId)>& transitionFunc, Leaderboard& lb, const Resources& res) noexcept
@@ -217,11 +224,7 @@ void Player::Render(const Resources& res) const noexcept
 
 	static constexpr Vector2 targetSize = { 100, 100 };
 
-	const Rectangle sourceRect = { 0, 0, (float)frame.width, (float)frame.height };					// TODO Consider making a get func in res
-	const Rectangle destinationRect = { position.x, position.y, targetSize.x, targetSize.y, };
-	const Vector2 originOffset = { targetSize.x / 2, targetSize.y / 2 };
-
-	DrawTexturePro(frame, sourceRect, destinationRect, originOffset, 0, WHITE);						// TODO Make sure this is noexcept
+	RenderFullTextureWrap(frame, position, targetSize);
 }
 
 void Player::GetPewd() {
@@ -247,14 +250,8 @@ void Projectile::Update()		// TODO Rename to "move" or similar. Or move all chec
 
 void Projectile::Render(const Resources& res) const noexcept
 {
-	const auto& texture = res.laserTexture;
-	const Rectangle sourceRect = { 0, 0, (float)texture.width, (float)texture.height };					// TODO Consider making a get func in res
-	
 	static constexpr Vector2 targetSize = { 50, 50 };
-	const Rectangle destinationRect = { position.x, position.y, targetSize.x, targetSize.y, };
-	const Vector2 originOffset = { targetSize.x / 2, targetSize.y / 2 };
-
-	DrawTexturePro(texture, sourceRect, destinationRect, originOffset, 0, WHITE);
+	RenderFullTextureWrap(res.laserTexture, position, targetSize);
 }
 
 void Projectile::GetPewd() {
@@ -268,14 +265,8 @@ Wall::Wall(Vector2 pos) noexcept
 
 void Wall::Render(const Resources& res) const noexcept			// TODO Make Texture2D&
 {
-	const auto& texture = res.barrierTexture;
-	const Rectangle sourceRect = { 0, 0, (float)texture.width, (float)texture.height };					// TODO Consider making a get func in res
-
 	static constexpr Vector2 targetSize = { 200, 200 };
-	const Rectangle destinationRect = { position.x, position.y, targetSize.x, targetSize.y, };
-	const Vector2 originOffset = { targetSize.x / 2, targetSize.y / 2 };
-
-	DrawTexturePro(texture, sourceRect, destinationRect, originOffset, 0, WHITE);
+	RenderFullTextureWrap(res.barrierTexture, position, targetSize);
 
 	// HP label
 	static constexpr Vector2 offset = { -21, 10 };
@@ -322,14 +313,8 @@ void Alien::Update()
 
 void Alien::Render(const Resources& res) const noexcept
 {		
-	const auto& texture = res.alienTexture;
-	const Rectangle sourceRect = { 0, 0, (float)texture.width, (float)texture.height };					// TODO Consider making a get func in res
-
 	static constexpr Vector2 targetSize = { 100, 100 };
-	const Rectangle destinationRect = { position.x, position.y, targetSize.x, targetSize.y, };
-	const Vector2 originOffset = { targetSize.x / 2, targetSize.y / 2 };
-
-	DrawTexturePro(texture, sourceRect, destinationRect, originOffset, 0, WHITE);
+	RenderFullTextureWrap(res.alienTexture, position, targetSize);
 }
 
 void Alien::GetPewd() {
