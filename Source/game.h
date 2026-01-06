@@ -71,6 +71,7 @@ public:
 	bool moveRight = true;				// TODO Rename to clarify it's a variable ("movingRight" or similar) as it sounds like an action (func-like)
 
 	static constexpr int speed = 2;
+	static constexpr int heightChangeOnBorderHit = 50;
 	static constexpr Color color = WHITE;
 	static constexpr float radius = 30;
 	

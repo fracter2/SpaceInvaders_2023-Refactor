@@ -296,7 +296,7 @@ void Alien::Update()
 		if (position.x >= GetScreenWidth())
 		{
 			moveRight = false;		// TODO Consider making into an int, like with player direction
-			position.y += 50;		// TODO Make into static constexpr
+			position.y += heightChangeOnBorderHit;		// TODO Make into static constexpr
 		}
 	}
 	else 
@@ -306,7 +306,7 @@ void Alien::Update()
 		if (position.x <= 0)
 		{
 			moveRight = true; 
-			position.y += 50; 
+			position.y += heightChangeOnBorderHit;
 		}
 	}
 }
