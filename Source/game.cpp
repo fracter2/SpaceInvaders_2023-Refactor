@@ -281,7 +281,7 @@ void Wall::Render(const Resources& res) const noexcept			// TODO Make Texture2D&
 	static constexpr Vector2 offset = { -21, 10 };
 	static constexpr int fontsSize = 40;
 	DrawText(std::format("{}", health).c_str(), position.x + offset.x, position.y + offset.y, fontsSize, RED);
-	// TODO Consider using DrawTextPro() to mirror above texture drawing
+	// TODO Consider using DrawTextPro() to mirror above texture drawing. CON: prob not worth the text/effort when it already is aligned
 }
 
 void Wall::GetPewd() {
