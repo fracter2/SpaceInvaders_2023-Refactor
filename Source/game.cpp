@@ -149,22 +149,12 @@ void Game::Render() const noexcept
 	DrawText(TextFormat("Score: %i", leaderboard->currentScore), 50, 20, 40, YELLOW);
 	DrawText(TextFormat("Lives: %i", player.lives), 50, 70, 40, YELLOW);
 
-	player.Render(*resources);
+	const Resources& res = *resources;
+	player.Render(res);
 
-	for (int i = 0; i < Projectiles.size(); i++)
-	{
-		Projectiles[i].Render(*resources);
-	}
-
-	for (int i = 0; i < Walls.size(); i++)
-	{
-		Walls[i].Render(*resources);
-	}
-
-	for (int i = 0; i < Aliens.size(); i++)
-	{
-		Aliens[i].Render(*resources);
-	}
+	for (const Projectile& p : Projectiles) { p.Render(res); }
+	for (const Wall& w : Walls)				{ w.Render(res); }
+	for (const Alien& a : Aliens)			{ a.Render(res); }
 }
 
 void Game::SpawnAliens()		// TODO Consider making this a free func since it's only used once
@@ -222,23 +212,16 @@ void Player::Update()	// TODO Move all input checks together in here or in a sep
 void Player::Render(const Resources& res) const noexcept
 {
 	static constexpr float timePerFrame = 0.4;
-	auto frames = res.shipTextures;
-	// TODO Consider moving some / most / all these args into static constexpr variables
-	DrawTexturePro(frames[(int)(GetTime() / timePerFrame) % frames.size()],						// TODO Make sure this is noexcept
-		{
-			0,
-			0,
-			352,
-			352,
-		},
-		{
-			position.x, 
-			position.y,
-			100,
-			100,
-		}, { 50, 50 },
-		0,
-		WHITE);
+	const int i = (int)(GetTime() / timePerFrame) % res.shipTextures.size();
+	const auto& frame = res.shipTextures[i];
+
+	static constexpr Vector2 targetSize = { 100, 100 };
+
+	const Rectangle sourceRect = { 0, 0, (float)frame.width, (float)frame.height };					// TODO Consider making a get func in res
+	const Rectangle destinationRect = { position.x, position.y, targetSize.x, targetSize.y, };
+	const Vector2 originOffset = { targetSize.x / 2, targetSize.y / 2 };
+
+	DrawTexturePro(frame, sourceRect, destinationRect, originOffset, 0, WHITE);						// TODO Make sure this is noexcept
 }
 
 void Player::GetPewd() {
