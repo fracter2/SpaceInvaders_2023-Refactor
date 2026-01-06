@@ -54,8 +54,8 @@ void RenderFullTextureWrap(const Texture2D& texture, Vector2 position, Vector2 s
 	DrawTexturePro(texture, sourceRect, destinationRect, originOffset, 0, WHITE);
 }
 
+// GAME
 
-// Core implementation
 Game::Game(const std::function<void(SceneId)>& transitionFunc, Leaderboard& lb, const Resources& res) noexcept
 	: transitionTo(transitionFunc)
 	, leaderboard(&lb)
@@ -66,8 +66,7 @@ Game::Game(const std::function<void(SceneId)>& transitionFunc, Leaderboard& lb, 
 	leaderboard->currentScore = 0;
 }
 
-void Game::Update() noexcept
-{
+void Game::Update() noexcept {
 	CheckAlienSpawnConditions();
 
 	player.Update();
@@ -128,8 +127,7 @@ void Game::UpdateScore() {
 }
 
 void Game::PlayerPewPew() {
-	if (IsKeyPressed(KEY_SPACE))
-	{
+	if (IsKeyPressed(KEY_SPACE)) {
 		static constexpr Vector2 direction = { 0, -1 };
 		const Vector2 pos = Vector2Add(player.position, { 0, -60 });
 		Projectiles.push_back(Projectile(pos, direction, true));
@@ -138,8 +136,7 @@ void Game::PlayerPewPew() {
 
 void Game::AlienPewPew() {
 	shootTimer += 1;												// TODO Refactor away using GetTime() and modulo
-	if (shootTimer > 59) //once per second
-	{
+	if (shootTimer > 59) { //once per second
 		shootTimer = 0;
 
 		static constexpr Vector2 direction = { 0, 1 };
@@ -149,8 +146,7 @@ void Game::AlienPewPew() {
 }
 
 
-void Game::Render() const noexcept
-{
+void Game::Render() const noexcept {
 	background.Render(player.position.x);
 
 	DrawText(TextFormat("Score: %i", leaderboard->currentScore), 50, 20, 40, YELLOW);
@@ -164,8 +160,7 @@ void Game::Render() const noexcept
 	for (const Alien& a : Aliens)			{ a.Render(res); }
 }
 
-void Game::SpawnAliens()		// TODO Consider making this a free func since it's only used once
-{
+void Game::SpawnAliens() {								// TODO Consider making this a free func since it's only used once
 	static constexpr int formationWidth = 8;
 	static constexpr int formationHeight = 5;
 	static constexpr int alienSpacing = 80;
@@ -194,9 +189,9 @@ void Game::SpawnWalls() {
 	}
 }
 
+// PLAYER
 
-Player::Player() noexcept
-{
+Player::Player() noexcept {
 	position = Vector2(
 		(float)GetScreenWidth() / 2,
 		(float)(GetScreenHeight() - player_y_offset)
@@ -205,19 +200,16 @@ Player::Player() noexcept
 
 }
 
-void Player::Update()	// TODO Move all input checks together in here or in a separate func
-{						// TODO Rename to "move" or similar
-	//Movement
+// TODO Move all input checks together in here or in a separate func
+// TODO Rename to "move" or similar
+void Player::Update() {
 	int direction = IsKeyDown(KEY_RIGHT) - IsKeyDown(KEY_LEFT);
 	position.x += speed * direction;
 
-	// Border collision
 	position.x = Clamp(position.x, 0 + radius, GetScreenWidth() - radius);
-	
 }
 
-void Player::Render(const Resources& res) const noexcept
-{
+void Player::Render(const Resources& res) const noexcept {
 	static constexpr float timePerFrame = 0.4;
 	const int i = (int)(GetTime() / timePerFrame) % res.shipTextures.size();
 	const auto& frame = res.shipTextures[i];
@@ -231,6 +223,8 @@ void Player::GetPewd() {
 	lives -= 1;
 }
 
+// PROJECTILE
+
 Projectile::Projectile(Vector2 pos, Vector2 direction, bool fromPlayer) noexcept
 	: position(pos)
 	, direction(direction)
@@ -238,8 +232,7 @@ Projectile::Projectile(Vector2 pos, Vector2 direction, bool fromPlayer) noexcept
 {
 }
 
-void Projectile::Update()		// TODO Rename to "move" or similar. Or move all checks here
-{
+void Projectile::Update() { // TODO Rename to "move" or similar. Or move all checks here
 	position = Vector2Add(position, direction * speed);
 
 	if (position.y < 0 || position.y > 1500)		// TODO Clarify magic numbers
@@ -248,8 +241,7 @@ void Projectile::Update()		// TODO Rename to "move" or similar. Or move all chec
 	}
 }
 
-void Projectile::Render(const Resources& res) const noexcept
-{
+void Projectile::Render(const Resources& res) const noexcept {
 	static constexpr Vector2 targetSize = { 50, 50 };
 	RenderFullTextureWrap(res.laserTexture, position, targetSize);
 }
@@ -258,13 +250,14 @@ void Projectile::GetPewd() {
 	active = false;
 }
 
+// WALL
+
 Wall::Wall(Vector2 pos) noexcept 
 	:position(pos)
 {
 }
 
-void Wall::Render(const Resources& res) const noexcept			// TODO Make Texture2D&
-{
+void Wall::Render(const Resources& res) const noexcept { // TODO Make Texture2D&
 	static constexpr Vector2 targetSize = { 200, 200 };
 	RenderFullTextureWrap(res.barrierTexture, position, targetSize);
 
@@ -282,13 +275,14 @@ void Wall::GetPewd() {
 	}
 }
 
+// ALIEN
+
 Alien::Alien(Vector2 pos) noexcept
 	: position(pos)
 {
 }
 
-void Alien::Update() 
-{
+void Alien::Update() {
 	position.x += moveRight ? speed : -speed;
 
 	if (position.x <= 0 || position.x >= GetScreenWidth()) {
@@ -298,8 +292,7 @@ void Alien::Update()
 	}
 }
 
-void Alien::Render(const Resources& res) const noexcept
-{		
+void Alien::Render(const Resources& res) const noexcept {		
 	static constexpr Vector2 targetSize = { 100, 100 };
 	RenderFullTextureWrap(res.alienTexture, position, targetSize);
 }
@@ -308,9 +301,7 @@ void Alien::GetPewd() {
 	active = false;
 }
 
-
-
-//BACKGROUND
+// BACKGROUND
 
 Star::Star(Vector2 pos, float size) noexcept
 	: position(pos)
@@ -318,14 +309,11 @@ Star::Star(Vector2 pos, float size) noexcept
 {
 }
 
-void Star::Render(float offset) const noexcept
-{
+void Star::Render(float offset) const noexcept {
 	DrawCircle((int)position.x + offset, (int)position.y, size, color);	// TODO Make sure that this is noexcept
 }
 
-
-Background::Background(int starAmount)
-{
+Background::Background(int starAmount) {
 	for (int i = 0; i < starAmount; i++)
 	{
 		Vector2 pos = { 

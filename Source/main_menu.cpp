@@ -5,7 +5,6 @@
 MainMenu::MainMenu(const std::function<void(SceneId)>& transitionFunc) noexcept
 	: transitionTo(transitionFunc) 
 {
-
 }
 
 void MainMenu::Update() noexcept {

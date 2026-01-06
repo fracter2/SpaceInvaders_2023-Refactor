@@ -2,39 +2,33 @@
 #include <fstream>
 #include <iostream>
 
-bool Leaderboard::CheckNewHighScore() const
-{
-	if (currentScore > stats[4].score)		// TODO Clarify "4" as the last index
-	{
+bool Leaderboard::CheckNewHighScore() const {
+	if (currentScore > stats[4].score) {						// TODO Clarify "4" as the last index
 		return true;
 	}
 
 	return false;
 }
 
-void Leaderboard::InsertNewHighScore(std::string name) // TODO Consider string_view
-{
+void Leaderboard::InsertNewHighScore(std::string name) {		// TODO Consider string_view
 	FinishedGameScore newData;
 	newData.name = name;
 	newData.score = currentScore;
 
-	for (int i = 0; i < stats.size(); i++)	// TODO Consider replacing with an algorithm w lambda
-	{
-		if (newData.score > stats[i].score)
-		{
+	for (int i = 0; i < stats.size(); i++) {						// TODO Consider replacing with an algorithm w lambda
+		if (newData.score > stats[i].score) {
 
 			stats.insert(stats.begin() + i, newData);
 
-			stats.pop_back();		// TODO Consider removing. is this to limit size? then use an if(). Unclear.
+			stats.pop_back();									// TODO Consider removing. is this to limit size? then use an if(). Unclear.
 
-			i = stats.size();		// TODO Replace with return
+			i = stats.size();									// TODO Replace with return
 
 		}
 	}
 }
 
-void Leaderboard::LoadLeaderboard()		// TODO Consider removing (unused) Move to separate file along with SaveLeaderboard()
-{
+void Leaderboard::LoadLeaderboard() {							// TODO Consider removing (unused) Move to separate file along with SaveLeaderboard()
 	// CLEAR LEADERBOARD
 
 	// OPEN FILE
@@ -46,8 +40,7 @@ void Leaderboard::LoadLeaderboard()		// TODO Consider removing (unused) Move to 
 	//CLOSE FILE
 }
 
-void Leaderboard::SaveLeaderboard()		// TODO Consider removing, used once, not fully implemented yet
-{
+void Leaderboard::SaveLeaderboard() {							// TODO Consider removing, used once, not fully implemented yet
 	// SAVE LEADERBOARD AS ARRAY
 
 	// OPEN FILE
@@ -55,13 +48,11 @@ void Leaderboard::SaveLeaderboard()		// TODO Consider removing, used once, not f
 
 	file.open("Leaderboard");
 
-	if (!file)
-	{
+	if (!file) {
 		std::cout << "file not found \n";
 
 	}
-	else
-	{
+	else {
 		std::cout << "file found \n";
 	}
 	// CLEAR FILE
