@@ -289,25 +289,12 @@ Alien::Alien(Vector2 pos) noexcept
 
 void Alien::Update() 
 {
-	if (moveRight)					// TODO Move statement to just the position.x update, perhaps as ternary operator
-	{
-		position.x += speed; 
+	position.x += moveRight ? speed : -speed;
 
-		if (position.x >= GetScreenWidth())
-		{
-			moveRight = false;		// TODO Consider making into an int, like with player direction
-			position.y += heightChangeOnBorderHit;		// TODO Make into static constexpr
-		}
-	}
-	else 
-	{
-		position.x -= speed; 
-
-		if (position.x <= 0)
-		{
-			moveRight = true; 
-			position.y += heightChangeOnBorderHit;
-		}
+	if (position.x <= 0 || position.x >= GetScreenWidth()) {
+		position.x = Clamp(position.x, 0, GetScreenWidth());
+		position.y += heightChangeOnBorderHit;
+		moveRight = !moveRight;
 	}
 }
 
