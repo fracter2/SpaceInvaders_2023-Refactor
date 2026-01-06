@@ -268,26 +268,21 @@ Wall::Wall(Vector2 pos) noexcept
 
 void Wall::Render(const Resources& res) const noexcept			// TODO Make Texture2D&
 {
-	// TODO Consider moving some / most / all these args into static constexpr variables
-	DrawTexturePro(res.barrierTexture,
-		{
-			0,
-			0,
-			704,
-			704,
-		},
-		{
-			position.x,
-			position.y,
-			200,
-			200,
-		}, { 100 , 100 },
-		0,
-		WHITE);
+	const auto& texture = res.barrierTexture;
+	const Rectangle sourceRect = { 0, 0, (float)texture.width, (float)texture.height };					// TODO Consider making a get func in res
 
-	// TODO Consider moving some / most / all these args into static constexpr variables
-	DrawText(TextFormat("%i", health), position.x-21, position.y+10, 40, RED);		// TODO Consider using modern std::format
-	
+	static constexpr Vector2 targetSize = { 200, 200 };
+	const Rectangle destinationRect = { position.x, position.y, targetSize.x, targetSize.y, };
+	const Vector2 originOffset = { targetSize.x / 2, targetSize.y / 2 };
+
+	DrawTexturePro(texture, sourceRect, destinationRect, originOffset, 0, WHITE);
+
+	// HP label
+	static constexpr Vector2 offset = { -21, 10 };
+	static constexpr int fontsSize = 40;
+	DrawText(TextFormat("%i", health), position.x + offset.x, position.y + offset.y, fontsSize, RED);
+	// TODO Consider using modern std::format("{}", health);
+	// TODO Consider using DrawTextPro() to mirror above texture drawing
 }
 
 void Wall::GetPewd() {
