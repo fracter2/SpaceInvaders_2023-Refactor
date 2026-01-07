@@ -148,9 +148,12 @@ void Game::AlienPewPew() {
 
 void Game::Render() const noexcept {
 	background.Render(player.position.x);
-
-	DrawText(TextFormat("Score: %i", leaderboard->currentScore), 50, 20, 40, YELLOW);
-	DrawText(TextFormat("Lives: %i", player.lives), 50, 70, 40, YELLOW);
+	
+	static constexpr int fontSize = 40;
+	static constexpr Vector2 scorePos = { 50, 20 };
+	static constexpr Vector2 hpPos = { 50, 70 };
+	DrawText(std::format("Score: {}", leaderboard->currentScore).c_str(), scorePos.x, scorePos.y, fontSize, YELLOW);
+	DrawText(std::format("Lives: {}", player.lives).c_str(),			  hpPos.x,    hpPos.y,    fontSize, YELLOW);
 
 	const Resources& res = *resources;
 	player.Render(res);
