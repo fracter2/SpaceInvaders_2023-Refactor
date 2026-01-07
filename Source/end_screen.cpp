@@ -12,75 +12,59 @@ EndScreen::EndScreen(const std::function<void(SceneId)>& transitionFunc, Leaderb
 }
 
 void EndScreen::Update() noexcept {
-	//Exit endscreen										// TODO Clarify if this is a separate state from when there is a highscore
+	//Exit endscreen										
 	bool newHighScore = leaderboard->CheckNewHighScore();
-	if (IsKeyReleased(KEY_ENTER) && !newHighScore)
-	{
-		// TODO Consider SaveLeaderboard(); here
-		transitionTo(SceneId::MainMenu);
+
+	if (!newHighScore) {					// TODO Clarify if this is a separate state from when there is a highscore
+		if (IsKeyReleased(KEY_ENTER)) {
+			transitionTo(SceneId::MainMenu);
+		}
+
 		return;
 	}
 
+	mouseOnText = CheckCollisionPointRec(GetMousePosition(), textBox);			// TODO Consider a dedicated cursorBlinkAnimation class
 
+	if (mouseOnText) { // TODO Pull out from nesting
+		framesCounter++;
+		SetMouseCursor(MOUSE_CURSOR_IBEAM);
 
-	if (newHighScore)										// TODO Pull out from nesting
+		// Get char pressed on the queue
+		int key = GetCharPressed();
+
+		// Check if more characters have been pressed on the same frame
+		while (key > 0)
+		{
+			// NOTE: Only allow keys in range [32..125]
+			if ((key >= 32) && (key <= 125) && (letterCount < 9))
+			{
+				name[letterCount] = (char)key;
+				name[letterCount + 1] = '\0'; // Add null terminator at the end of the string.
+				letterCount++;
+			}
+
+			key = GetCharPressed();  // Check next character in the queue
+		}
+
+		//Remove chars 
+		if (IsKeyPressed(KEY_BACKSPACE))
+		{
+			letterCount--;
+			if (letterCount < 0) letterCount = 0;
+			name[letterCount] = '\0';
+		}
+	}
+	else { 
+		framesCounter = 0;
+		SetMouseCursor(MOUSE_CURSOR_DEFAULT); 
+	}
+
+	// If the name is right legth and enter is pressed, exit screen by setting highscore to false and add 
+	// name + score to scoreboard
+	if (letterCount > 0 && letterCount < 9 && IsKeyReleased(KEY_ENTER))
 	{
-		if (CheckCollisionPointRec(GetMousePosition(), textBox)) mouseOnText = true;		// TODO Simplify, can be one line
-		else mouseOnText = false;
-
-		if (mouseOnText)									// TODO Pull out from nesting
-		{
-			// Set the window's cursor to the I-Beam
-			SetMouseCursor(MOUSE_CURSOR_IBEAM);
-
-			// Get char pressed on the queue
-			int key = GetCharPressed();
-
-			// Check if more characters have been pressed on the same frame
-			while (key > 0)
-			{
-				// NOTE: Only allow keys in range [32..125]
-				if ((key >= 32) && (key <= 125) && (letterCount < 9))
-				{
-					name[letterCount] = (char)key;
-					name[letterCount + 1] = '\0'; // Add null terminator at the end of the string.
-					letterCount++;
-				}
-
-				key = GetCharPressed();  // Check next character in the queue
-			}
-
-			//Remove chars 
-			if (IsKeyPressed(KEY_BACKSPACE))
-			{
-				letterCount--;
-				if (letterCount < 0) letterCount = 0;
-				name[letterCount] = '\0';
-			}
-		}
-		else SetMouseCursor(MOUSE_CURSOR_DEFAULT);
-
-		if (mouseOnText)		// TODO This is for the textbox cursor blink animation, this should be handles by the textbox itself
-		{
-			framesCounter++;
-		}
-		else
-		{
-			framesCounter = 0;
-		}
-
-		// If the name is right legth and enter is pressed, exit screen by setting highscore to false and add 
-		// name + score to scoreboard
-		if (letterCount > 0 && letterCount < 9 && IsKeyReleased(KEY_ENTER))
-		{
-			std::string nameEntry(name);
-
-			leaderboard->InsertNewHighScore(nameEntry);
-
-			leaderboard->currentScore = 0;
-		}
-
-
+		std::string nameEntry(name);
+		leaderboard->InsertNewHighScore(nameEntry);
 	}
 
 }
