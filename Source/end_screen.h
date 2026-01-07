@@ -3,6 +3,7 @@
 #include <functional>
 #include "leaderboard.h"
 #include "common.h"
+#include <string>
 
 struct EndScreen : public Scene {					// TODO Make into a class as this is an invariant
 	EndScreen(const std::function<void(SceneId)>& transitionFunc, Leaderboard& lb) noexcept;
@@ -19,8 +20,7 @@ private:
 	
 
 	//TEXTBOX ENTER	
-	char name[9 + 1] = "\0";      //One extra space required for null terminator char '\0'	// TODO Make into string
-	int letterCount = 0;																	// TODO Remove, redundant if name is a string
+	std::string name = "";
 
 	Rectangle textBox = { 600, 500, 225, 50 };
 	bool mouseOnText = false;																// TODO Remove, used as a local variable
