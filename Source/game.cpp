@@ -139,12 +139,14 @@ void Game::AlienPewPew() {
 	if (shootTimer > 59) { //once per second
 		shootTimer = 0;
 
+		static constexpr Vector2 spawnOffset = { 0, 60 };
+		const Alien& randomAlien = Aliens[rand() % Aliens.size()];				// TODO Check if there's a better way to do this with algorithm or else
+		const Vector2 pos = Vector2Add(randomAlien.position, spawnOffset);
+
 		static constexpr Vector2 direction = { 0, 1 };
-		const Vector2 pos = Vector2Add(Aliens[rand() % Aliens.size()].position, { 0, -60 });
 		Projectiles.push_back(Projectile(pos, direction, false));
 	}
 }
-
 
 void Game::Render() const noexcept {
 	background.Render(player.position.x);
