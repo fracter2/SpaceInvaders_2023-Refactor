@@ -5,7 +5,7 @@
 
 EndScreen::EndScreen(const std::function<void(SceneId)>& transitionFunc, Leaderboard& lb) noexcept
 	: transitionTo(transitionFunc) 
-	, leaderboard(lb)
+	, leaderboard(&lb)
 {
 	//SAVE SCORE AND UPDATE SCOREBOARD
 	//newHighScore = CheckNewHighScore();
@@ -13,7 +13,7 @@ EndScreen::EndScreen(const std::function<void(SceneId)>& transitionFunc, Leaderb
 
 void EndScreen::Update() noexcept {
 	//Exit endscreen										// TODO Clarify if this is a separate state from when there is a highscore
-	bool newHighScore = leaderboard.CheckNewHighScore();
+	bool newHighScore = leaderboard->CheckNewHighScore();
 	if (IsKeyReleased(KEY_ENTER) && !newHighScore)
 	{
 		// TODO Consider SaveLeaderboard(); here
@@ -75,9 +75,9 @@ void EndScreen::Update() noexcept {
 		{
 			std::string nameEntry(name);
 
-			leaderboard.InsertNewHighScore(nameEntry);
+			leaderboard->InsertNewHighScore(nameEntry);
 
-			leaderboard.currentScore = 0;
+			leaderboard->currentScore = 0;
 		}
 
 
@@ -88,7 +88,7 @@ void EndScreen::Update() noexcept {
 void EndScreen::Render() const noexcept {
 	//Code												// TODO Remove redundant comment
 	//DrawText("END", 50, 50, 40, YELLOW);				// TODO Remove redundant comment
-	bool newHighScore = leaderboard.CheckNewHighScore();
+	bool newHighScore = leaderboard->CheckNewHighScore();
 	if (newHighScore)
 	{
 		DrawText("NEW HIGHSCORE!", 600, 300, 60, YELLOW);
@@ -147,7 +147,7 @@ void EndScreen::Render() const noexcept {
 
 		DrawText("LEADERBOARD", 50, 100, 40, YELLOW);
 
-		auto stats = leaderboard.GetStats();
+		auto stats = leaderboard->GetStats();
 
 		for (int i = 0; i < stats.size(); i++)
 		{

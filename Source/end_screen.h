@@ -9,7 +9,7 @@ struct EndScreen : public Scene {					// TODO Make into a class as this is an in
 
 	// TODO Make these private
 	std::function<void(SceneId)> transitionTo;
-	Leaderboard& leaderboard;						// TODO Refactor away using raw pointer
+	Leaderboard* leaderboard;						// NOTE non-owning ptr		// TODO Consider clarifying not_null
 
 	void Update() noexcept override;
 	void Render() const noexcept override;
