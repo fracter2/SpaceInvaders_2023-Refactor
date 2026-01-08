@@ -168,6 +168,7 @@
     <ClCompile Include="Source\app.cpp" />
     <ClCompile Include="Source\end_screen.cpp" />
     <ClCompile Include="Source\game.cpp" />
+    <ClCompile Include="Source\highscore_scene.cpp" />
     <ClCompile Include="Source\leaderboard.cpp" />
     <ClCompile Include="Source\level.cpp" />
     <ClCompile Include="Source\main.cpp" />
@@ -179,6 +180,7 @@
     <ClInclude Include="Source\common.h" />
     <ClInclude Include="Source\end_screen.h" />
     <ClInclude Include="Source\game.h" />
+    <ClInclude Include="Source\highscore_scene.h" />
     <ClInclude Include="Source\leaderboard.h" />
     <ClInclude Include="Source\level.h" />
     <ClInclude Include="Source\main_menu.h" />

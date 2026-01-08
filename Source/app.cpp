@@ -5,6 +5,7 @@
 #include "game.h"
 #include "main_menu.h"
 #include "end_screen.h"
+#include "highscore_scene.h"
 
 
 App::App(SceneId sceneId) 
@@ -26,9 +27,10 @@ void App::ChangeTo(SceneId id) {
 	
 	// TODO Consider making this a non-owning raw ptr, pointing to an already stored scene of each. Re-making each scene on-call
 	switch (id) {
-	case SceneId::MainMenu:  { currentScene = std::unique_ptr<Scene>(new MainMenu(transitionFunc)); break; }
-	case SceneId::Game:		 { currentScene = std::unique_ptr<Scene>(new Game(transitionFunc, leaderboard, resources)); break; }
-	case SceneId::EndScreen: { currentScene = std::unique_ptr<Scene>(new EndScreen(transitionFunc, leaderboard)); break; }
+	case SceneId::MainMenu:  { currentScene = std::unique_ptr<Scene>(new MainMenu(		transitionFunc)); break; }
+	case SceneId::Game:		 { currentScene = std::unique_ptr<Scene>(new Game(			transitionFunc, leaderboard, resources)); break; }
+	case SceneId::Highscore: { currentScene = std::unique_ptr<Scene>(new HighscoreScene(transitionFunc, leaderboard)); break; }
+	case SceneId::EndScreen: { currentScene = std::unique_ptr<Scene>(new EndScreen(		transitionFunc, leaderboard)); break; }
 	}
 }
 

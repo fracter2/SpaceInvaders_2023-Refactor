@@ -2,7 +2,7 @@
 #include <fstream>
 #include <iostream>
 
-bool Leaderboard::CheckNewHighScore() const {
+bool Leaderboard::CheckNewHighScore() const {					// TODO Rename to "isNewHighScore"
 	if (currentScore > stats[4].score) {						// TODO Clarify "4" as the last index
 		return true;
 	}

@@ -13,6 +13,7 @@ struct Scene {
 enum struct SceneId : int {
 	MainMenu,
 	Game,
+	Highscore,
 	EndScreen,
 	Max							// TODO Is this even needed? Is it already enforeced to be in-range by being an enum?
 };
