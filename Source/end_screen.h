@@ -5,15 +5,13 @@
 #include "common.h"
 #include <string>
 
-struct EndScreen : public Scene {					// TODO Make into a class as this is an invariant
+class EndScreen : public Scene {
+public:
 	EndScreen(const std::function<void(SceneId)>& transitionFunc, Leaderboard& lb) noexcept;
-
-	// TODO Make these private
-	std::function<void(SceneId)> transitionTo;
-	Leaderboard* leaderboard;						// NOTE non-owning ptr		// TODO Consider clarifying not_null
-
 	void Update() noexcept override;
 	void Render() const noexcept override;
 
 private:
+	std::function<void(SceneId)> transitionTo;
+	Leaderboard* leaderboard;						// NOTE non-owning ptr		// TODO Consider clarifying not_null
 };
