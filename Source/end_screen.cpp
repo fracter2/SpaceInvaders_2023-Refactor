@@ -29,14 +29,15 @@ void EndScreen::Render() const noexcept {
 	static constexpr int titleY = 100;
 	DrawText("LEADERBOARD",				titleX,	 titleY,  fontSize, YELLOW);
 
-	static constexpr int nameX = 50;
-	static constexpr int scoreX = 350;
-	static constexpr int y = 140;
-	static constexpr int rowHeight = 40;
-	const auto& stats = leaderboard->GetStats();
-	for (int row = 0; row < stats.size(); row++) {
-		DrawText(stats[row].name.data(),			 nameX,  y + (row * rowHeight), fontSize, YELLOW);
-		DrawText(TextFormat("%i", stats[row].score), scoreX, y + (row * rowHeight), fontSize, YELLOW);
+	for (int row = 0; const auto& entry : leaderboard->GetStats()) {
+		static constexpr int y = 140;
+		static constexpr int rowHeight = 40;
+
+		static constexpr int nameX = 50;
+		DrawText(entry.name.data(),				nameX, y + (row * rowHeight), fontSize, YELLOW);
+
+		static constexpr int scoreX = 350;
+		DrawText(TextFormat("%i", entry.score), scoreX, y + (row * rowHeight), fontSize, YELLOW);
 		row++;
 	}
 }
