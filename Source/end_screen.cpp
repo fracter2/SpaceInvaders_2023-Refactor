@@ -19,17 +19,25 @@ void EndScreen::Update() noexcept {
 }
 
 void EndScreen::Render() const noexcept {
-	DrawText("PRESS ENTER TO CONTINUE", 600, 200, 40, YELLOW);
+	static constexpr int fontSize = 40;
 
-	DrawText("LEADERBOARD", 50, 100, 40, YELLOW);
+	static constexpr int promptX = 600;
+	static constexpr int promptY = 200;
+	DrawText("PRESS ENTER TO CONTINUE", promptX, promptY, fontSize, YELLOW);
 
-	auto stats = leaderboard->GetStats();
-	for (int i = 0; i < stats.size(); i++) {							// TODO Consider making into for loop
-		const char* tempNameDisplay = stats[i].name.data();
-		DrawText(tempNameDisplay, 50, 140 + (i * 40), 40, YELLOW);
-		DrawText(TextFormat("%i", stats[i].score), 350, 140 + (i * 40), 40, YELLOW);
+	static constexpr int titleX = 50;
+	static constexpr int titleY = 100;
+	DrawText("LEADERBOARD",				titleX,	 titleY,  fontSize, YELLOW);
+
+	static constexpr int nameX = 50;
+	static constexpr int scoreX = 350;
+	static constexpr int y = 140;
+	static constexpr int rowHeight = 40;
+	const auto& stats = leaderboard->GetStats();
+	for (int row = 0; row < stats.size(); row++) {
+		DrawText(stats[row].name.data(),			 nameX,  y + (row * rowHeight), fontSize, YELLOW);
+		DrawText(TextFormat("%i", stats[row].score), scoreX, y + (row * rowHeight), fontSize, YELLOW);
+		row++;
 	}
-	
-
 }
 
