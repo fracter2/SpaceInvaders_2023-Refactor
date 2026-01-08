@@ -38,7 +38,7 @@ void App::Update() noexcept {	// TODO Reconsider if this can really be noexcept
 									// Deal with it by... printing, freezing screen? going to a "something went wrong" screen?
 	inUpdate = false;
 
-	if (transitionQueued) {			// TODO Catch exceptions
+	while (transitionQueued) {			// TODO Catch exceptions
 		transitionQueued = false;
 		ChangeTo(queuedId);
 	}
