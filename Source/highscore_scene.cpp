@@ -1,5 +1,26 @@
 #include "highscore_scene.h"
 
+// Util
+bool isValidKey(int key) noexcept {
+	return (key >= 32) && (key <= 125);		// TODO Clarify these numbers!!!
+}
+
+void HighscoreScene::ParseNameInput() noexcept {
+	int key = GetCharPressed();
+	while (key > 0) {
+		if (isValidKey(key) && (name.size() < 9)) {
+			name.push_back((char)key);
+		}
+
+		key = GetCharPressed();  // Check next character in the queue
+	}
+
+	if (IsKeyPressed(KEY_BACKSPACE) && name.size() > 0) {
+		name.pop_back();
+	}
+}
+
+// Implementation
 HighscoreScene::HighscoreScene(const std::function<void(SceneId)>& transitionFunc, Leaderboard& lb) noexcept 
 	: transitionTo(transitionFunc)
 	, leaderboard(&lb)
@@ -28,19 +49,7 @@ void HighscoreScene::Update() noexcept
 	framesCounter++;
 	SetMouseCursor(MOUSE_CURSOR_IBEAM);
 
-	int key = GetCharPressed();
-	while (key > 0) {
-		// NOTE: Only allow keys in range [32..125]
-		if ((key >= 32) && (key <= 125) && (name.size() < 9)) {			// TODO Make this check a func
-			name.push_back((char)key);
-		}
-
-		key = GetCharPressed();  // Check next character in the queue
-	}
-
-	if (IsKeyPressed(KEY_BACKSPACE) && name.size() > 0) {
-		name.pop_back();
-	}
+	ParseNameInput();
 }
 
 void HighscoreScene::Render() const noexcept

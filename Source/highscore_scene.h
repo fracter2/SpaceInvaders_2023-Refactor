@@ -12,11 +12,13 @@ public:
 	void Render() const noexcept override;
 
 private:
+	void ParseNameInput() noexcept;
+
 	std::function<void(SceneId)> transitionTo;
 	Leaderboard* leaderboard;						// NOTE non-owning ptr		// TODO Consider clarifying not_null
 
 	std::string name = "";
 	Rectangle textBox = { 600, 500, 225, 50 };
-	bool mouseOnText = false;																// TODO Remove, used as a local variable
+	bool mouseOnText = false;
 	int framesCounter = 0;																	// TODO Move into textbox class
 };
