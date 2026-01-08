@@ -18,39 +18,39 @@ void EndScreen::Update() noexcept {
 		if (IsKeyReleased(KEY_ENTER)) {
 			transitionTo(SceneId::MainMenu);
 		}
-
 		return;
-	}
-
-	mouseOnText = CheckCollisionPointRec(GetMousePosition(), textBox);		// TODO Consider a dedicated cursorBlinkAnimation class
-
-	if (mouseOnText) {														// TODO Pull out from nesting
-		framesCounter++;
-		SetMouseCursor(MOUSE_CURSOR_IBEAM);
-
-		int key = GetCharPressed();
-		while (key > 0) {
-			// NOTE: Only allow keys in range [32..125]
-			if ((key >= 32) && (key <= 125) && (name.size() < 9)) {			// TODO Make this check a func
-				name.push_back((char)key);
-			}
-
-			key = GetCharPressed();  // Check next character in the queue
-		}
-
-		if (IsKeyPressed(KEY_BACKSPACE) && name.size() > 0) {
-			name.pop_back();
-		}
-	}
-	else { 
-		framesCounter = 0;
-		SetMouseCursor(MOUSE_CURSOR_DEFAULT); 
 	}
 
 	if (name.size() > 0 && IsKeyReleased(KEY_ENTER)) {
 		leaderboard->InsertNewHighScore(name);
 		leaderboard->currentScore = 0;
+		return;
 	}
+
+	mouseOnText = CheckCollisionPointRec(GetMousePosition(), textBox);		// TODO Consider a dedicated cursorBlinkAnimation class
+	if (!mouseOnText) {
+		framesCounter = 0;
+		SetMouseCursor(MOUSE_CURSOR_DEFAULT);
+		return;
+	}
+
+	framesCounter++;
+	SetMouseCursor(MOUSE_CURSOR_IBEAM);
+
+	int key = GetCharPressed();
+	while (key > 0) {
+		// NOTE: Only allow keys in range [32..125]
+		if ((key >= 32) && (key <= 125) && (name.size() < 9)) {			// TODO Make this check a func
+			name.push_back((char)key);
+		}
+
+		key = GetCharPressed();  // Check next character in the queue
+	}
+
+	if (IsKeyPressed(KEY_BACKSPACE) && name.size() > 0) {
+		name.pop_back();
+	}
+
 }
 
 void EndScreen::Render() const noexcept {
