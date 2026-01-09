@@ -1,7 +1,7 @@
 #include "highscore_scene.h"
 
-// Util
-bool isValidKey(int key) noexcept {
+
+bool isValidKey(int key) noexcept {			// TODO Fix capitalization
 	return (key >= 32) && (key <= 125);		// TODO Clarify these numbers!!!
 }
 
@@ -20,7 +20,6 @@ void HighscoreScene::ParseNameInput() noexcept {
 	}
 }
 
-// Implementation
 void RenderBlinkingUnderscore(const char* cString, int x, int y, int fontSize, int framesCounter) noexcept
 {
 	static constexpr int duration = 20;
