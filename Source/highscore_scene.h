@@ -14,8 +14,6 @@ public:
 	static constexpr int maxNameLength = 9;
 
 private:
-	void ParseNameInput() noexcept;
-
 	std::function<void(SceneId)> transitionTo;
 	Leaderboard* leaderboard;						// NOTE non-owning ptr		// TODO Consider clarifying not_null
 

@@ -5,10 +5,10 @@ bool isValidKey(int key) noexcept {			// TODO Fix capitalization
 	return (key >= 32) && (key <= 125);		// TODO Clarify these numbers!!!
 }
 
-void HighscoreScene::ParseNameInput() noexcept {
+void ParseNameInput(std::string& name, int maxLength) noexcept {
 	int key = GetCharPressed();
 	while (key > 0) {
-		if (isValidKey(key) && (name.size() < maxNameLength)) {
+		if (isValidKey(key) && (name.size() < maxLength)) {
 			name.push_back((char)key);
 		}
 
@@ -52,7 +52,7 @@ void HighscoreScene::Update() noexcept
 	if (mouseOnText) {
 		framesCounter++;
 		SetMouseCursor(MOUSE_CURSOR_IBEAM);
-		ParseNameInput();
+		ParseNameInput(name, maxNameLength);
 	}
 	else {
 		framesCounter = 0;
