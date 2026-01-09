@@ -20,7 +20,7 @@ private:
 	Leaderboard* leaderboard;						// NOTE non-owning ptr		// TODO Consider clarifying not_null
 
 	std::string name = "";
-	Rectangle textBox = { 600, 500, 225, 50 };
+	static constexpr Rectangle textBox = { 600, 500, 225, 50 };
 	bool mouseOnText = false;
 	int framesCounter = 0;																	// TODO Move into textbox class
 };
