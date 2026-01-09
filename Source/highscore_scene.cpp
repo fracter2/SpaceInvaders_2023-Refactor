@@ -40,16 +40,15 @@ void HighscoreScene::Update() noexcept
 	}
 
 	mouseOnText = CheckCollisionPointRec(GetMousePosition(), textBox);		// TODO Consider a dedicated cursorBlinkAnimation class
-	if (!mouseOnText) {
+	if (mouseOnText) {
+		framesCounter++;
+		SetMouseCursor(MOUSE_CURSOR_IBEAM);
+		ParseNameInput();
+	}
+	else {
 		framesCounter = 0;
 		SetMouseCursor(MOUSE_CURSOR_DEFAULT);
-		return;
 	}
-
-	framesCounter++;
-	SetMouseCursor(MOUSE_CURSOR_IBEAM);
-
-	ParseNameInput();
 }
 
 void HighscoreScene::Render() const noexcept
