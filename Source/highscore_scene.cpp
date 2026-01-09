@@ -53,39 +53,39 @@ void HighscoreScene::Update() noexcept
 
 void HighscoreScene::Render() const noexcept
 {
-	DrawText("NEW HIGHSCORE!", 600, 300, 60, YELLOW);					// TODO Clarify constants
+	static constexpr int fontsizeLarge = 60;
+	static constexpr int fontsizeMedium = 40;
+	static constexpr int fontsizeSmall = 20;
+	DrawText("NEW HIGHSCORE!", 600, 300, fontsizeLarge, YELLOW);					// TODO Clarify constants
 
 	// NAME INPUT TEXT-BOX
-	DrawText("PLACE MOUSE OVER INPUT BOX!", 600, 400, 20, YELLOW);		// TODO Clarify constants
+	DrawText("PLACE MOUSE OVER INPUT BOX!", 600, 400, fontsizeSmall, YELLOW);		// TODO Clarify constants
 
 	DrawRectangleRec(textBox, LIGHTGRAY);								// TODO Make textbox into a class that can draw itself
-	if (mouseOnText) {																							// TODO Simplify both these into a color ternery
-		DrawRectangleLines((int)textBox.x, (int)textBox.y, (int)textBox.width, (int)textBox.height, RED);		// TODO Replace with DrawRectangleLinesEx
-	}
-	else {
-		DrawRectangleLines((int)textBox.x, (int)textBox.y, (int)textBox.width, (int)textBox.height, DARKGRAY);	// TODO Replace with DrawRectangleLinesEx
-	}
 
-	DrawText(name.c_str(), (int)textBox.x + 5, (int)textBox.y + 8, 40, MAROON);									// TODO Clarify constants
+	static constexpr float lineThickness = 1;
+	DrawRectangleLinesEx(textBox, lineThickness, mouseOnText ? RED : DARKGRAY);
 
-	DrawText(TextFormat("INPUT CHARS: %i/%i", name.size(), 8), 600, 600, 20, YELLOW);							// TODO Clarify constants
+	DrawText(name.c_str(), (int)textBox.x + 5, (int)textBox.y + 8, fontsizeMedium, MAROON);									// TODO Clarify constants
+
+	DrawText(TextFormat("INPUT CHARS: %i/%i", name.size(), 8), 600, 600, fontsizeSmall, YELLOW);							// TODO Clarify constants
 
 	if (mouseOnText) {													// TODO Merge with above if() if possible
 		if (name.size() < maxNameLength) {
 			// Draw blinking underscore char
 			if (((framesCounter / 20) % 2) == 0) {						// TODO Move to private func
-				DrawText("_", (int)textBox.x + 8 + MeasureText(name.c_str(), 40), (int)textBox.y + 12, 40, MAROON);	// TODO Consider DrawTextEx() to remove casts
+				DrawText("_", (int)textBox.x + 8 + MeasureText(name.c_str(), 40), (int)textBox.y + 12, fontsizeMedium, MAROON);	// TODO Consider DrawTextEx() to remove casts
 			}
 		}
 		else {
 			// Name needs to be shorter
-			DrawText("Press BACKSPACE to delete chars...", 600, 650, 20, YELLOW);								// TODO Clarify constants
+			DrawText("Press BACKSPACE to delete chars...", 600, 650, fontsizeSmall, YELLOW);								// TODO Clarify constants
 		}
 
 	}
 
 	if (name.size() > 0 && name.size() < maxNameLength) {							// TODO Name constatn max length
-		DrawText("PRESS ENTER TO CONTINUE", 600, 800, 40, YELLOW);		// TODO Clarify constants
+		DrawText("PRESS ENTER TO CONTINUE", 600, 800, fontsizeMedium, YELLOW);		// TODO Clarify constants
 	}
 
 	
