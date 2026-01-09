@@ -68,30 +68,26 @@ void HighscoreScene::Render() const noexcept			// TODO Consider making a simple 
 	static constexpr int posX = static_cast<int>(textBox.x);
 	static constexpr int posY = static_cast<int>(textBox.y);
 
-	DrawText("NEW HIGHSCORE!", posX, posY - 200, fontsizeLarge, YELLOW);
-	
-
-	// NAME INPUT TEXT-BOX
+	DrawText("NEW HIGHSCORE!",				posX, posY - 200, fontsizeLarge, YELLOW);
 	DrawText("PLACE MOUSE OVER INPUT BOX!", posX, posY - 100, fontsizeSmall, YELLOW);
 
-	DrawRectangleRec(textBox, LIGHTGRAY);								// TODO Make textbox into a class that can draw itself
+	// NAME INPUT TEXT-BOX
+	DrawRectangleRec(textBox, LIGHTGRAY);
 
 	static constexpr float lineThickness = 1;
 	DrawRectangleLinesEx(textBox, lineThickness, mouseOnText ? RED : DARKGRAY);
-
 	DrawText(name.c_str(), posX + 5, posY + 8, fontsizeMedium, MAROON);
-
-	DrawText(TextFormat("INPUT CHARS: %i/%i", name.size(), maxNameLength - 1), posX, posY + 100, fontsizeSmall, YELLOW);
 
 	if (mouseOnText) {
 		if (name.size() < maxNameLength) {
-			RenderBlinkingUnderscore(name.c_str(), posX + 8, posY + 12, fontsizeMedium, framesCounter);
+			RenderBlinkingUnderscore(name.c_str(), posX + 8, posY + 12, fontsizeMedium, framesCounter); 
 		}
-		else {
-			// Name needs to be shorter
-			DrawText("Press BACKSPACE to delete chars...", posX, posY + 150, fontsizeSmall, YELLOW);
+		else { 
+			DrawText("Press BACKSPACE to delete chars...", posX, posY + 150, fontsizeSmall, YELLOW); 
 		}
 	}
+
+	DrawText(TextFormat("INPUT CHARS: %i/%i", name.size(), maxNameLength - 1), posX, posY + 100, fontsizeSmall, YELLOW);
 
 	if (name.size() > 0 && name.size() < maxNameLength) {
 		DrawText("PRESS ENTER TO CONTINUE", posX, posY + 300, fontsizeMedium, YELLOW);
