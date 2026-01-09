@@ -11,6 +11,8 @@ public:
 	void Update() noexcept override;
 	void Render() const noexcept override;
 
+	static constexpr int maxNameLength = 9;
+
 private:
 	void ParseNameInput() noexcept;
 

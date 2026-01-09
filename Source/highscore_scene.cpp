@@ -8,7 +8,7 @@ bool isValidKey(int key) noexcept {
 void HighscoreScene::ParseNameInput() noexcept {
 	int key = GetCharPressed();
 	while (key > 0) {
-		if (isValidKey(key) && (name.size() < 9)) {
+		if (isValidKey(key) && (name.size() < maxNameLength)) {
 			name.push_back((char)key);
 		}
 
@@ -71,7 +71,7 @@ void HighscoreScene::Render() const noexcept
 	DrawText(TextFormat("INPUT CHARS: %i/%i", name.size(), 8), 600, 600, 20, YELLOW);							// TODO Clarify constants
 
 	if (mouseOnText) {													// TODO Merge with above if() if possible
-		if (name.size() < 9) {
+		if (name.size() < maxNameLength) {
 			// Draw blinking underscore char
 			if (((framesCounter / 20) % 2) == 0) {						// TODO Move to private func
 				DrawText("_", (int)textBox.x + 8 + MeasureText(name.c_str(), 40), (int)textBox.y + 12, 40, MAROON);	// TODO Consider DrawTextEx() to remove casts
@@ -84,7 +84,7 @@ void HighscoreScene::Render() const noexcept
 
 	}
 
-	if (name.size() > 0 && name.size() < 9) {							// TODO Name constatn max length
+	if (name.size() > 0 && name.size() < maxNameLength) {							// TODO Name constatn max length
 		DrawText("PRESS ENTER TO CONTINUE", 600, 800, 40, YELLOW);		// TODO Clarify constants
 	}
 
