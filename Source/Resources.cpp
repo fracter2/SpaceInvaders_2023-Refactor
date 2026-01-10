@@ -1,7 +1,9 @@
 #include "Resources.h"
+#include <cassert>
 
 Resources::Resources()
 {
+	assert(IsWindowReady(), "Window has not been initialized! Check if this is out-of-order");
 	alienTexture = LoadTexture("./Assets/Alien.png");
 	barrierTexture = LoadTexture("./Assets/Barrier.png");
 	shipTextures.push_back(LoadTexture("./Assets/Ship1.png"));
