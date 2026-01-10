@@ -91,8 +91,6 @@ struct Star
 	Star(Vector2 pos, float size) noexcept;
 	void Render(float offset) const noexcept;
 
-	static constexpr Color color = GRAY;	// TODO Make local like all other use-cases of colors
-
 	Vector2 position = { 0, 0 };
 	float size = 0;
 };
