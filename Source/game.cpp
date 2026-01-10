@@ -8,14 +8,6 @@
 #include <format>
 
 
-// Internal helper funcs
-
-void RenderFullTextureWrap(const Texture2D& texture, Vector2 position, Vector2 size) {
-	const Rectangle sourceRect = { 0, 0, (float)texture.width, (float)texture.height };					// TODO Consider making a get func in res
-	const Rectangle destinationRect = { position.x, position.y, size.x, size.y, };
-	const Vector2 originOffset = { size.x / 2, size.y / 2 };
-	DrawTexturePro(texture, sourceRect, destinationRect, originOffset, 0, WHITE);
-}
 
 // GAME
 
@@ -157,117 +149,6 @@ void Game::SpawnWalls() {
 	}
 }
 
-// PLAYER
-
-Player::Player() noexcept {
-	position = Vector2(
-		(float)GetScreenWidth() / 2,
-		(float)(GetScreenHeight() - player_y_offset)
-	);
-	std::cout<< "Find Player -X:" << position.x << "Find Player -Y" << position.y << std::endl;	// TODO Remove, redudant printing
-
-}
-
-// TODO Move all input checks together in here or in a separate func
-// TODO Rename to "move" or similar
-void Player::Update() {
-	int direction = IsKeyDown(KEY_RIGHT) - IsKeyDown(KEY_LEFT);
-	position.x += speed * direction;
-
-	position.x = Clamp(position.x, 0 + radius, GetScreenWidth() - radius);
-}
-
-void Player::Render(const Resources& res) const noexcept {
-	static constexpr float timePerFrame = 0.4;
-	const int i = (int)(GetTime() / timePerFrame) % res.shipTextures.size();
-	const auto& frame = res.shipTextures[i];
-
-	static constexpr Vector2 targetSize = { 100, 100 };
-
-	RenderFullTextureWrap(frame, position, targetSize);
-}
-
-void Player::GetPewd() {
-	lives -= 1;
-}
-
-// PROJECTILE
-
-Projectile::Projectile(Vector2 pos, Vector2 direction, bool fromPlayer) noexcept
-	: position(pos)
-	, direction(direction)
-	, fromPlayer(fromPlayer)
-{
-}
-
-void Projectile::Update() { // TODO Rename to "move" or similar. Or move all checks here
-	position = Vector2Add(position, direction * speed);
-
-	if (position.y < 0 || position.y > 1500)		// TODO Clarify magic numbers
-	{
-		active = false;
-	}
-}
-
-void Projectile::Render(const Resources& res) const noexcept {
-	static constexpr Vector2 targetSize = { 50, 50 };
-	RenderFullTextureWrap(res.laserTexture, position, targetSize);
-}
-
-void Projectile::GetPewd() {
-	active = false;
-}
-
-// WALL
-
-Wall::Wall(Vector2 pos) noexcept 
-	:position(pos)
-{
-}
-
-void Wall::Render(const Resources& res) const noexcept { // TODO Make Texture2D&
-	static constexpr Vector2 targetSize = { 200, 200 };
-	RenderFullTextureWrap(res.barrierTexture, position, targetSize);
-
-	// HP label
-	static constexpr Vector2 offset = { -21, 10 };
-	static constexpr int fontsSize = 40;
-	DrawText(std::format("{}", health).c_str(), position.x + offset.x, position.y + offset.y, fontsSize, RED);
-	// TODO Consider using DrawTextPro() to mirror above texture drawing. CON: prob not worth the text/effort when it already is aligned
-}
-
-void Wall::GetPewd() {
-	health -= 1;
-	if (health < 1) {
-		active = false;
-	}
-}
-
-// ALIEN
-
-Alien::Alien(Vector2 pos) noexcept
-	: position(pos)
-{
-}
-
-void Alien::Update() {
-	position.x += moveRight ? speed : -speed;
-
-	if (position.x <= 0 || position.x >= GetScreenWidth()) {
-		position.x = Clamp(position.x, 0, GetScreenWidth());
-		position.y += heightChangeOnBorderHit;
-		moveRight = !moveRight;
-	}
-}
-
-void Alien::Render(const Resources& res) const noexcept {		
-	static constexpr Vector2 targetSize = { 100, 100 };
-	RenderFullTextureWrap(res.alienTexture, position, targetSize);
-}
-
-void Alien::GetPewd() {
-	active = false;
-}
 
 // BACKGROUND
 
