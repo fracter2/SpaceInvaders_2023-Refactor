@@ -31,7 +31,7 @@ public:
 
 
 struct Projectile						// TODO Consider moving to it's own file
-{										// TODO Make into class
+{
 public: 
 	Projectile(Vector2 pos, Vector2 direction, bool fromPlayer) noexcept;
 	void Update();
@@ -46,15 +46,15 @@ public:
 	static constexpr Vector2 lineEndOffset = { 0, -15 };
 
 	// INITIALIZE PROJECTILE WHILE DEFINING IF ITS PLAYER OR ENEMY 
-	Vector2 position = { 0, 0 };			// TODO Add a constructor with position param
+	Vector2 position = { 0, 0 };			// TODO Remove default init, to ephasise constructor more
 	Vector2 direction = { 0, 0 };
 	bool active = true;						// TODO Cconsider renaming to queueDelete
-	bool fromPlayer = false;				// TODO Consider refactoring away by having 2 separate Projectile vectors
+	bool fromPlayer = false;
 
 };
 
-struct Wall 							// TODO Consider moving to it's own file
-{										// TODO Make into class
+struct Wall
+{
 public: 
 	Wall(Vector2 pos) noexcept;
 	void Render(const Resources& res) const noexcept;
@@ -67,8 +67,8 @@ public:
 	int health = 50;
 };
 
-struct Alien							// TODO Consider moving to it's own file
-{										// TODO Make into class
+struct Alien
+{
 public:
 	Alien(Vector2 pos) noexcept;
 	void Update(); 
@@ -76,8 +76,7 @@ public:
 	void GetPewd();
 
 	static constexpr int speed = 2;
-	static constexpr int heightChangeOnBorderHit = 50;
-	static constexpr Color color = WHITE;		// TODO Remove, unused
+	static constexpr int heightChangeOnBorderHit = 50; 
 	static constexpr float radius = 30;
 
 	Vector2 position = {0, 0};
