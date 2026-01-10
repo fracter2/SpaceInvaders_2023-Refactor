@@ -8,7 +8,7 @@
 
 #include "leaderboard.h"
 #include "common.h"
-#include "entity_concepts.h"
+#include "entities.h"
 
 struct Player								// TODO Consider moving to it's own file
 {											// TODO Make into class, keep constructor, Render() and Update() public

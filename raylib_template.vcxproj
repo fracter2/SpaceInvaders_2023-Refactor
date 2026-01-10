@@ -167,7 +167,7 @@
   <ItemGroup>
     <ClCompile Include="Source\app.cpp" />
     <ClCompile Include="Source\end_screen.cpp" />
-    <ClCompile Include="Source\entity_concepts.cpp" />
+    <ClCompile Include="Source\entities.cpp" />
     <ClCompile Include="Source\game.cpp" />
     <ClCompile Include="Source\highscore_scene.cpp" />
     <ClCompile Include="Source\leaderboard.cpp" />
@@ -180,7 +180,7 @@
     <ClInclude Include="Source\app.h" />
     <ClInclude Include="Source\common.h" />
     <ClInclude Include="Source\end_screen.h" />
-    <ClInclude Include="Source\entity_concepts.h" />
+    <ClInclude Include="Source\entities.h" />
     <ClInclude Include="Source\game.h" />
     <ClInclude Include="Source\highscore_scene.h" />
     <ClInclude Include="Source\leaderboard.h" />

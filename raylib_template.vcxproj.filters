@@ -42,7 +42,7 @@
     <ClCompile Include="Source\highscore_scene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\entity_concepts.cpp">
+    <ClCompile Include="Source\entities.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -77,7 +77,7 @@
     <ClInclude Include="Source\highscore_scene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\entity_concepts.h">
+    <ClInclude Include="Source\entities.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
