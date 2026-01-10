@@ -6,13 +6,13 @@
 #include "leaderboard.h"
 #include "resources.h"
 
-class App: public SceneManager {
+class App {
 public:
 	App(SceneId sceneId = SceneId::MainMenu);
 
 	void Update() noexcept;
 	void Render() const noexcept;
-	void QueueTransitionTo(SceneId id) noexcept override;	
+	void QueueTransitionTo(SceneId id) noexcept;
 
 private:
 	void ChangeTo(SceneId id);						// TODO Make this noexcept by catching any errors
