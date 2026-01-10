@@ -5,47 +5,10 @@
 #include <vector>
 #include <algorithm>
 #include <ranges>
-#include <concepts>
 #include <format>
 
 
-// Internal helper funcs								// TODO Move concepts to separate file
-template<typename T> 
-concept CanBeActive = requires (T a) {
-	{ a.active } -> std::_Boolean_testable;
-};
-
-template<typename T> requires CanBeActive<T>
-void ClearInactive(std::vector<T>& vec) {
-	vec.erase(
-		std::remove_if(vec.begin(), vec.end(),
-			[](const T e) { return !e.active; }),
-		vec.end()
-	);
-}
-
-template<typename T>
-concept IsCollisionCircle = requires (T a) {
-	{ a.position } -> std::convertible_to<Vector2>;
-	{ a.radius } -> std::convertible_to<float>;
-	{ a.active } -> std::_Boolean_testable;
-	{ a.GetPewd() };
-};
-
-template<typename T> requires IsCollisionCircle<T>
-bool IsColliding(const Projectile& proj, const T& other) {
-	if (!proj.active || !other.active) {
-		return false; 
-	}
-	return CheckCollisionCircleLine(other.position, other.radius, proj.getLineStart(), proj.getLineEnd());
-}
-
-void CheckAndCollide(Projectile& proj, IsCollisionCircle auto& other) {		// TODO Apply the same formatting to IsColliding template, or vice versa
-	if (IsColliding(proj, other)) {
-		proj.GetPewd();
-		other.GetPewd();
-	}
-}
+// Internal helper funcs
 
 void RenderFullTextureWrap(const Texture2D& texture, Vector2 position, Vector2 size) {
 	const Rectangle sourceRect = { 0, 0, (float)texture.width, (float)texture.height };					// TODO Consider making a get func in res
