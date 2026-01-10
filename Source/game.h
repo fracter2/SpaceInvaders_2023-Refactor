@@ -97,6 +97,7 @@ public:
 
 struct Star
 {
+public:
 	Star(Vector2 pos, float size) noexcept;
 	void Render(float offset) const noexcept;
 
@@ -104,8 +105,10 @@ struct Star
 	float size = 0;
 };
 
+
 struct Background	// TODO Consider moving to separate file
 {
+public:
 	Background(int starAmount);
 	void Render(const float player_x) const noexcept;
 
@@ -114,6 +117,7 @@ struct Background	// TODO Consider moving to separate file
 
 	std::vector<Star> Stars;					// TODO Consider making fixed-size, maybe with star-count as template
 };
+
 
 // TODO apply const, constexpr and noexcept where applicable
 // TODO Consider separating private details into a GameImpl class, or just declaring the funcs in the cpp
