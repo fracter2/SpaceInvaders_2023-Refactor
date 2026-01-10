@@ -35,6 +35,7 @@ void EndScreen::Render() const noexcept {
 		DrawText("LEADERBOARD", x, y, fontSize, YELLOW);
 	}
 
+	// Score list
 	for (int row = 0; const auto& entry : leaderboard->GetStats()) {
 		static constexpr int offsetY = 140, rowHeight = 40;
 		const int y = offsetY + (row * rowHeight);

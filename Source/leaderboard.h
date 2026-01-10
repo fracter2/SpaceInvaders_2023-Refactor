@@ -8,12 +8,17 @@ struct FinishedGameScore		// TODO Consider renaming to "GameScore" or similar
 	int score;
 };
 
+
 class Leaderboard {
+
+	// TODO Move stats initialization to some "example" or "fake player scores"  
+	// to separate implementation details from filler
+	// TODO Move to a private: under public:
 	std::vector<FinishedGameScore> stats = { {"Player 1", 500}, {"Player 2", 400}, {"Player 3", 300}, {"Player 4", 200}, {"Player 5", 100} };
 
 public:
 	int currentScore = 0;						// TODO Refactor away, make funcs use args instead (Doesn't make sense to keep this here, needs to be kept track off)
-	const std::vector<FinishedGameScore>& const GetStats() const noexcept { 
+	const std::vector<FinishedGameScore>& const GetStats() const noexcept {		// TODO Add a nodiscard
 		return stats; 
 	}
 

@@ -2,13 +2,11 @@
 
 // TODO Consider re-writing these as concepts to provide static-polymorphism
 // as it is right now, scenes do not care about SceneManager at all
-
 struct Scene {
 	virtual ~Scene() = default;
 	virtual void Update() noexcept = 0;
 	virtual void Render() const noexcept = 0;
 };
-
 
 enum struct SceneId : int {
 	MainMenu,

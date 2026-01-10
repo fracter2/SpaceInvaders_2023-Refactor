@@ -33,7 +33,7 @@
 
 int main(void)
 {    
-	// TODO Consider moving this into App, as it is part of the app
+	// TODO Move this into App, as it is part of the app
 	const int screenWidth = 1920;	// TODO make constexpr
 	const int screenHeight = 1080;
 	InitWindow(screenWidth, screenHeight, "SPACE INVADERS");

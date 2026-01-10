@@ -9,7 +9,7 @@
 #include <format>
 
 
-// Internal helper funcs								// TODO Consider moving to separate file
+// Internal helper funcs								// TODO Move concepts to separate file
 template<typename T> 
 concept CanBeActive = requires (T a) {
 	{ a.active } -> std::_Boolean_testable;
@@ -316,6 +316,9 @@ Star::Star(Vector2 pos, float size) noexcept
 
 void Star::Render(float offset) const noexcept {
 	DrawCircle((int)position.x + offset, (int)position.y, size, color);	// TODO Make sure that this is noexcept
+
+	// TODO Test / assert if size is negative (does it crash?)
+	// TODO If it crashes, make sure it's still noexcept by verifying size, making this an invariant (class)
 }
 
 Background::Background(int starAmount) {
@@ -326,7 +329,7 @@ Background::Background(int starAmount) {
 			GetRandomValue(0, GetScreenHeight())
 		};
 
-		float size = GetRandomValue(1, 4) / 2;
+		float size = GetRandomValue(1, 4) / 2;					// TODO Clarify magic numbers
 
 		Stars.push_back(Star(pos, size));
 	}

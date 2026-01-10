@@ -97,7 +97,7 @@ struct Background	// TODO Consider moving to separate file
 	static constexpr float paralaxRatio = 15;
 	static_assert(paralaxRatio != 0);
 
-	std::vector<Star> Stars;
+	std::vector<Star> Stars;					// TODO Consider making fixed-size, maybe with star-count as template
 
 	Background(int starAmount);
 	void Render(const float player_x) const noexcept;
@@ -130,6 +130,8 @@ private:
 	Player player = {};
 	static constexpr int BackgroundStarCount = 600;
 	Background background = Background(BackgroundStarCount);
+
+	// TODO Consider making a fixed-size container "object pool" or similar, for these don't actually need resizing
 	std::vector<Projectile> Projectiles;		// TODO Correct capitalization
 	std::vector<Wall> Walls;					// TODO Correct capitalization
 	std::vector<Alien> Aliens;					// TODO Correct capitalization

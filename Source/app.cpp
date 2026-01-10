@@ -34,7 +34,7 @@ void App::ChangeTo(SceneId id) {
 	}
 }
 
-void App::Update() noexcept {	// TODO Reconsider if this can really be noexcept
+void App::Update() noexcept {		// TODO Reconsider if this can really be noexcept
 	inUpdate = true;
 	currentScene->Update();			// TODO Consider try-catching any errors here and printing as an error, or otherwise crashing
 									// Deal with it by... printing, freezing screen? going to a "something went wrong" screen?
