@@ -13,13 +13,14 @@
 struct Player								// TODO Consider moving to it's own file
 {											// TODO Make into class, keep constructor, Render() and Update() public
 public:
-	Vector2 position = {};
-	float speed = 7;						// TODO Make static constexpr
+	Vector2 position;
+	static constexpr float speed = 7;
 	static constexpr float player_y_offset = 70.0f;
 	static constexpr float radius = 50;
 	int lives = 3;
 	int activeTexture = 0;					// TODO Clarify, if this is the texture index used, name it so. Review usage and consider enum
 	float timer = 0;						// TODO Clarify
+
 	static constexpr bool active = true;	// NOTE only here to satisfy concept IsCollisionCircle
 
 	Player() noexcept;
