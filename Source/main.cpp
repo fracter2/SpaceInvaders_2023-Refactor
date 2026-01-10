@@ -33,12 +33,6 @@
 
 int main(void)
 {    
-	// TODO Move this into App, as it is part of the app
-	const int screenWidth = 1920;	// TODO make constexpr
-	const int screenHeight = 1080;
-	InitWindow(screenWidth, screenHeight, "SPACE INVADERS");
-	SetTargetFPS(60);
-	
 	App app = App();
 
 	// TODO Consider moving this into App::Run() or similar. To allow internal error handling
@@ -46,13 +40,8 @@ int main(void)
 	{
 		app.Update();
 	  
-		BeginDrawing();				// TODO Consider moving into the Render() func for brevity
-		ClearBackground(BLACK);
 		app.Render();
-		EndDrawing();
 	}
-
-	CloseWindow();					// Close window and OpenGL context
 
 	return 0;
 }

@@ -11,6 +11,8 @@
 App::App(SceneId sceneId) 
 	: queuedId(sceneId)
 {
+	SetTargetFPS(60);
+
 	ChangeTo(sceneId);
 }
 
@@ -47,7 +49,24 @@ void App::Update() noexcept {		// TODO Reconsider if this can really be noexcept
 }
 
 void App::Render() const noexcept {
+	BeginDrawing();				// TODO Consider moving into the Render() func for brevity
+	ClearBackground(BLACK);
+
 	inRender = true;
 	currentScene->Render();
 	inRender = false;
+
+	EndDrawing();
+}
+
+// RaylibLoader
+
+RaylibLoader::RaylibLoader(int screenWidth, int screenHeight, const char* title)		// NOTE std::string_view doesn't work here because raylib wants a c_str pointer
+{
+	InitWindow(screenWidth, screenHeight, title);
+}
+
+RaylibLoader::~RaylibLoader()
+{
+	CloseWindow();
 }

@@ -1,7 +1,6 @@
 #include "main_menu.h"
 #include "raylib.h"
 
-
 MainMenu::MainMenu(const std::function<void(SceneId)>& transitionFunc) noexcept
 	: transitionTo(transitionFunc) 
 {
