@@ -21,7 +21,7 @@ void App::QueueTransitionTo(SceneId id) noexcept {
 
 void App::ChangeTo(SceneId id) {
 	assert(!SceneIsBusy());
-	assert(id < SceneId::Max);
+	assert(SceneId::Min < id && id < SceneId::Max);
 
 	std::function<void(SceneId)> transitionFunc = std::bind_front(&App::QueueTransitionTo, this);		
 	
