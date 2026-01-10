@@ -52,9 +52,8 @@ public:
 struct Wall 							// TODO Consider moving to it's own file
 {										// TODO Make into class
 public: 
-	Vector2 position;					// TODO Add constructor with pos param
-	bool active; 						// TODO Add default // TODO Is this even needed? why not just remove, if it's in a vector?
-	Color color;						// TODO Add default and make static constexpr
+	Vector2 position;
+	bool active = true;
 	int health = 50;
 	static constexpr int radius = 60;
 

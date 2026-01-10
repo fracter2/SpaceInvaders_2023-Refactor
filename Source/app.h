@@ -15,7 +15,7 @@ public:
 
 class App {
 public:
-	App(SceneId sceneId = SceneId::MainMenu);		// TODO These should also be noexcept!
+	App(SceneId sceneId = SceneId::MainMenu);
 
 	void Update() noexcept;
 	void Render() const noexcept;
