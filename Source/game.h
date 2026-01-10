@@ -16,7 +16,7 @@ public:
 	Vector2 position = {};
 	float speed = 7;						// TODO Make static constexpr
 	static constexpr float player_y_offset = 70.0f;
-	float radius = 50;						// TODO Make static constexpr
+	static constexpr float radius = 50;
 	int lives = 3;
 	int activeTexture = 0;					// TODO Clarify, if this is the texture index used, name it so. Review usage and consider enum
 	float timer = 0;						// TODO Clarify
@@ -56,7 +56,7 @@ public:
 	bool active; 						// TODO Add default // TODO Is this even needed? why not just remove, if it's in a vector?
 	Color color;						// TODO Add default and make static constexpr
 	int health = 50;
-	int radius = 60;					// TODO make constexpr, doesn't change
+	static constexpr int radius = 60;
 
 	Wall(Vector2 pos) noexcept;
 	void Render(const Resources& res) const noexcept;
