@@ -11,8 +11,8 @@
 
 template<typename T>
 concept CanBeActive = requires (T a) {
-	{ a.active } -> std::_Boolean_testable;
-};
+	{ a.active } -> std::_Boolean_testable;					// TODO Consider making it a "isActive()" func to allow private
+};															// TODO Rename it queueFree() and IsQueuedFree()
 
 template<typename T> requires CanBeActive<T>
 void ClearInactive(std::vector<T>& vec) {					// TODO Consider noexcept
@@ -26,8 +26,8 @@ void ClearInactive(std::vector<T>& vec) {					// TODO Consider noexcept
 template<typename T> 
 concept IsCollisionCircle = requires (T a) {
 	CanBeActive<T>;
-	{ a.position } -> std::convertible_to<Vector2>;
-	{ a.radius } -> std::convertible_to<float>;
+	{ a.position } -> std::convertible_to<Vector2>;			// TODO Consider making func to allow private
+	{ a.radius } -> std::convertible_to<float>;				// TODO Consider making func to alllow private
 	{ a.GetPewd() };										// TODO Add to CanBeActive concept and rename to "Collidable"
 };
 
@@ -103,13 +103,13 @@ public:
 static_assert(IsCollisionLine<Projectile>);
 
 
-struct Wall
+struct Wall			// TODO Make class, is invariant as health corelates to active
 {
 public:
 	Wall(Vector2 pos) noexcept;
 	void Render(const Resources& res) const noexcept;
 
-	int health = 50;
+	int health = 50;		
 
 	// IsCollisionCircle concept
 	void GetPewd();
