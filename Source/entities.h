@@ -17,11 +17,11 @@ concept CanBeActive = requires (T const ct) {
 
 template<typename T>
 concept CanCollide = requires (T c) {
-	{ c.OnCollision() };
+	{ c.OnCollision() } noexcept;
 };
 
-template<typename T> requires CanBeActive<T>
-void ClearInactive(std::vector<T>& vec) {					// TODO Consider noexcept
+template<typename T> requires CanBeActive<T>								// TODO Move requires into an auto expression, if possible
+void ClearInactive(std::vector<T>& vec) noexcept {
 	vec.erase(
 		std::remove_if(vec.begin(), vec.end(),
 			[](const T e) { return e.IsQueuedForDelete(); }),
@@ -75,7 +75,7 @@ public:
 	int lives = 3;
 
 	// IsCollisionCircle concept
-	void OnCollision();
+	void OnCollision() noexcept;
 	static constexpr float radius = 50;
 	constexpr bool IsQueuedForDelete() const noexcept { return false; }
 	Vector2 position;
@@ -98,7 +98,7 @@ public:
 	bool fromPlayer = false;
 
 	// IsCollisionLine concept
-	void OnCollision();
+	void OnCollision() noexcept;
 	inline Vector2 getLineStart() const { return Vector2Add(position, lineStartOffset); }	// TODO Add Vector2 '+' overload in common.h
 	inline Vector2 getLineEnd() const	{ return Vector2Add(position, lineEndOffset); }
 	inline constexpr bool IsQueuedForDelete() const noexcept { return queueDelete; } 
@@ -119,7 +119,7 @@ public:
 	int health = 50;		
 
 	// IsCollisionCircle concept
-	void OnCollision();
+	void OnCollision() noexcept;
 	static constexpr int radius = 60;
 	inline constexpr bool IsQueuedForDelete() const noexcept { return queueDelete; }
 	Vector2	position;
@@ -143,7 +143,7 @@ public:
 	bool moveRight = true;				// TODO Rename to clarify it's a variable ("movingRight" or similar) as it sounds like an action (func-like)
 
 	// IsCollisionCircle concept
-	void OnCollision();
+	void OnCollision() noexcept;
 	static constexpr float radius = 30;
 	inline constexpr bool IsQueuedForDelete() const noexcept { return queueDelete; }
 	Vector2 position = { 0, 0 };

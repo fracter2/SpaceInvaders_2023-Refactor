@@ -39,7 +39,7 @@ void Player::Render(const Resources& res) const noexcept {
 	RenderFullTextureWrap(frame, position, targetSize);
 }
 
-void Player::OnCollision() {
+void Player::OnCollision() noexcept {
 	lives -= 1;
 }
 
@@ -66,7 +66,7 @@ void Projectile::Render(const Resources& res) const noexcept {
 	RenderFullTextureWrap(res.laserTexture, position, targetSize);
 }
 
-void Projectile::OnCollision() {
+void Projectile::OnCollision() noexcept {
 	queueDelete = true;
 }
 
@@ -87,7 +87,7 @@ void Wall::Render(const Resources& res) const noexcept {
 	DrawText(std::format("{}", health).c_str(), position.x + offset.x, position.y + offset.y, fontsSize, RED);	// TODO Make a cast-wrapper in common.h
 }
 
-void Wall::OnCollision() {
+void Wall::OnCollision() noexcept {
 	health -= 1;
 	if (health < 1) {
 		queueDelete = true;
@@ -116,6 +116,6 @@ void Alien::Render(const Resources& res) const noexcept {
 	RenderFullTextureWrap(res.alienTexture, position, targetSize);
 }
 
-void Alien::OnCollision() {
+void Alien::OnCollision() noexcept {
 	queueDelete = true;
 }
