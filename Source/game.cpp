@@ -50,7 +50,7 @@ void Game::CheckEndConditions() noexcept {
 
 	auto isAlienBelowPlayer = [this](const Alien& alien) { return alien.GetPosition().y > player.GetPosition().y; };
 
-	if (IsKeyReleased(KEY_Q) || player.lives < 1 || std::any_of(Aliens.begin(), Aliens.end(), isAlienBelowPlayer)) {
+	if (IsKeyReleased(KEY_Q) || player.IsDead() || std::any_of(Aliens.begin(), Aliens.end(), isAlienBelowPlayer)) {
 		transitionTo(SceneId::EndScreen);
 	}
 }
@@ -61,7 +61,7 @@ void Game::ApplyCollisions() {
 			CheckAndCollide(proj, wall);					// TODO Allow passing a vector to simplify further
 		}
 
-		if (proj.fromPlayer) {
+		if (proj.IsFromPlayer()) {
 			for (Alien& alien : Aliens) {
 				CheckAndCollide(proj, alien);
 			}
@@ -108,8 +108,8 @@ void Game::Render() const noexcept {
 	static constexpr int fontSize = 40;
 	static constexpr Vector2 scorePos = { 50, 20 };
 	static constexpr Vector2 hpPos = { 50, 70 };
-	DrawText(std::format("Score: {}", leaderboard->GetScore()).c_str(), scorePos.x, scorePos.y, fontSize, YELLOW);
-	DrawText(std::format("Lives: {}", player.lives).c_str(),			hpPos.x,    hpPos.y,    fontSize, YELLOW);
+	DrawText(std::format("Score: {}", leaderboard->GetScore()).c_str(), scorePos.x, scorePos.y, fontSize, YELLOW);	// TODO Make cast-wrapper in common.h
+	DrawText(std::format("Lives: {}", player.GetLives()).c_str(),		hpPos.x,    hpPos.y,    fontSize, YELLOW);	// TODO Make cast-wrapper in common.h
 
 	const Resources& res = *resources;
 	player.Render(res);

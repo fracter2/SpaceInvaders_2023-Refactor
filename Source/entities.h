@@ -62,98 +62,103 @@ void CheckAndCollide(IsCollisionLine auto& line, IsCollisionCircle auto& circle)
 
 // Entity types
 
-struct Player
+class Player
 {											// TODO Make into class, keep constructor, Render() and Update() public
 public:
 	Player() noexcept;
 	void Update();
 	void Render(const Resources& res) const noexcept;
 
-	static constexpr float speed = 7;
-	static constexpr float player_y_offset = 70.0f;
-
-	int lives = 3;			// TODO Make private
-
-	// IsCollisionCircle concept
+	// -- IsCollisionCircle concept --
 	void OnCollision() noexcept;
 	inline Vector2 GetPosition() const noexcept { return position; }
 	inline constexpr float GetRadius() const noexcept { return 50; }
 	inline constexpr bool IsQueuedForDelete() const noexcept { return false; }
+	// --
+
+	inline bool IsDead() const noexcept { return lives <= 0; }
+	inline int GetLives() const noexcept { return lives; }
+
+	static constexpr float speed = 7;
+	static constexpr float player_y_offset = 70.0f;
 
 private:
 	Vector2 position;
+	int lives = 3;
 };
 static_assert(IsCollisionCircle<Player>);
 
 
-struct Projectile						// TODO Consider moving to it's own file
+class Projectile						// TODO Consider moving to it's own file and make a class
 {
 public:
 	Projectile(Vector2 pos, Vector2 direction, bool fromPlayer) noexcept;
 	void Update();
 	void Render(const Resources& res) const noexcept;
 
-	static constexpr float speed = 15;
-	static constexpr Vector2 lineStartOffset = { 0, 15 };
-	static constexpr Vector2 lineEndOffset = { 0, -15 };
-
-	Vector2 direction = { 0, 0 };
-	bool fromPlayer = false;
-
-	// IsCollisionLine concept
+	// -- IsCollisionLine concept -- 
 	void OnCollision() noexcept;
 	inline Vector2 getLineStart() const { return Vector2Add(position, lineStartOffset); }	// TODO Add Vector2 '+' overload in common.h
 	inline Vector2 getLineEnd() const	{ return Vector2Add(position, lineEndOffset); }
 	inline constexpr bool IsQueuedForDelete() const noexcept { return queueDelete; } 
+	// -- 
+
+	inline bool IsFromPlayer() const noexcept { return fromPlayer; }
+
+	static constexpr float speed = 15;
+	static constexpr Vector2 lineStartOffset = { 0, 15 };
+	static constexpr Vector2 lineEndOffset = { 0, -15 };
 
 private:
 	Vector2 position = { 0, 0 };
+	Vector2 direction = { 0, 0 };
+	bool fromPlayer = false;
 	bool queueDelete = false;
 };
 static_assert(IsCollisionLine<Projectile>);
 
 
-struct Wall			// TODO Make class, is invariant as health corelates to active
+class Wall			// TODO Make class, is invariant as health corelates to active
 {
 public:
 	Wall(Vector2 pos) noexcept;								// TODO Make excplicit (single-argument constructors should be)
 	void Render(const Resources& res) const noexcept;
 
-	int health = 50;		
-
-	// IsCollisionCircle concept
+	// -- IsCollisionCircle concept -- 
 	void OnCollision() noexcept;
 	inline Vector2 GetPosition() const noexcept { return position; }
 	inline constexpr float GetRadius() const noexcept { return 60; }
 	inline constexpr bool IsQueuedForDelete() const noexcept { return queueDelete; }
+	// -- 
 
 private:
 	Vector2	position;
+	int health = 50;		
 	bool queueDelete = false;
 };
 static_assert(IsCollisionCircle<Wall>);
 
 
-struct Alien
+class Alien
 {
 public:
 	Alien(Vector2 pos) noexcept;							// TODO Make excplicit (single-argument constructors should be)
 	void Update();
 	void Render(const Resources& res) const noexcept;
 
-	static constexpr int speed = 2;
-	static constexpr int heightChangeOnBorderHit = 50;
-
-	bool moveRight = true;				// TODO Rename to clarify it's a variable ("movingRight" or similar) as it sounds like an action (func-like)
-
-	// IsCollisionCircle concept
+	// -- IsCollisionCircle concept --
 	void OnCollision() noexcept;
 	inline Vector2 GetPosition() const noexcept { return position; }
 	inline constexpr float GetRadius() const noexcept { return 30; }
 	inline constexpr bool IsQueuedForDelete() const noexcept { return queueDelete; }
+	// -- 
+
+	static constexpr int speed = 2;
+	static constexpr int heightChangeOnBorderHit = 50;
 
 private:
 	Vector2 position;
+	bool moveRight = true;				// TODO Rename to clarify it's a variable ("movingRight" or similar) as it sounds like an action (func-like)
 	bool queueDelete = false;
 };
 static_assert(IsCollisionCircle<Alien>);
