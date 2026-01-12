@@ -3,6 +3,7 @@
 #include <iostream>
 
 bool Leaderboard::CheckNewHighScore() const {					// TODO Rename to "isNewHighScore"
+	if (stats.empty())						{ return true; }
 	if (currentScore > stats.back().score)	{ return true; }
 
 	return false;
