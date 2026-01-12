@@ -18,7 +18,7 @@ Game::Game(const std::function<void(SceneId)>& transitionFunc, Leaderboard& lb, 
 {
 	SpawnWalls();
 	SpawnAliens();
-	leaderboard->currentScore = 0;
+	leaderboard->ResetScore();
 }
 
 void Game::Update() noexcept {
@@ -76,7 +76,7 @@ void Game::ApplyCollisions() {
 void Game::UpdateScore() {
 	for (Alien& alien : Aliens) {
 		if (!alien.active) { 
-			leaderboard->currentScore += 100; 
+			leaderboard->AddScore(100); 
 		}		
 	}
 }
@@ -109,8 +109,8 @@ void Game::Render() const noexcept {
 	static constexpr int fontSize = 40;
 	static constexpr Vector2 scorePos = { 50, 20 };
 	static constexpr Vector2 hpPos = { 50, 70 };
-	DrawText(std::format("Score: {}", leaderboard->currentScore).c_str(), scorePos.x, scorePos.y, fontSize, YELLOW);
-	DrawText(std::format("Lives: {}", player.lives).c_str(),			  hpPos.x,    hpPos.y,    fontSize, YELLOW);
+	DrawText(std::format("Score: {}", leaderboard->GetScore()).c_str(), scorePos.x, scorePos.y, fontSize, YELLOW);
+	DrawText(std::format("Lives: {}", player.lives).c_str(),			hpPos.x,    hpPos.y,    fontSize, YELLOW);
 
 	const Resources& res = *resources;
 	player.Render(res);

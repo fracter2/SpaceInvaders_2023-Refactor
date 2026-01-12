@@ -12,15 +12,19 @@ public:
 		int score;
 	};
 
-	int currentScore = 0;						// TODO Refactor away, make funcs use args instead (Doesn't make sense to keep this here, needs to be kept track off)
+	void AddScore(int score) noexcept { currentScore += score; }
+	void ResetScore() noexcept { currentScore = 0; }
+	[[nodiscard("why get if u don use? hm?")]] int GetScore() const noexcept { return currentScore; }
 	[[nodiscard("why get if u don use? hm?")]] const std::vector<Entry>& const GetStats() const noexcept { return stats; }
 
 	bool IsNewHighscore() const noexcept;
-	void InsertNewHighScore(std::string_view name) noexcept;
+	void InsertNewHighScore(std::string_view name) noexcept;		// TODO Rename to "PushAndResetNewScore" or "FlushNewScore" or "SubmitScore()"
 
 	static constexpr size_t maxSize = 5;
 
 private:
+	int currentScore = 0;
+
 	// TODO Consider replacing with std::inplace_vector
 	// TODO Move stats initialization to some "example" or "fake player scores"  
 	// to separate implementation details from filler

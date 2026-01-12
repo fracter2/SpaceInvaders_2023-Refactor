@@ -7,7 +7,7 @@ EndScreen::EndScreen(const std::function<void(SceneId)>& transitionFunc, Leaderb
 	: transitionTo(transitionFunc) 
 	, leaderboard(&lb)
 {
-	if (leaderboard->IsNewHighscore()) {
+	if (leaderboard->IsNewHighscore()) {		// TODO Should this be an assert? to enfore only one correct order-of-transitions
 		transitionTo(SceneId::Highscore);
 	}
 }

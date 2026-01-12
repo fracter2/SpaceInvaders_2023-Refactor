@@ -43,7 +43,7 @@ void HighscoreScene::Update() noexcept
 {
 	if (name.size() > 0 && IsKeyReleased(KEY_ENTER)) {
 		leaderboard->InsertNewHighScore(name);
-		leaderboard->currentScore = 0;
+		leaderboard->ResetScore();
 		transitionTo(SceneId::EndScreen);
 		return;
 	}
