@@ -11,14 +11,14 @@
 
 template<typename T>
 concept CanBeActive = requires (T a) {
-	{ a.active } -> std::_Boolean_testable;					// TODO Consider making it a "isActive()" func to allow private
-};															// TODO Rename it queueFree() and IsQueuedFree()
+	{ a.IsQueuedForDelete() } -> std::_Boolean_testable;
+};
 
 template<typename T> requires CanBeActive<T>
 void ClearInactive(std::vector<T>& vec) {					// TODO Consider noexcept
 	vec.erase(
 		std::remove_if(vec.begin(), vec.end(),
-			[](const T e) { return !e.active; }),
+			[](const T e) { return e.IsQueuedForDelete(); }),
 		vec.end()
 	);
 }
@@ -56,7 +56,7 @@ void CheckAndCollide(IsCollisionLine auto& line, IsCollisionCircle auto& circle)
 
 // Entity types
 
-struct Player								// TODO Consider moving to it's own file
+struct Player
 {											// TODO Make into class, keep constructor, Render() and Update() public
 public:
 	Player() noexcept;
@@ -71,7 +71,7 @@ public:
 	// IsCollisionCircle concept
 	void GetPewd();
 	static constexpr float radius = 50;
-	static constexpr bool active = true;	// NOTE only here to satisfy concept IsCollisionCircle
+	constexpr bool IsQueuedForDelete() const noexcept { return false; }
 	Vector2 position;
 };
 static_assert(IsCollisionCircle<Player>);
@@ -93,10 +93,13 @@ public:
 
 	// IsCollisionLine concept
 	void GetPewd();
-	inline Vector2 getLineStart() const { return Vector2Add(position, lineStartOffset); }	// TODO Consider adding Vector2 '+' overload in common.h
-	inline Vector2 getLineEnd() const { return Vector2Add(position, lineEndOffset); }
-	bool active = true;						// TODO Cconsider renaming to queueDelete
+	inline Vector2 getLineStart() const { return Vector2Add(position, lineStartOffset); }	// TODO Add Vector2 '+' overload in common.h
+	inline Vector2 getLineEnd() const	{ return Vector2Add(position, lineEndOffset); }
+	inline constexpr bool IsQueuedForDelete() const noexcept { return queueDelete; } 
 	Vector2 position = { 0, 0 };			// TODO Remove default init, to ephasise constructor more
+
+private:
+	bool queueDelete = false;
 };
 static_assert(IsCollisionLine<Projectile>);
 
@@ -112,8 +115,11 @@ public:
 	// IsCollisionCircle concept
 	void GetPewd();
 	static constexpr int radius = 60;
-	bool	active = true;
+	inline constexpr bool IsQueuedForDelete() const noexcept { return queueDelete; }
 	Vector2	position;
+
+private:
+	bool queueDelete = false;
 };
 static_assert(IsCollisionCircle<Wall>);
 
@@ -133,7 +139,10 @@ public:
 	// IsCollisionCircle concept
 	void GetPewd();
 	static constexpr float radius = 30;
-	bool active = true;
+	inline constexpr bool IsQueuedForDelete() const noexcept { return queueDelete; }
 	Vector2 position = { 0, 0 };
+
+private:
+	bool queueDelete = false;
 };
 static_assert(IsCollisionCircle<Alien>);

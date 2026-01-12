@@ -74,7 +74,7 @@ void Game::ApplyCollisions() {
 
 void Game::UpdateScore() {
 	for (Alien& alien : Aliens) {
-		if (!alien.active) { 
+		if (alien.IsQueuedForDelete()) { 
 			leaderboard->AddScore(100); 
 		}		
 	}

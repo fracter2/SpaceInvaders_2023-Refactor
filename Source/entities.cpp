@@ -57,7 +57,7 @@ void Projectile::Update() { // TODO Rename to "move" or similar. Or move all che
 
 	static constexpr float killHeight = 1500;
 	if (position.y < 0.0f || position.y > killHeight) {
-		active = false;
+		queueDelete = true;
 	}
 }
 
@@ -67,7 +67,7 @@ void Projectile::Render(const Resources& res) const noexcept {
 }
 
 void Projectile::GetPewd() {
-	active = false;
+	queueDelete = true;
 }
 
 // WALL
@@ -90,7 +90,7 @@ void Wall::Render(const Resources& res) const noexcept {
 void Wall::GetPewd() {
 	health -= 1;
 	if (health < 1) {
-		active = false;
+		queueDelete = true;
 	}
 }
 
@@ -117,5 +117,5 @@ void Alien::Render(const Resources& res) const noexcept {
 }
 
 void Alien::GetPewd() {
-	active = false;
+	queueDelete = true;
 }
