@@ -6,8 +6,8 @@
 // Local helper func
 
 void RenderFullTextureWrap(const Texture2D& texture, Vector2 position, Vector2 size) {
-	const Rectangle sourceRect = { 0, 0, (float)texture.width, (float)texture.height };					// TODO Consider making a get func in res
-	const Rectangle destinationRect = { position.x, position.y, size.x, size.y, };
+	const Rectangle sourceRect = { 0, 0, (float)texture.width, (float)texture.height };					// TODO Make a getter in res
+	const Rectangle destinationRect = { position.x, position.y, size.x, size.y, };						// TODO Make a convenience constructor in common.h
 	const Vector2 originOffset = { size.x / 2, size.y / 2 };
 	DrawTexturePro(texture, sourceRect, destinationRect, originOffset, 0, WHITE);
 }
