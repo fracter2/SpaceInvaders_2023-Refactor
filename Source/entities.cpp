@@ -22,7 +22,7 @@ Player::Player() noexcept {
 
 // TODO Move all input checks together in here or in a separate func
 // TODO Rename to "move" or similar
-void Player::Update() {
+void Player::Update() noexcept {
 	int direction = IsKeyDown(KEY_RIGHT) - IsKeyDown(KEY_LEFT);
 	position.x += speed * direction;
 
@@ -52,7 +52,7 @@ Projectile::Projectile(Vector2 pos, Vector2 direction, bool fromPlayer) noexcept
 {
 }
 
-void Projectile::Update() { // TODO Rename to "move" or similar. Or move all checks here
+void Projectile::Update() noexcept { // TODO Rename to "move" or similar. Or move all checks here
 	position = Vector2Add(position, direction * speed);
 
 	static constexpr float killHeight = 1500;
@@ -101,7 +101,7 @@ Alien::Alien(Vector2 pos) noexcept
 {
 }
 
-void Alien::Update() {
+void Alien::Update() noexcept {
 	position.x += moveRight ? speed : -speed;
 
 	if (position.x <= 0 || position.x >= GetScreenWidth()) {

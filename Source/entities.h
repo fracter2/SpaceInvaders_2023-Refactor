@@ -66,7 +66,7 @@ class Player
 {											// TODO Make into class, keep constructor, Render() and Update() public
 public:
 	Player() noexcept;
-	void Update();
+	void Update() noexcept;
 	void Render(const Resources& res) const noexcept;
 
 	// -- IsCollisionCircle concept --
@@ -93,13 +93,13 @@ class Projectile						// TODO Consider moving to it's own file and make a class
 {
 public:
 	Projectile(Vector2 pos, Vector2 direction, bool fromPlayer) noexcept;
-	void Update();
+	void Update() noexcept;
 	void Render(const Resources& res) const noexcept;
 
 	// -- IsCollisionLine concept -- 
 	void OnCollision() noexcept;
-	inline Vector2 getLineStart() const { return Vector2Add(position, lineStartOffset); }	// TODO Add Vector2 '+' overload in common.h
-	inline Vector2 getLineEnd() const	{ return Vector2Add(position, lineEndOffset); }
+	inline Vector2 getLineStart() const noexcept { return Vector2Add(position, lineStartOffset); }	// TODO Add Vector2 '+' overload in common.h
+	inline Vector2 getLineEnd() const noexcept	{ return Vector2Add(position, lineEndOffset); }
 	inline constexpr bool IsQueuedForDelete() const noexcept { return queueDelete; } 
 	// -- 
 
@@ -121,7 +121,7 @@ static_assert(IsCollisionLine<Projectile>);
 class Wall			// TODO Make class, is invariant as health corelates to active
 {
 public:
-	Wall(Vector2 pos) noexcept;								// TODO Make excplicit (single-argument constructors should be)
+	explicit Wall(Vector2 pos) noexcept;
 	void Render(const Resources& res) const noexcept;
 
 	// -- IsCollisionCircle concept -- 
@@ -142,8 +142,8 @@ static_assert(IsCollisionCircle<Wall>);
 class Alien
 {
 public:
-	Alien(Vector2 pos) noexcept;							// TODO Make excplicit (single-argument constructors should be)
-	void Update();
+	explicit Alien(Vector2 pos) noexcept;
+	void Update() noexcept;
 	void Render(const Resources& res) const noexcept;
 
 	// -- IsCollisionCircle concept --
