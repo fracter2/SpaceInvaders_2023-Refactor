@@ -10,9 +10,7 @@ bool Leaderboard::IsNewHighscore() const {
 }
 
 void Leaderboard::InsertNewHighScore(std::string name) {		// TODO Consider string_view
-	Entry newData;									// TODO Remove 2step init
-	newData.name = name;
-	newData.score = currentScore;
+	Entry newData = { name, currentScore };
 
 	for (int i = 0; i < stats.size(); i++) {						// TODO Consider replacing with an algorithm w lambda
 		if (newData.score > stats[i].score) {
@@ -59,4 +57,10 @@ void Leaderboard::SaveLeaderboard() {							// TODO Consider removing, used once
 	// WRITE ARRAY DATA INTO FILE
 
 	// CLOSE FILE
+}
+
+Leaderboard::Entry::Entry(std::string_view name, int score) noexcept
+	: name(name)
+	, score(score)
+{
 }

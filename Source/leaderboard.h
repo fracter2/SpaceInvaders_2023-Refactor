@@ -1,15 +1,16 @@
 #pragma once
 #include <string>
+#include <string_view>
 #include <vector>
 
 
 class Leaderboard {
 public:
 	struct Entry {
+		Entry(std::string_view name, int score) noexcept;
 		std::string name;
 		int score;
 	};
-
 
 	int currentScore = 0;						// TODO Refactor away, make funcs use args instead (Doesn't make sense to keep this here, needs to be kept track off)
 	const std::vector<Entry>& const GetStats() const noexcept {	return stats; } // TODO Add a nodiscard
