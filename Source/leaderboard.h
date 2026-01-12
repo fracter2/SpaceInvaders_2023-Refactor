@@ -12,16 +12,15 @@ public:
 		int score;
 	};
 
+	explicit Leaderboard(const std::vector<Entry>& stats) noexcept;
+	explicit Leaderboard(std::vector<Entry>&& stats) noexcept;
+
+	bool IsNewHighscore() const noexcept;
+	void SubmitCurrentScore(std::string_view name) noexcept;
 	void AddScore(int score) noexcept { currentScore += score; }
 	void ResetScore() noexcept { currentScore = 0; }
 	[[nodiscard("why get if u don use? hm?")]] int GetScore() const noexcept { return currentScore; }
 	[[nodiscard("why get if u don use? hm?")]] const std::vector<Entry>& const GetStats() const noexcept { return stats; }
-
-	bool IsNewHighscore() const noexcept;
-	void SubmitCurrentScore(std::string_view name) noexcept;
-
-	explicit Leaderboard(const std::vector<Entry>& stats) noexcept;
-	explicit Leaderboard(std::vector<Entry>&& stats) noexcept;
 
 	static constexpr size_t maxSize = 5;
 
