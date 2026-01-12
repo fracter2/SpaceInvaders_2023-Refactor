@@ -42,8 +42,7 @@ HighscoreScene::HighscoreScene(const std::function<void(SceneId)>& transitionFun
 void HighscoreScene::Update() noexcept
 {
 	if (name.size() > 0 && IsKeyReleased(KEY_ENTER)) {
-		leaderboard->InsertNewHighScore(name);
-		leaderboard->ResetScore();
+		leaderboard->SubmitCurrentScore(name);
 		transitionTo(SceneId::EndScreen);
 		return;
 	}

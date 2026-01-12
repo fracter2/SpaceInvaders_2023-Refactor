@@ -18,7 +18,7 @@ public:
 	[[nodiscard("why get if u don use? hm?")]] const std::vector<Entry>& const GetStats() const noexcept { return stats; }
 
 	bool IsNewHighscore() const noexcept;
-	void InsertNewHighScore(std::string_view name) noexcept;		// TODO Rename to "PushAndResetNewScore" or "FlushNewScore" or "SubmitScore()"
+	void SubmitCurrentScore(std::string_view name) noexcept;
 
 	static constexpr size_t maxSize = 5;
 

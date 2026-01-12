@@ -11,7 +11,8 @@ bool Leaderboard::IsNewHighscore() const noexcept {
 	return false;
 }
 
-void Leaderboard::InsertNewHighScore(std::string_view name) noexcept {
+// NOTE Resets current score afterwards. 
+void Leaderboard::SubmitCurrentScore(std::string_view name) noexcept {
 	Entry newData = { name, currentScore };
 
 	for (auto it = stats.begin(); it != stats.end(); ++it) {
@@ -23,6 +24,8 @@ void Leaderboard::InsertNewHighScore(std::string_view name) noexcept {
 		stats.insert(it, newData);
 		break;
 	}
+
+	ResetScore();
 }
 
 Leaderboard::Entry::Entry(std::string_view name, int score) noexcept
