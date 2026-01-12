@@ -45,14 +45,14 @@ concept IsCollisionLine = requires (T t) {
 	{ t.getLineEnd() } -> std::convertible_to<Vector2>;
 };
 
-bool IsColliding(const IsCollisionLine auto& line, const IsCollisionCircle auto& circle) {	// TODO Consider noexcept
+bool IsColliding(const IsCollisionLine auto& line, const IsCollisionCircle auto& circle) noexcept {
 	if (line.IsQueuedForDelete() || circle.IsQueuedForDelete()) {
 		return false;
 	}
 	return CheckCollisionCircleLine(circle.GetPosition(), circle.GetRadius(), line.getLineStart(), line.getLineEnd());
 }
 
-void CheckAndCollide(IsCollisionLine auto& line, IsCollisionCircle auto& circle) { 			// TODO Consider noexcept
+void CheckAndCollide(IsCollisionLine auto& line, IsCollisionCircle auto& circle) noexcept {
 	if (IsColliding(line, circle)) {
 		line.OnCollision();
 		circle.OnCollision();
