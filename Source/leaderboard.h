@@ -20,7 +20,7 @@ public:
 	void AddScore(int score) noexcept { currentScore += score; }
 	void ResetScore() noexcept { currentScore = 0; }
 	[[nodiscard("why get if u don use? hm?")]] int GetScore() const noexcept { return currentScore; }
-	[[nodiscard("why get if u don use? hm?")]] const std::vector<Entry>& const GetStats() const noexcept { return stats; }
+	[[nodiscard("why get if u don use? hm?")]] const std::vector<Entry>& GetStats() const noexcept { return stats; }
 
 	static constexpr size_t maxSize = 5;
 
