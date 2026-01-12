@@ -10,7 +10,7 @@ bool Leaderboard::IsNewHighscore() const {
 }
 
 void Leaderboard::InsertNewHighScore(std::string name) {		// TODO Consider string_view
-	FinishedGameScore newData;									// TODO Remove 2step init
+	Entry newData;									// TODO Remove 2step init
 	newData.name = name;
 	newData.score = currentScore;
 
