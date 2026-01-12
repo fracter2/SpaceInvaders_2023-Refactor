@@ -35,11 +35,9 @@ int main(void)
 {    
 	App app = App();
 
-	// TODO Consider moving this into App::Run() or similar. To allow internal error handling
 	while (!WindowShouldClose())	// Detect window close button or ESC key
 	{
 		app.Update();
-	  
 		app.Render();
 	}
 
