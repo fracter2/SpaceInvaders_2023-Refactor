@@ -22,6 +22,8 @@ public:
 	void LoadLeaderboard();						// TODO Consider implementing or removing (unused)
 	void SaveLeaderboard();						// TODO Finish implementing this or remove (used but incomplete)
 
+	static constexpr size_t maxSize = 5;
+
 private:
 	// TODO Move stats initialization to some "example" or "fake player scores"  
 	// to separate implementation details from filler

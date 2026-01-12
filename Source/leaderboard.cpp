@@ -1,6 +1,19 @@
 #include "leaderboard.h"
 #include <fstream>
 #include <iostream>
+#include <cassert>
+
+// Helper funcs
+
+template <typename T>
+void TrimVecToSize(std::vector<T>& vec, int size) noexcept {
+	assert(size > 0);
+	while (vec.size() > size) {
+		vec.pop_back();
+	}
+}
+
+// Leaderboard
 
 bool Leaderboard::IsNewHighscore() const {
 	if (stats.empty())						{ return true; }
@@ -9,20 +22,17 @@ bool Leaderboard::IsNewHighscore() const {
 	return false;
 }
 
-void Leaderboard::InsertNewHighScore(std::string_view name) {		// TODO Consider string_view
+void Leaderboard::InsertNewHighScore(std::string_view name) {
 	Entry newData = { name, currentScore };
 
 	for (int i = 0; i < stats.size(); i++) {						// TODO Consider replacing with an algorithm w lambda
 		if (newData.score > stats[i].score) {
-
-			stats.insert(stats.begin() + i, newData);			// Can this be done in an for-each loop? TRY
-
-			stats.pop_back();									// TODO Consider removing. is this to limit size? then use an if(). Unclear.
-
-			i = stats.size();									// TODO Replace with return
-
+			stats.insert(stats.begin() + i, newData);				// Can this be done in an for-each loop? TRY
+			break;
 		}
 	}
+
+	TrimVecToSize(stats, maxSize);
 }
 
 void Leaderboard::LoadLeaderboard() {							// TODO Consider removing (unused) Move to separate file along with SaveLeaderboard()
