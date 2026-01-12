@@ -30,7 +30,7 @@ void Player::Update() noexcept {
 }
 
 void Player::Render(const Resources& res) const noexcept {
-	static constexpr float timePerFrame = 0.4;
+	static constexpr float timePerFrame = 0.4f;
 	const int i = (int)(GetTime() / timePerFrame) % res.shipTextures.size();
 	const auto& frame = res.shipTextures[i];
 
@@ -104,8 +104,8 @@ Alien::Alien(Vector2 pos) noexcept
 void Alien::Update() noexcept {
 	position.x += moveRight ? speed : -speed;
 
-	if (position.x <= 0 || position.x >= GetScreenWidth()) {
-		position.x = Clamp(position.x, 0, GetScreenWidth());
+	if (position.x <= 0 || position.x >= (float)GetScreenWidth()) {		// TODO Consider a wrapper in comon.h
+		position.x = Clamp(position.x, 0, (float)GetScreenWidth());		// TODO Consider a wrapper in comon.h
 		position.y += heightChangeOnBorderHit;
 		moveRight = !moveRight;
 	}

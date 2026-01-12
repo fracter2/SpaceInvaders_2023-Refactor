@@ -106,8 +106,8 @@ void Game::Render() const noexcept {
 	background.Render(player.GetPosition().x);
 	
 	static constexpr int fontSize = 40;
-	static constexpr Vector2 scorePos = { 50, 20 };
-	static constexpr Vector2 hpPos = { 50, 70 };
+	static constexpr Vector2 scorePos = { 50.f, 20.f };
+	static constexpr Vector2 hpPos = { 50.f, 70.f };
 	DrawText(std::format("Score: {}", leaderboard->GetScore()).c_str(), scorePos.x, scorePos.y, fontSize, YELLOW);	// TODO Make cast-wrapper in common.h
 	DrawText(std::format("Lives: {}", player.GetLives()).c_str(),		hpPos.x,    hpPos.y,    fontSize, YELLOW);	// TODO Make cast-wrapper in common.h
 
@@ -122,9 +122,9 @@ void Game::Render() const noexcept {
 void Game::SpawnAliens() {								// TODO Consider making this a free func since it's only used once
 	static constexpr int formationWidth = 8;
 	static constexpr int formationHeight = 5;
-	static constexpr int alienSpacing = 80;
-	static constexpr int formationX = 550;
-	static constexpr int formationY = 50;
+	static constexpr float alienSpacing = 80.f;
+	static constexpr float formationX = 550.f;
+	static constexpr float formationY = 50.f;
 
 	for (int row = 0; row < formationHeight; row++) {
 		for (int col = 0; col < formationWidth; col++) {
@@ -159,6 +159,7 @@ Star::Star(Vector2 pos, float size) noexcept
 
 void Star::Render(float offset) const noexcept {
 	DrawCircle((int)position.x + offset, (int)position.y, size, GRAY);	// TODO Make sure that this is noexcept
+																		// TODO Make a wrapper in common.h
 
 	// TODO Test / assert if size is negative (does it crash? use abs()?)
 	// TODO If it crashes, make sure it's still noexcept by verifying size, making this an invariant (class)
@@ -168,11 +169,11 @@ Background::Background(int starAmount) {
 	for (int i = 0; i < starAmount; i++)
 	{
 		Vector2 pos = { 
-			GetRandomValue(-150, GetScreenWidth() + 150),		// TODO Clarify magic numbers
-			GetRandomValue(0, GetScreenHeight())
+			(float)GetRandomValue(-150, GetScreenWidth() + 150),		// TODO Clarify magic numbers
+			(float)GetRandomValue(0, GetScreenHeight())
 		};
 
-		float size = GetRandomValue(1, 4) / 2;					// TODO Clarify magic numbers
+		float size = (float)GetRandomValue(1, 4) / 2;					// TODO Clarify magic numbers
 
 		Stars.push_back(Star(pos, size));
 	}
