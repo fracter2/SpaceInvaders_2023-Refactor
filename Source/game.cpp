@@ -93,8 +93,11 @@ void Game::AlienPewPew() {
 	if (shootTimer > 59) { //once per second
 		shootTimer = 0;
 
+		// NOTE Is this ok? Bounds-checking is redundant here since we're using % size
+		GSL_SUPPRESS(bounds.4) const Alien& randomAlien = Aliens[rand() % Aliens.size()];
+
 		static constexpr Vector2 spawnOffset = { 0, 60 };
-		const Alien& randomAlien = Aliens[rand() % Aliens.size()];				// TODO Check if there's a better way to do this with algorithm or else
+
 		const Vector2 pos = Vector2Add(randomAlien.GetPosition(), spawnOffset);
 
 		static constexpr Vector2 direction = { 0, 1 };

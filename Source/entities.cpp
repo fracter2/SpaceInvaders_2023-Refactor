@@ -1,4 +1,5 @@
 #include "entities.h"
+#include "gsl/gsl"
 
 #include <format>
 
@@ -31,9 +32,12 @@ void Player::Update() noexcept {
 
 void Player::Render(const Resources& res) const noexcept {
 	static constexpr float timePerFrame = 0.4f;
-	const int i = (int)(GetTime() / timePerFrame) % res.shipTextures.size();
-	const auto& frame = res.shipTextures[i];
 
+	const int i = (int)(GetTime() / timePerFrame) % res.shipTextures.size();
+
+	// NOTE Is this ok? Bounds-checking is redundant here since we're using % size
+	GSL_SUPPRESS(bounds.4) const auto& frame = res.shipTextures[i];
+	
 	static constexpr Vector2 targetSize = { 100, 100 };
 
 	RenderFullTextureWrap(frame, position, targetSize);

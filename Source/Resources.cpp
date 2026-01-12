@@ -1,6 +1,7 @@
 #include <cassert>
 
 #include "Resources.h"
+#include "gsl/assert"
 
 Resources::Resources()
 {
@@ -10,7 +11,8 @@ Resources::Resources()
 	barrierTexture = LoadTexture("./Assets/Barrier.png");
 	laserTexture = LoadTexture("./Assets/Laser.png");
 
-	shipTextures[0] = LoadTexture("./Assets/Ship1.png");
-	shipTextures[1] = LoadTexture("./Assets/Ship2.png");
-	shipTextures[2] = LoadTexture("./Assets/Ship3.png");
+	// NOTE We do not need bounds-checking because each file/index is selected manually
+	GSL_SUPPRESS(bounds.4) shipTextures[0] = LoadTexture("./Assets/Ship1.png");
+	GSL_SUPPRESS(bounds.4) shipTextures[1] = LoadTexture("./Assets/Ship2.png");
+	GSL_SUPPRESS(bounds.4) shipTextures[2] = LoadTexture("./Assets/Ship3.png");
 }
