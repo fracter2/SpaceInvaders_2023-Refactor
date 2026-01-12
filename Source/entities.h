@@ -29,19 +29,19 @@ void ClearInactive(std::vector<T>& vec) {					// TODO Consider noexcept
 }
 
 template<typename T> 
-concept IsCollisionCircle = requires (T a) {
+concept IsCollisionCircle = requires (T t) {
 	requires CanBeActive<T>;
 	requires CanCollide<T>;
-	{ a.position } -> std::convertible_to<Vector2>;			// TODO Consider making func to allow private
-	{ a.radius } -> std::convertible_to<float>;				// TODO Consider making func to alllow private
+	{ t.position } -> std::convertible_to<Vector2>;			// TODO Consider making func to allow private
+	{ t.radius } -> std::convertible_to<float>;				// TODO Consider making func to alllow private
 };
 
 template <typename T>
-concept IsCollisionLine = requires (T a) {
+concept IsCollisionLine = requires (T t) {
 	requires CanBeActive<T>;
 	requires CanCollide<T>;
-	{ a.getLineStart() } -> std::convertible_to<Vector2>;
-	{ a.getLineEnd() } -> std::convertible_to<Vector2>;
+	{ t.getLineStart() } -> std::convertible_to<Vector2>;
+	{ t.getLineEnd() } -> std::convertible_to<Vector2>;
 };
 
 bool IsColliding(const IsCollisionLine auto& line, const IsCollisionCircle auto& circle) {	// TODO Consider noexcept
