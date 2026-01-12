@@ -7,7 +7,7 @@ EndScreen::EndScreen(const std::function<void(SceneId)>& transitionFunc, Leaderb
 	: transitionTo(transitionFunc) 
 	, leaderboard(&lb)
 {
-	if (leaderboard->CheckNewHighScore()) {
+	if (leaderboard->IsNewHighscore()) {
 		transitionTo(SceneId::Highscore);
 	}
 }

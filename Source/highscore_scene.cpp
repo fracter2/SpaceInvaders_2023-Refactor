@@ -34,7 +34,7 @@ HighscoreScene::HighscoreScene(const std::function<void(SceneId)>& transitionFun
 	: transitionTo(transitionFunc)
 	, leaderboard(&lb)
 {
-	if (!leaderboard->CheckNewHighScore()) {
+	if (!leaderboard->IsNewHighscore()) {
 		transitionTo(SceneId::EndScreen);
 	}
 }

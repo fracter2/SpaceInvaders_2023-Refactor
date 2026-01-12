@@ -20,7 +20,7 @@ public:
 	int currentScore = 0;						// TODO Refactor away, make funcs use args instead (Doesn't make sense to keep this here, needs to be kept track off)
 	const std::vector<FinishedGameScore>& const GetStats() const noexcept {	return stats; } // TODO Add a nodiscard
 
-	bool CheckNewHighScore() const;				// TODO Rename to clarify, like "isHighScore()" or "justBeatHighScore()"
+	bool IsNewHighscore() const;				// TODO Rename to clarify, like "isHighScore()" or "justBeatHighScore()"
 
 	void InsertNewHighScore(std::string name);	// TODO Consider using string_view
 
