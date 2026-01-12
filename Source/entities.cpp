@@ -55,8 +55,8 @@ Projectile::Projectile(Vector2 pos, Vector2 direction, bool fromPlayer) noexcept
 void Projectile::Update() { // TODO Rename to "move" or similar. Or move all checks here
 	position = Vector2Add(position, direction * speed);
 
-	if (position.y < 0 || position.y > 1500)		// TODO Clarify magic numbers
-	{
+	static constexpr float killHeight = 1500;
+	if (position.y < 0.0f || position.y > killHeight) {
 		active = false;
 	}
 }
