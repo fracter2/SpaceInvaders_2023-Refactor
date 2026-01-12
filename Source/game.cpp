@@ -161,7 +161,7 @@ Star::Star(Vector2 pos, float size) noexcept
 void Star::Render(float offset) const noexcept {
 	DrawCircle((int)position.x + offset, (int)position.y, size, GRAY);	// TODO Make sure that this is noexcept
 
-	// TODO Test / assert if size is negative (does it crash?)
+	// TODO Test / assert if size is negative (does it crash? use abs()?)
 	// TODO If it crashes, make sure it's still noexcept by verifying size, making this an invariant (class)
 }
 

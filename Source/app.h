@@ -7,15 +7,15 @@
 #include "leaderboard.h"
 #include "resources.h"
 
-class RaylibLoader {
+class RaylibLoader {								// TODO Consider a separate file for this
 public:
-	RaylibLoader(int screenWidth, int screenHeight, const char* title);
+	RaylibLoader(int screenWidth, int screenHeight, const char* title);		// TODO Obey the rule of 0/5
 	~RaylibLoader();
 };
 
 class App {
 public:
-	App(SceneId sceneId = SceneId::MainMenu);
+	App(SceneId sceneId = SceneId::MainMenu);		// TODO Make excplicit
 
 	void Update() noexcept;
 	void Render() const noexcept;

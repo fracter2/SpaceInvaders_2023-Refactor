@@ -104,7 +104,7 @@ static_assert(IsCollisionLine<Projectile>);
 struct Wall			// TODO Make class, is invariant as health corelates to active
 {
 public:
-	Wall(Vector2 pos) noexcept;
+	Wall(Vector2 pos) noexcept;								// TODO Make excplicit (single-argument constructors should be)
 	void Render(const Resources& res) const noexcept;
 
 	int health = 50;		
@@ -121,7 +121,7 @@ static_assert(IsCollisionCircle<Wall>);
 struct Alien
 {
 public:
-	Alien(Vector2 pos) noexcept;
+	Alien(Vector2 pos) noexcept;							// TODO Make excplicit (single-argument constructors should be)
 	void Update();
 	void Render(const Resources& res) const noexcept;
 

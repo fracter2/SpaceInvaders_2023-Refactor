@@ -25,7 +25,7 @@ public:
 struct Background	// TODO Consider moving to separate file
 {
 public:
-	Background(int starAmount);
+	Background(int starAmount);								// TODO Make excplicit (single-argument constructors should be)
 	void Render(const float player_x) const noexcept;
 
 	static constexpr float paralaxRatio = 15;
