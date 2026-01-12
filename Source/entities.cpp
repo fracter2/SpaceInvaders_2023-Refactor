@@ -3,7 +3,7 @@
 
 #include <format>
 
-// Local helper func
+// Local helper func			// TODO Wrap in a local namespace
 
 void RenderFullTextureWrap(const Texture2D& texture, Vector2 position, Vector2 size) {
 	const Rectangle sourceRect = { 0, 0, (float)texture.width, (float)texture.height };					// TODO Make a getter in res

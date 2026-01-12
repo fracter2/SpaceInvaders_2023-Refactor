@@ -1,5 +1,6 @@
 #include "highscore_scene.h"
 
+// Helper funcs								// TODO Wrap in a local namespace
 
 bool isValidKey(int key) noexcept {			// TODO Fix capitalization
 	return (key >= 32) && (key <= 125);		// TODO Clarify these numbers!!!
@@ -29,6 +30,7 @@ void RenderBlinkingUnderscore(const char* cString, int x, int y, int fontSize, i
 	}
 }
 
+// HighscoreScene
 
 HighscoreScene::HighscoreScene(const std::function<void(SceneId)>& transitionFunc, Leaderboard& lb) noexcept 
 	: transitionTo(transitionFunc)
