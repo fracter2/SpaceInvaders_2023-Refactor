@@ -77,15 +77,14 @@ Wall::Wall(Vector2 pos) noexcept
 {
 }
 
-void Wall::Render(const Resources& res) const noexcept { // TODO Make Texture2D&
+void Wall::Render(const Resources& res) const noexcept {
 	static constexpr Vector2 targetSize = { 200, 200 };
 	RenderFullTextureWrap(res.barrierTexture, position, targetSize);
 
 	// HP label
 	static constexpr Vector2 offset = { -21, 10 };
 	static constexpr int fontsSize = 40;
-	DrawText(std::format("{}", health).c_str(), position.x + offset.x, position.y + offset.y, fontsSize, RED);
-	// TODO Consider using DrawTextPro() to mirror above texture drawing. CON: prob not worth the text/effort when it already is aligned
+	DrawText(std::format("{}", health).c_str(), position.x + offset.x, position.y + offset.y, fontsSize, RED);	// TODO Make a cast-wrapper in common.h
 }
 
 void Wall::GetPewd() {
