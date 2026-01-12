@@ -1,7 +1,6 @@
 #include "game.h"
 #include "common.h"
 
-#include <iostream>
 #include <vector>
 #include <algorithm>
 #include <ranges>

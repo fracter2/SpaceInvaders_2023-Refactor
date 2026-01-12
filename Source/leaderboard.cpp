@@ -1,7 +1,4 @@
 #include "leaderboard.h"
-#include <fstream>
-#include <iostream>
-#include <cassert>
 
 
 bool Leaderboard::IsNewHighscore() const noexcept {

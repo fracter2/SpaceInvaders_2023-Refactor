@@ -1,7 +1,6 @@
 #include "entities.h"
 
-#include <algorithm>
-#include <iostream>
+#include <format>
 
 // Local helper func
 

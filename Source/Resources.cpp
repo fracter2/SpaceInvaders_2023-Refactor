@@ -1,5 +1,6 @@
-#include "Resources.h"
 #include <cassert>
+
+#include "Resources.h"
 
 Resources::Resources()
 {

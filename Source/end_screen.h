@@ -1,11 +1,9 @@
 #pragma once
 #include <functional>
-#include <string>
 
 #include "gsl/pointers"
 #include "scene.h"
 #include "leaderboard.h"
-#include "common.h"
 
 class EndScreen : public Scene {
 public:

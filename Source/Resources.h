@@ -1,6 +1,7 @@
 #pragma once
-#include "raylib.h"
 #include <vector>
+
+#include "raylib.h"
 
 struct Resources
 {

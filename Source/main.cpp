@@ -28,7 +28,7 @@
 // Refactor by Theodor Rydberg, for the final asignment of the "Modern c++" course 2025-2026
 
 
-#include "raylib.h"					// TODO Consider removing for brevity (already included from App.h)
+#include "raylib.h"
 #include "App.h"
 
 int main(void)
