@@ -16,11 +16,7 @@ public:
 	const std::vector<Entry>& const GetStats() const noexcept {	return stats; } // TODO Add a nodiscard
 
 	bool IsNewHighscore() const noexcept;
-
 	void InsertNewHighScore(std::string_view name) noexcept;
-
-	void LoadLeaderboard();						// TODO Consider implementing or removing (unused)
-	void SaveLeaderboard();						// TODO Finish implementing this or remove (used but incomplete)
 
 	static constexpr size_t maxSize = 5;
 
