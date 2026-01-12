@@ -13,7 +13,7 @@ public:
 	};
 
 	int currentScore = 0;						// TODO Refactor away, make funcs use args instead (Doesn't make sense to keep this here, needs to be kept track off)
-	const std::vector<Entry>& const GetStats() const noexcept {	return stats; } // TODO Add a nodiscard
+	[[nodiscard("why get if u don use? hm?")]] const std::vector<Entry>& const GetStats() const noexcept { return stats; }
 
 	bool IsNewHighscore() const noexcept;
 	void InsertNewHighScore(std::string_view name) noexcept;
