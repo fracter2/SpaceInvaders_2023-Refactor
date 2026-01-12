@@ -15,7 +15,7 @@ void Leaderboard::InsertNewHighScore(std::string name) {		// TODO Consider strin
 	for (int i = 0; i < stats.size(); i++) {						// TODO Consider replacing with an algorithm w lambda
 		if (newData.score > stats[i].score) {
 
-			stats.insert(stats.begin() + i, newData);
+			stats.insert(stats.begin() + i, newData);			// Can this be done in an for-each loop? TRY
 
 			stats.pop_back();									// TODO Consider removing. is this to limit size? then use an if(). Unclear.
 
