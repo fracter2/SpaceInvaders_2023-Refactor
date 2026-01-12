@@ -14,6 +14,11 @@ concept CanBeActive = requires (T a) {
 	{ a.IsQueuedForDelete() } -> std::_Boolean_testable;
 };
 
+template<typename T>
+concept CanCollide = requires (T c) {
+	{ c.OnCollision() };
+};
+
 template<typename T> requires CanBeActive<T>
 void ClearInactive(std::vector<T>& vec) {					// TODO Consider noexcept
 	vec.erase(
@@ -26,17 +31,17 @@ void ClearInactive(std::vector<T>& vec) {					// TODO Consider noexcept
 template<typename T> 
 concept IsCollisionCircle = requires (T a) {
 	requires CanBeActive<T>;
+	requires CanCollide<T>;
 	{ a.position } -> std::convertible_to<Vector2>;			// TODO Consider making func to allow private
 	{ a.radius } -> std::convertible_to<float>;				// TODO Consider making func to alllow private
-	{ a.GetPewd() };										// TODO Add to CanBeActive concept and rename to "Collidable"
 };
 
 template <typename T>
 concept IsCollisionLine = requires (T a) {
 	requires CanBeActive<T>;
+	requires CanCollide<T>;
 	{ a.getLineStart() } -> std::convertible_to<Vector2>;
 	{ a.getLineEnd() } -> std::convertible_to<Vector2>;
-	{ a.GetPewd() };
 };
 
 bool IsColliding(const IsCollisionLine auto& line, const IsCollisionCircle auto& circle) {	// TODO Consider noexcept
@@ -48,8 +53,8 @@ bool IsColliding(const IsCollisionLine auto& line, const IsCollisionCircle auto&
 
 void CheckAndCollide(IsCollisionLine auto& line, IsCollisionCircle auto& circle) { 			// TODO Consider noexcept
 	if (IsColliding(line, circle)) {
-		line.GetPewd();
-		circle.GetPewd();
+		line.OnCollision();
+		circle.OnCollision();
 	}
 }
 
@@ -69,7 +74,7 @@ public:
 	int lives = 3;
 
 	// IsCollisionCircle concept
-	void GetPewd();
+	void OnCollision();
 	static constexpr float radius = 50;
 	constexpr bool IsQueuedForDelete() const noexcept { return false; }
 	Vector2 position;
@@ -92,7 +97,7 @@ public:
 	bool fromPlayer = false;
 
 	// IsCollisionLine concept
-	void GetPewd();
+	void OnCollision();
 	inline Vector2 getLineStart() const { return Vector2Add(position, lineStartOffset); }	// TODO Add Vector2 '+' overload in common.h
 	inline Vector2 getLineEnd() const	{ return Vector2Add(position, lineEndOffset); }
 	inline constexpr bool IsQueuedForDelete() const noexcept { return queueDelete; } 
@@ -113,7 +118,7 @@ public:
 	int health = 50;		
 
 	// IsCollisionCircle concept
-	void GetPewd();
+	void OnCollision();
 	static constexpr int radius = 60;
 	inline constexpr bool IsQueuedForDelete() const noexcept { return queueDelete; }
 	Vector2	position;
@@ -137,7 +142,7 @@ public:
 	bool moveRight = true;				// TODO Rename to clarify it's a variable ("movingRight" or similar) as it sounds like an action (func-like)
 
 	// IsCollisionCircle concept
-	void GetPewd();
+	void OnCollision();
 	static constexpr float radius = 30;
 	inline constexpr bool IsQueuedForDelete() const noexcept { return queueDelete; }
 	Vector2 position = { 0, 0 };
