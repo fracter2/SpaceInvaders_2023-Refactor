@@ -8,8 +8,9 @@ Resources::Resources()
 								// TODO Consider throwing if it fails
 	alienTexture = LoadTexture("./Assets/Alien.png");
 	barrierTexture = LoadTexture("./Assets/Barrier.png");
-	shipTextures.push_back(LoadTexture("./Assets/Ship1.png"));
-	shipTextures.push_back(LoadTexture("./Assets/Ship2.png"));
-	shipTextures.push_back(LoadTexture("./Assets/Ship3.png"));
 	laserTexture = LoadTexture("./Assets/Laser.png");
+
+	shipTextures[0] = LoadTexture("./Assets/Ship1.png");
+	shipTextures[1] = LoadTexture("./Assets/Ship2.png");
+	shipTextures[2] = LoadTexture("./Assets/Ship3.png");
 }
