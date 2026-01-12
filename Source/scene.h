@@ -1,4 +1,4 @@
-#pragma once
+#pragma once		// TODO Consider making into #ifdef... type include guard (portability, recomended by cpp guidelines)
 
 // TODO Consider re-writing these as concepts to provide static-polymorphism 
 struct Scene {
