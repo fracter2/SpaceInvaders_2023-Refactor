@@ -25,7 +25,7 @@ void ClearInactive(std::vector<T>& vec) {					// TODO Consider noexcept
 
 template<typename T> 
 concept IsCollisionCircle = requires (T a) {
-	CanBeActive<T>;
+	requires CanBeActive<T>;
 	{ a.position } -> std::convertible_to<Vector2>;			// TODO Consider making func to allow private
 	{ a.radius } -> std::convertible_to<float>;				// TODO Consider making func to alllow private
 	{ a.GetPewd() };										// TODO Add to CanBeActive concept and rename to "Collidable"
@@ -33,14 +33,14 @@ concept IsCollisionCircle = requires (T a) {
 
 template <typename T>
 concept IsCollisionLine = requires (T a) {
-	CanBeActive<T>;
+	requires CanBeActive<T>;
 	{ a.getLineStart() } -> std::convertible_to<Vector2>;
 	{ a.getLineEnd() } -> std::convertible_to<Vector2>;
 	{ a.GetPewd() };
 };
 
 bool IsColliding(const IsCollisionLine auto& line, const IsCollisionCircle auto& circle) {	// TODO Consider noexcept
-	if (!line.active || !circle.active) {
+	if (line.IsQueuedForDelete() || circle.IsQueuedForDelete()) {
 		return false;
 	}
 	return CheckCollisionCircleLine(circle.position, circle.radius, line.getLineStart(), line.getLineEnd());
