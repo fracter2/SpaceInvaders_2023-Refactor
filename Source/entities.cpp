@@ -19,8 +19,6 @@ Player::Player() noexcept {
 		(float)GetScreenWidth() / 2,
 		(float)(GetScreenHeight() - player_y_offset)
 	);
-	std::cout << "Find Player -X:" << position.x << "Find Player -Y" << position.y << std::endl;	// TODO Remove, redudant printing
-
 }
 
 // TODO Move all input checks together in here or in a separate func
