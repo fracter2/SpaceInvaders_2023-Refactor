@@ -15,13 +15,13 @@ void Leaderboard::InsertNewHighScore(std::string_view name) {
 	Entry newData = { name, currentScore };
 
 	for (auto it = stats.begin(); it != stats.end(); ++it) {
-		if (newData.score > (*it).score) {
-			if (stats.size() >= maxSize) { 
-				stats.pop_back(); 
-			}
-			stats.insert(it, newData);				// Can this be done in an for-each loop? TRY
-			break;
+		if (newData.score <= (*it).score) { continue; }
+
+		if (stats.size() >= maxSize) { 
+			stats.pop_back(); 
 		}
+		stats.insert(it, newData);
+		break;
 	}
 }
 
