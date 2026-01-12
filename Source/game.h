@@ -7,7 +7,6 @@
 #include "gsl/pointers"
 #include "scene.h"
 #include "leaderboard.h"
-
 #include "entities.h"
 
 
