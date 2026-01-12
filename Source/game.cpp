@@ -48,7 +48,7 @@ void Game::CheckAlienSpawnConditions() noexcept {
 
 void Game::CheckEndConditions() noexcept {
 
-	auto isAlienBelowPlayer = [this](const Alien& alien) { return alien.position.y > player.position.y; };
+	auto isAlienBelowPlayer = [this](const Alien& alien) { return alien.GetPosition().y > player.GetPosition().y; };
 
 	if (IsKeyReleased(KEY_Q) || player.lives < 1 || std::any_of(Aliens.begin(), Aliens.end(), isAlienBelowPlayer)) {
 		transitionTo(SceneId::EndScreen);
@@ -83,7 +83,7 @@ void Game::UpdateScore() {
 void Game::PlayerPewPew() {
 	if (IsKeyPressed(KEY_SPACE)) {
 		static constexpr Vector2 direction = { 0, -1 };
-		const Vector2 pos = Vector2Add(player.position, { 0, -60 });
+		const Vector2 pos = Vector2Add(player.GetPosition(), {0, -60});
 		Projectiles.push_back(Projectile(pos, direction, true));
 	}
 }
@@ -95,7 +95,7 @@ void Game::AlienPewPew() {
 
 		static constexpr Vector2 spawnOffset = { 0, 60 };
 		const Alien& randomAlien = Aliens[rand() % Aliens.size()];				// TODO Check if there's a better way to do this with algorithm or else
-		const Vector2 pos = Vector2Add(randomAlien.position, spawnOffset);
+		const Vector2 pos = Vector2Add(randomAlien.GetPosition(), spawnOffset);
 
 		static constexpr Vector2 direction = { 0, 1 };
 		Projectiles.push_back(Projectile(pos, direction, false));
@@ -103,7 +103,7 @@ void Game::AlienPewPew() {
 }
 
 void Game::Render() const noexcept {
-	background.Render(player.position.x);
+	background.Render(player.GetPosition().x);
 	
 	static constexpr int fontSize = 40;
 	static constexpr Vector2 scorePos = { 50, 20 };

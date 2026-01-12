@@ -26,7 +26,7 @@ void Player::Update() {
 	int direction = IsKeyDown(KEY_RIGHT) - IsKeyDown(KEY_LEFT);
 	position.x += speed * direction;
 
-	position.x = Clamp(position.x, 0 + radius, GetScreenWidth() - radius);
+	position.x = Clamp(position.x, 0 + GetRadius(), GetScreenWidth() - GetRadius());
 }
 
 void Player::Render(const Resources& res) const noexcept {

@@ -30,11 +30,11 @@ void ClearInactive(std::vector<T>& vec) noexcept {
 }
 
 template<typename T> 
-concept IsCollisionCircle = requires (T t) {
+concept IsCollisionCircle = requires (T t, T const ct) {
 	requires CanBeActive<T>;
 	requires CanCollide<T>;
-	{ t.position } -> std::convertible_to<Vector2>;			// TODO Consider making func to allow private
-	{ t.radius } -> std::convertible_to<float>;				// TODO Consider making func to alllow private
+	{ ct.GetPosition() } noexcept -> std::convertible_to<Vector2>;
+	{ ct.GetRadius() } noexcept -> std::convertible_to<float>;
 };
 
 template <typename T>
@@ -49,7 +49,7 @@ bool IsColliding(const IsCollisionLine auto& line, const IsCollisionCircle auto&
 	if (line.IsQueuedForDelete() || circle.IsQueuedForDelete()) {
 		return false;
 	}
-	return CheckCollisionCircleLine(circle.position, circle.radius, line.getLineStart(), line.getLineEnd());
+	return CheckCollisionCircleLine(circle.GetPosition(), circle.GetRadius(), line.getLineStart(), line.getLineEnd());
 }
 
 void CheckAndCollide(IsCollisionLine auto& line, IsCollisionCircle auto& circle) { 			// TODO Consider noexcept
@@ -72,12 +72,15 @@ public:
 	static constexpr float speed = 7;
 	static constexpr float player_y_offset = 70.0f;
 
-	int lives = 3;
+	int lives = 3;			// TODO Make private
 
 	// IsCollisionCircle concept
 	void OnCollision() noexcept;
-	static constexpr float radius = 50;
-	constexpr bool IsQueuedForDelete() const noexcept { return false; }
+	inline Vector2 GetPosition() const noexcept { return position; }
+	inline constexpr float GetRadius() const noexcept { return 50; }
+	inline constexpr bool IsQueuedForDelete() const noexcept { return false; }
+
+private:
 	Vector2 position;
 };
 static_assert(IsCollisionCircle<Player>);
@@ -102,9 +105,9 @@ public:
 	inline Vector2 getLineStart() const { return Vector2Add(position, lineStartOffset); }	// TODO Add Vector2 '+' overload in common.h
 	inline Vector2 getLineEnd() const	{ return Vector2Add(position, lineEndOffset); }
 	inline constexpr bool IsQueuedForDelete() const noexcept { return queueDelete; } 
-	Vector2 position = { 0, 0 };			// TODO Remove default init, to ephasise constructor more
 
 private:
+	Vector2 position = { 0, 0 };
 	bool queueDelete = false;
 };
 static_assert(IsCollisionLine<Projectile>);
@@ -120,11 +123,12 @@ public:
 
 	// IsCollisionCircle concept
 	void OnCollision() noexcept;
-	static constexpr int radius = 60;
+	inline Vector2 GetPosition() const noexcept { return position; }
+	inline constexpr float GetRadius() const noexcept { return 60; }
 	inline constexpr bool IsQueuedForDelete() const noexcept { return queueDelete; }
-	Vector2	position;
 
 private:
+	Vector2	position;
 	bool queueDelete = false;
 };
 static_assert(IsCollisionCircle<Wall>);
@@ -144,11 +148,12 @@ public:
 
 	// IsCollisionCircle concept
 	void OnCollision() noexcept;
-	static constexpr float radius = 30;
+	inline Vector2 GetPosition() const noexcept { return position; }
+	inline constexpr float GetRadius() const noexcept { return 30; }
 	inline constexpr bool IsQueuedForDelete() const noexcept { return queueDelete; }
-	Vector2 position = { 0, 0 };
 
 private:
+	Vector2 position;
 	bool queueDelete = false;
 };
 static_assert(IsCollisionCircle<Alien>);
