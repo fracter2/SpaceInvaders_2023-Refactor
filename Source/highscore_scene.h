@@ -1,6 +1,7 @@
 #pragma once
 #include "scene.h"
 #include <functional>
+#include "gsl/pointers"
 #include "leaderboard.h"
 #include "common.h"
 #include <string>
@@ -15,8 +16,8 @@ public:
 
 private:
 	std::function<void(SceneId)> transitionTo;
-	Leaderboard* leaderboard;						// NOTE non-owning ptr		// TODO Consider clarifying not_null
-
+	gsl::not_null<Leaderboard*> leaderboard;						// NOTE non-owning ptr
+	
 	std::string name = "";
 	static constexpr Rectangle textBox = { 600, 500, 225, 50 };
 	bool mouseOnText = false;
