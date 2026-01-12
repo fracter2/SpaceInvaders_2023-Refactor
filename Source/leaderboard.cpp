@@ -3,17 +3,6 @@
 #include <iostream>
 #include <cassert>
 
-// Helper funcs
-
-template <typename T>
-void TrimVecToSize(std::vector<T>& vec, int size) noexcept {
-	assert(size > 0);
-	while (vec.size() > size) {
-		vec.pop_back();
-	}
-}
-
-// Leaderboard
 
 bool Leaderboard::IsNewHighscore() const {
 	if (stats.empty())						{ return true; }
@@ -27,12 +16,13 @@ void Leaderboard::InsertNewHighScore(std::string_view name) {
 
 	for (auto it = stats.begin(); it != stats.end(); ++it) {
 		if (newData.score > (*it).score) {
+			if (stats.size() >= maxSize) { 
+				stats.pop_back(); 
+			}
 			stats.insert(it, newData);				// Can this be done in an for-each loop? TRY
 			break;
 		}
 	}
-
-	TrimVecToSize(stats, maxSize);
 }
 
 void Leaderboard::LoadLeaderboard() {							// TODO Consider removing (unused) Move to separate file along with SaveLeaderboard()
