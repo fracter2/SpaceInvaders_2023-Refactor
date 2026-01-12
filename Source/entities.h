@@ -20,7 +20,7 @@ concept CanCollide = requires (T c) {
 	{ c.OnCollision() } noexcept;
 };
 
-template<typename T> requires CanBeActive<T>								// TODO Move requires into an auto expression, if possible
+template<typename T> requires CanBeActive<T>
 void ClearInactive(std::vector<T>& vec) noexcept {
 	vec.erase(
 		std::remove_if(vec.begin(), vec.end(),
