@@ -9,7 +9,7 @@ bool Leaderboard::IsNewHighscore() const {
 	return false;
 }
 
-void Leaderboard::InsertNewHighScore(std::string name) {		// TODO Consider string_view
+void Leaderboard::InsertNewHighScore(std::string_view name) {		// TODO Consider string_view
 	Entry newData = { name, currentScore };
 
 	for (int i = 0; i < stats.size(); i++) {						// TODO Consider replacing with an algorithm w lambda

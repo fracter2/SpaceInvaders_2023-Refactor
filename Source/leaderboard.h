@@ -17,7 +17,7 @@ public:
 
 	bool IsNewHighscore() const;				// TODO Rename to clarify, like "isHighScore()" or "justBeatHighScore()"
 
-	void InsertNewHighScore(std::string name);	// TODO Consider using string_view
+	void InsertNewHighScore(std::string_view name);	// TODO Consider using string_view
 
 	void LoadLeaderboard();						// TODO Consider implementing or removing (unused)
 	void SaveLeaderboard();						// TODO Finish implementing this or remove (used but incomplete)
