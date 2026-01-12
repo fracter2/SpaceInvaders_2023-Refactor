@@ -10,6 +10,7 @@
 
 App::App(SceneId sceneId) 
 	: queuedId(sceneId)
+	, leaderboard(GetExampleLeaderboard())
 {
 	SetTargetFPS(60);
 

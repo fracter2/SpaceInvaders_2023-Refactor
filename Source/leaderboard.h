@@ -20,6 +20,9 @@ public:
 	bool IsNewHighscore() const noexcept;
 	void SubmitCurrentScore(std::string_view name) noexcept;
 
+	explicit Leaderboard(const std::vector<Entry>& stats) noexcept;
+	explicit Leaderboard(std::vector<Entry>&& stats) noexcept;
+
 	static constexpr size_t maxSize = 5;
 
 private:
@@ -28,5 +31,7 @@ private:
 	// TODO Consider replacing with std::inplace_vector
 	// TODO Move stats initialization to some "example" or "fake player scores"  
 	// to separate implementation details from filler
-	std::vector<Entry> stats = { {"Player 1", 500}, {"Player 2", 400}, {"Player 3", 300}, {"Player 4", 200}, {"Player 5", 100} };
+	std::vector<Entry> stats;
 };
+
+[[nodiscard]] Leaderboard GetExampleLeaderboard();

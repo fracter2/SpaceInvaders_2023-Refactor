@@ -31,7 +31,7 @@ private:
 
 	std::unique_ptr<Scene> currentScene;			// TODO Consider if this should also be gsl::not_null
 
-	Leaderboard leaderboard = {};
+	Leaderboard leaderboard;
 	Resources resources = {};
 
 	bool transitionQueued = false;
