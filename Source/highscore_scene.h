@@ -1,10 +1,12 @@
 #pragma once
-#include "scene.h"
 #include <functional>
+#include <string>
+
 #include "gsl/pointers"
+#include "scene.h"
 #include "leaderboard.h"
 #include "common.h"
-#include <string>
+
 
 class HighscoreScene : public Scene { 
 public:
@@ -21,5 +23,5 @@ private:
 	std::string name = "";
 	static constexpr Rectangle textBox = { 600, 500, 225, 50 };
 	bool mouseOnText = false;
-	int framesCounter = 0;																	// TODO Move into textbox class
+	int framesCounter = 0;											// TODO Move into textbox class
 };

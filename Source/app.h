@@ -29,7 +29,8 @@ private:
 	static constexpr std::string_view title = { "SPACE INVADERS" };
 	RaylibLoader rlLoader = { screenWidth, screenHeight, title.data() };
 
-	std::unique_ptr<Scene> currentScene;
+	std::unique_ptr<Scene> currentScene;			// TODO Consider if this should also be gsl::not_null
+
 	Leaderboard leaderboard = {};
 	Resources resources = {};
 
