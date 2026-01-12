@@ -3,9 +3,7 @@
 #include <iostream>
 
 bool Leaderboard::CheckNewHighScore() const {					// TODO Rename to "isNewHighScore"
-	if (currentScore > stats[4].score) {						// TODO Clarify "4" as the last index
-		return true;
-	}
+	if (currentScore > stats.back().score)	{ return true; }
 
 	return false;
 }
