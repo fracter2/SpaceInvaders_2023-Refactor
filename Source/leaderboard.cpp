@@ -5,8 +5,9 @@
 
 
 bool Leaderboard::IsNewHighscore() const noexcept {
-	if (stats.empty())						{ return true; }
-	if (currentScore > stats.back().score)	{ return true; }
+	if (stats.empty() || currentScore > stats.back().score)	{ 
+		return true; 
+	}
 
 	return false;
 }
