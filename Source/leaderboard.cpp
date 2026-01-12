@@ -25,9 +25,9 @@ bool Leaderboard::IsNewHighscore() const {
 void Leaderboard::InsertNewHighScore(std::string_view name) {
 	Entry newData = { name, currentScore };
 
-	for (int i = 0; i < stats.size(); i++) {						// TODO Consider replacing with an algorithm w lambda
-		if (newData.score > stats[i].score) {
-			stats.insert(stats.begin() + i, newData);				// Can this be done in an for-each loop? TRY
+	for (auto it = stats.begin(); it != stats.end(); ++it) {
+		if (newData.score > (*it).score) {
+			stats.insert(it, newData);				// Can this be done in an for-each loop? TRY
 			break;
 		}
 	}
