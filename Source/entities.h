@@ -9,9 +9,10 @@
 
 // NOTE templated func definitions cannot be delegated to a cpp file apparently (doesn't compile). So the full definition shall stay here.
 
+
 template<typename T>
-concept CanBeActive = requires (T a) {
-	{ a.IsQueuedForDelete() } -> std::_Boolean_testable;
+concept CanBeActive = requires (T const ct) {
+	{ ct.IsQueuedForDelete() } noexcept -> std::_Boolean_testable;
 };
 
 template<typename T>
