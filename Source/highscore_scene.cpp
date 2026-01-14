@@ -1,32 +1,34 @@
 #include "highscore_scene.h"
 
-// Helper funcs								// TODO Wrap in a local namespace
 
-bool IsValidKey(int key) noexcept {
-	return (key >= 32) && (key <= 125);		// TODO Clarify these numbers!!!
-}
+// Keep helper funcs inside an anonymous namespace. SF.22
+namespace {	
+	bool IsValidKey(int key) noexcept {
+		return (key >= 32) && (key <= 125);		// TODO Clarify these numbers!!!
+	}
 
-void ParseNameInput(std::string& name, int maxLength) noexcept {
-	int key = GetCharPressed();
-	while (key > 0) {
-		if (IsValidKey(key) && (name.size() < maxLength)) {
-			name.push_back((char)key);
+	void ParseNameInput(std::string& name, int maxLength) noexcept {
+		int key = GetCharPressed();				// TODO TRY moving intisde while(*here*) ES.6
+		while (key > 0) {
+			if (IsValidKey(key) && (name.size() < maxLength)) {
+				name.push_back((char)key);		// TODO Either gsl::narrow_cast or static_cast or make a wrapper "GetCharPressed()" ES.46, ES.49
+			}
+
+			key = GetCharPressed();  // Check next character in the queue
 		}
 
-		key = GetCharPressed();  // Check next character in the queue
+		if (IsKeyPressed(KEY_BACKSPACE) && name.size() > 0) {
+			name.pop_back();
+		}
 	}
 
-	if (IsKeyPressed(KEY_BACKSPACE) && name.size() > 0) {
-		name.pop_back();
-	}
-}
-
-void RenderBlinkingUnderscore(const char* cString, int x, int y, int fontSize, int framesCounter) noexcept
-{
-	static constexpr int duration = 20;
-	if ((framesCounter / duration) % 2) {						// NOTE "% 2" always gives 0 or 1, which is same as false / true
-		const int offsetX = MeasureText(cString, fontSize);
-		DrawText("_", x + offsetX, y, fontSize, MAROON);
+	void RenderBlinkingUnderscore(const char* cString, int x, int y, int fontSize, int framesCounter) noexcept
+	{
+		static constexpr int duration = 20;
+		if ((framesCounter / duration) % 2) {						// NOTE "% 2" always gives 0 or 1, which is same as false / true
+			const int offsetX = MeasureText(cString, fontSize);
+			DrawText("_", x + offsetX, y, fontSize, MAROON);
+		}
 	}
 }
 
