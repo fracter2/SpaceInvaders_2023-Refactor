@@ -2,14 +2,14 @@
 
 // Helper funcs								// TODO Wrap in a local namespace
 
-bool isValidKey(int key) noexcept {			// TODO Fix capitalization
+bool IsValidKey(int key) noexcept {
 	return (key >= 32) && (key <= 125);		// TODO Clarify these numbers!!!
 }
 
 void ParseNameInput(std::string& name, int maxLength) noexcept {
 	int key = GetCharPressed();
 	while (key > 0) {
-		if (isValidKey(key) && (name.size() < maxLength)) {
+		if (IsValidKey(key) && (name.size() < maxLength)) {
 			name.push_back((char)key);
 		}
 
