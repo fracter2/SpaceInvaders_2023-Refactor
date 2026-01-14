@@ -64,7 +64,7 @@ void CheckAndCollide(IsCollisionLine auto& line, IsCollisionCircle auto& circle)
 // Entity types
 
 class Player
-{											// TODO Make into class, keep constructor, Render() and Update() public
+{
 public:
 	Player() noexcept;
 	void Update() noexcept;
@@ -119,7 +119,7 @@ private:
 static_assert(IsCollisionLine<Projectile>);
 
 
-class Wall			// TODO Make class, is invariant as health corelates to active
+class Wall
 {
 public:
 	explicit Wall(Vector2 pos) noexcept;
