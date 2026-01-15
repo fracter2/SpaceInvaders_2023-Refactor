@@ -9,8 +9,13 @@
 
 class RaylibLoader {								// TODO Consider a separate file for this
 public:
-	RaylibLoader(int screenWidth, int screenHeight, const char* title);		// TODO Obey the rule of 0/5
+	RaylibLoader(int screenWidth, int screenHeight, const char* title);
 	~RaylibLoader();
+
+	RaylibLoader(const RaylibLoader&) = delete;
+	RaylibLoader& operator=(const RaylibLoader&) = delete;
+	RaylibLoader(RaylibLoader&&) = delete;
+	RaylibLoader& operator=(RaylibLoader&&) = delete;
 };
 
 class App {
