@@ -7,6 +7,7 @@
 
 class EndScreen : public Scene {
 public:
+	EndScreen() = delete;
 	EndScreen(const std::function<void(SceneId)>& transitionFunc, Leaderboard& lb) noexcept;
 	void Update() noexcept override;
 	void Render() const noexcept override;

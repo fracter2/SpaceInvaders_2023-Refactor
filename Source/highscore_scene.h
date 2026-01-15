@@ -10,6 +10,7 @@
 
 class HighscoreScene : public Scene { 
 public:
+	HighscoreScene() = delete;
 	HighscoreScene(const std::function<void(SceneId)>& transitionFunc, Leaderboard& lb) noexcept;
 	void Update() noexcept override;
 	void Render() const noexcept override;

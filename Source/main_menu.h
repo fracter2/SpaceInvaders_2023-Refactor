@@ -5,6 +5,7 @@
 
 class MainMenu : public Scene {
 public:
+	MainMenu() = delete;
 	explicit MainMenu(const std::function<void(SceneId)>& transitionFunc) noexcept;
 	void Update() noexcept override;
 	void Render() const noexcept override;

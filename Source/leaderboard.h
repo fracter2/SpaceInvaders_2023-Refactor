@@ -7,11 +7,13 @@
 class Leaderboard {
 public:
 	struct Entry {
+		Entry() = delete;
 		Entry(std::string_view name, int score) noexcept;
 		std::string name;
 		int score;
 	};
 
+	Leaderboard() = delete;
 	explicit Leaderboard(const std::vector<Entry>& stats) noexcept;
 	explicit Leaderboard(std::vector<Entry>&& stats) noexcept;
 
