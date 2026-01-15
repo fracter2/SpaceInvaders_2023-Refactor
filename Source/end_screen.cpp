@@ -12,13 +12,15 @@ EndScreen::EndScreen(const std::function<void(SceneId)>& transitionFunc, Leaderb
 	}
 }
 
-void EndScreen::Update() noexcept {									
+void EndScreen::Update() noexcept 
+{
 	if (IsKeyReleased(KEY_ENTER)) {
 		transitionTo(SceneId::MainMenu);
 	}
 }
 
-void EndScreen::Render() const noexcept {
+void EndScreen::Render() const noexcept 
+{
 	static constexpr int fontSize = 40;
 
 	{	// Prompt

@@ -10,8 +10,7 @@
 
 
 
-struct Star
-{
+struct Star {												// TODO Move to separate file
 public:
 	Star(Vector2 pos, float size) noexcept;
 	void Render(float offset) const noexcept;
@@ -21,8 +20,7 @@ public:
 };
 
 
-struct Background	// TODO Consider moving to separate file
-{
+struct Background {											// TODO Move to separate file
 public:
 	Background(int starAmount);								// TODO Make excplicit (single-argument constructors should be) // TODO Make noescept
 	void Render(const float player_x) const noexcept;
@@ -36,8 +34,7 @@ public:
 
 // TODO apply const, constexpr and noexcept where applicable
 // TODO Consider separating private details into a GameImpl class, or just declaring the funcs in the cpp
-class Game: public Scene
-{
+class Game: public Scene {
 public:
 	Game(const std::function<void(SceneId)>& transitionFunc, Leaderboard& lb, const Resources& res) noexcept;
 	void Update() noexcept override;

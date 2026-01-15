@@ -17,12 +17,14 @@ App::App(SceneId sceneId)
 	ChangeTo(sceneId);
 }
 
-void App::QueueTransitionTo(SceneId id) noexcept {
+void App::QueueTransitionTo(SceneId id) noexcept 
+{
 	queuedId = id;
 	transitionQueued = true;
 }
 
-void App::ChangeTo(SceneId id) {
+void App::ChangeTo(SceneId id) 
+{
 	assert(!SceneIsBusy());
 	assert(SceneId::Min < id && id < SceneId::Max);
 
@@ -38,7 +40,8 @@ void App::ChangeTo(SceneId id) {
 	}
 }
 
-void App::Update() noexcept {
+void App::Update() noexcept 
+{
 	try {
 		inUpdate = true;
 		currentScene->Update();
@@ -56,8 +59,9 @@ void App::Update() noexcept {
 	}
 }
 
-void App::Render() const noexcept {
-	BeginDrawing();				// TODO Consider moving into the Render() func for brevity
+void App::Render() const noexcept 
+{
+	BeginDrawing();	
 	ClearBackground(BLACK);
 
 	inRender = true;

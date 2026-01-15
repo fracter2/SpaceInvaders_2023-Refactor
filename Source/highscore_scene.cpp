@@ -2,12 +2,15 @@
 
 
 // Keep helper funcs inside an anonymous namespace. SF.22
-namespace {	
-	bool IsValidKey(int key) noexcept {
+namespace 
+{	
+	bool IsValidKey(int key) noexcept 
+	{
 		return (key >= 32) && (key <= 125);		// TODO Clarify these numbers!!!
 	}
 
-	void ParseNameInput(std::string& name, int maxLength) noexcept {
+	void ParseNameInput(std::string& name, int maxLength) noexcept 
+	{
 		int key = GetCharPressed();				// TODO TRY moving intisde while(*here*) ES.6
 		while (key > 0) {
 			if (IsValidKey(key) && (name.size() < maxLength)) {

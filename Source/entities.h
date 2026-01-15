@@ -12,17 +12,20 @@
 
 
 template<typename T>
-concept CanBeActive = requires (T const ct) {
+concept CanBeActive = requires (T const ct) 
+{
 	{ ct.IsQueuedForDelete() } noexcept -> std::_Boolean_testable;
 };
 
 template<typename T>
-concept CanCollide = requires (T c) {
+concept CanCollide = requires (T c) 
+{
 	{ c.OnCollision() } noexcept;
 };
 
 template<typename T> requires CanBeActive<T>
-void ClearInactive(std::vector<T>& vec) noexcept {
+void ClearInactive(std::vector<T>& vec) noexcept 
+{
 	vec.erase(
 		std::remove_if(vec.begin(), vec.end(),
 			[](const T e) { return e.IsQueuedForDelete(); }),
@@ -31,7 +34,8 @@ void ClearInactive(std::vector<T>& vec) noexcept {
 }
 
 template<typename T> 
-concept IsCollisionCircle = requires (T t, T const ct) {
+concept IsCollisionCircle = requires (T t, T const ct) 
+{
 	requires CanBeActive<T>;
 	requires CanCollide<T>;
 	{ ct.GetPosition() } noexcept -> std::convertible_to<Vector2>;
@@ -39,21 +43,24 @@ concept IsCollisionCircle = requires (T t, T const ct) {
 };
 
 template <typename T>
-concept IsCollisionLine = requires (T t) {
+concept IsCollisionLine = requires (T t) 
+{
 	requires CanBeActive<T>;
 	requires CanCollide<T>;
 	{ t.getLineStart() } -> std::convertible_to<Vector2>;
 	{ t.getLineEnd() } -> std::convertible_to<Vector2>;
 };
 
-bool IsColliding(const IsCollisionLine auto& line, const IsCollisionCircle auto& circle) noexcept {
+bool IsColliding(const IsCollisionLine auto& line, const IsCollisionCircle auto& circle) noexcept 
+{
 	if (line.IsQueuedForDelete() || circle.IsQueuedForDelete()) {
 		return false;
 	}
 	return CheckCollisionCircleLine(circle.GetPosition(), circle.GetRadius(), line.getLineStart(), line.getLineEnd());
 }
 
-void CheckAndCollide(IsCollisionLine auto& line, IsCollisionCircle auto& circle) noexcept {
+void CheckAndCollide(IsCollisionLine auto& line, IsCollisionCircle auto& circle) noexcept 
+{
 	if (IsColliding(line, circle)) {
 		line.OnCollision();
 		circle.OnCollision();
@@ -63,8 +70,7 @@ void CheckAndCollide(IsCollisionLine auto& line, IsCollisionCircle auto& circle)
 
 // Entity types
 
-class Player
-{
+class Player {
 public:
 	Player() noexcept;
 	void Update() noexcept;
@@ -90,8 +96,7 @@ private:
 static_assert(IsCollisionCircle<Player>);
 
 
-class Projectile						// TODO Consider moving to it's own file and make a class
-{
+class Projectile {
 public:
 	Projectile(Vector2 pos, Vector2 direction, bool fromPlayer) noexcept;
 	void Update() noexcept;
@@ -119,8 +124,7 @@ private:
 static_assert(IsCollisionLine<Projectile>);
 
 
-class Wall
-{
+class Wall {
 public:
 	explicit Wall(Vector2 pos) noexcept;
 	void Render(const Resources& res) const noexcept;
@@ -140,8 +144,7 @@ private:
 static_assert(IsCollisionCircle<Wall>);
 
 
-class Alien
-{
+class Alien {
 public:
 	explicit Alien(Vector2 pos) noexcept;
 	void Update() noexcept;

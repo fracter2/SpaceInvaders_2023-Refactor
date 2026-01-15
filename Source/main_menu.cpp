@@ -6,14 +6,16 @@ MainMenu::MainMenu(const std::function<void(SceneId)>& transitionFunc) noexcept
 {
 }
 
-void MainMenu::Update() noexcept {
+void MainMenu::Update() noexcept 
+{
 	if (IsKeyReleased(KEY_SPACE)) {
 		transitionTo(SceneId::Game);
 		return;
 	}
 }
 
-void MainMenu::Render() const noexcept {
+void MainMenu::Render() const noexcept 
+{
 	DrawText("SPACE INVADERS", 200, 100, 160, YELLOW);				// TODO Clarify constexpr 
 	DrawText("PRESS SPACE TO BEGIN", 200, 350, 40, YELLOW);
 }

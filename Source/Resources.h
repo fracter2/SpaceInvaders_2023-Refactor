@@ -3,8 +3,7 @@
 
 #include "raylib.h"
 
-struct Resources
-{
+struct Resources {
 	Resources();
 
 	static constexpr size_t shipTextureCount = 3;

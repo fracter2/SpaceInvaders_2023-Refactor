@@ -20,7 +20,8 @@ Game::Game(const std::function<void(SceneId)>& transitionFunc, Leaderboard& lb, 
 	leaderboard->ResetScore();
 }
 
-void Game::Update() noexcept {
+void Game::Update() noexcept 
+{
 	CheckAlienSpawnConditions();
 
 	player.Update();
@@ -40,13 +41,15 @@ void Game::Update() noexcept {
 	CheckEndConditions();
 }
 
-void Game::CheckAlienSpawnConditions() noexcept {
+void Game::CheckAlienSpawnConditions() noexcept 
+{
 	if (Aliens.empty()) { 
 		SpawnAliens(); 
 	}
 }
 
-void Game::CheckEndConditions() noexcept {
+void Game::CheckEndConditions() noexcept 
+{
 
 	auto isAlienBelowPlayer = [this](const Alien& alien) { return alien.GetPosition().y > player.GetPosition().y; };
 
@@ -55,7 +58,8 @@ void Game::CheckEndConditions() noexcept {
 	}
 }
 
-void Game::ApplyCollisions() {
+void Game::ApplyCollisions() 
+{
 	for (Projectile& proj : Projectiles) {
 		for (Wall& wall : Walls) {
 			CheckAndCollide(proj, wall);					// TODO Allow passing a vector to simplify further
@@ -72,7 +76,8 @@ void Game::ApplyCollisions() {
 	}
 }
 
-void Game::UpdateScore() {
+void Game::UpdateScore() 
+{
 	for (Alien& alien : Aliens) {
 		if (alien.IsQueuedForDelete()) { 
 			leaderboard->AddScore(100); 
@@ -80,7 +85,8 @@ void Game::UpdateScore() {
 	}
 }
 
-void Game::PlayerPewPew() {
+void Game::PlayerPewPew() 
+{
 	if (IsKeyPressed(KEY_SPACE)) {
 		static constexpr Vector2 direction = { 0, -1 };
 		const Vector2 pos = Vector2Add(player.GetPosition(), {0, -60});
@@ -88,7 +94,8 @@ void Game::PlayerPewPew() {
 	}
 }
 
-void Game::AlienPewPew() {
+void Game::AlienPewPew() 
+{
 	shootTimer += 1;												// TODO Refactor away using GetTime() and modulo
 	if (shootTimer > 59) { //once per second
 		shootTimer = 0;
@@ -105,7 +112,8 @@ void Game::AlienPewPew() {
 	}
 }
 
-void Game::Render() const noexcept {
+void Game::Render() const noexcept 
+{
 	background.Render(player.GetPosition().x);
 	
 	static constexpr int fontSize = 40;
@@ -122,7 +130,8 @@ void Game::Render() const noexcept {
 	for (const Alien& a : Aliens)			{ a.Render(res); }
 }
 
-void Game::SpawnAliens() {								// TODO Consider making this a free func since it's only used once
+void Game::SpawnAliens() 
+{								// TODO Consider making this a free func since it's only used once
 	static constexpr int formationWidth = 8;
 	static constexpr int formationHeight = 5;
 	static constexpr float alienSpacing = 80.f;
@@ -140,7 +149,8 @@ void Game::SpawnAliens() {								// TODO Consider making this a free func since
 	}
 }
 
-void Game::SpawnWalls() {
+void Game::SpawnWalls() 
+{
 	static constexpr int wallCount = 5;
 	const float wallDistance = (float)GetScreenWidth() / (float)(wallCount + 1);
 	const float wallHeightOffset = (float)GetScreenHeight() - 250;
@@ -168,7 +178,8 @@ void Star::Render(float offset) const noexcept {
 	// TODO If it crashes, make sure it's still noexcept by verifying size, making this an invariant (class)
 }
 
-Background::Background(int starAmount) {
+Background::Background(int starAmount) 
+{
 	for (int i = 0; i < starAmount; i++)
 	{
 		Vector2 pos = { 
@@ -182,7 +193,8 @@ Background::Background(int starAmount) {
 	}
 }
 
-void Background::Render(const float player_x) const noexcept {
+void Background::Render(const float player_x) const noexcept 
+{
 	const float offset = abs(player_x) / paralaxRatio;
 	for (const Star& star : Stars) {
 		star.Render(offset);
