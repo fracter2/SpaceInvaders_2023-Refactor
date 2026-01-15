@@ -72,16 +72,16 @@ public:
 
 	// -- IsCollisionCircle concept --
 	void OnCollision() noexcept;
-	inline Vector2 GetPosition() const noexcept { return position; }
-	inline constexpr float GetRadius() const noexcept { return 50; }
-	inline constexpr bool IsQueuedForDelete() const noexcept { return false; }
+	inline Vector2 GetPosition() const noexcept { return position; }			// const func!
+	inline constexpr float GetRadius() const noexcept { return 50; }			// constexpr func!
+	inline constexpr bool IsQueuedForDelete() const noexcept { return false; }	// NOTE Player can't die
 	// --
 
 	inline bool IsDead() const noexcept { return lives <= 0; }
 	inline int GetLives() const noexcept { return lives; }
 
-	static constexpr float speed = 7;
-	static constexpr float player_y_offset = 70.0f;
+	static constexpr float speed = 7;											// static constexpr must init
+	static constexpr float player_y_offset = 70.0f;								// and is easy to reason with
 
 private:
 	Vector2 position;
