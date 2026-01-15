@@ -20,7 +20,7 @@ public:
 
 class App {
 public:
-	App(SceneId sceneId = SceneId::MainMenu);		// TODO Make excplicit
+	explicit App(SceneId sceneId = SceneId::MainMenu);
 
 	void Update() noexcept;
 	void Render() const noexcept;
