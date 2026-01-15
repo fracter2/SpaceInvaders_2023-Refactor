@@ -11,10 +11,10 @@ namespace
 
 	void ParseNameInput(std::string& name, int maxLength) noexcept 
 	{
-		int key = GetCharPressed();				// TODO TRY moving intisde while(*here*) ES.6
+		int key = GetCharPressed();									// TODO TRY moving inside while(*here*) ES.6
 		while (key > 0) {
 			if (IsValidKey(key) && (name.size() < maxLength)) {
-				name.push_back(gsl::narrow_cast<char>(key));		// TODO Either gsl::narrow_cast or static_cast or make a wrapper "GetCharPressed()" ES.46, ES.49
+				name.push_back(gsl::narrow_cast<char>(key));
 			}
 
 			key = GetCharPressed();  // Check next character in the queue

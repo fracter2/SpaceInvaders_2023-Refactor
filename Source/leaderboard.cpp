@@ -1,5 +1,5 @@
 #include "leaderboard.h"
-
+#include "gsl/assert"
 
 bool Leaderboard::IsNewHighscore() const noexcept 
 {
@@ -13,19 +13,18 @@ bool Leaderboard::IsNewHighscore() const noexcept
 // NOTE Resets current score afterwards. 
 void Leaderboard::SubmitCurrentScore(std::string_view name) noexcept 
 {
-	Entry newData = { name, currentScore };
+	for (auto it = stats.begin(); it != stats.end(); ++it) {		// Closer to usage at .insert()
+		if (currentScore <= (*it).score) { continue; }				// De-nested if()... could re-nest to avoid "continue" and "break"
 
-	for (auto it = stats.begin(); it != stats.end(); ++it) {
-		if (newData.score <= (*it).score) { continue; }
-
-		if (stats.size() >= maxSize) { 
+		if (stats.size() >= maxSize) {								// Clarify popping intent / fix
 			stats.pop_back(); 
 		}
-		stats.insert(it, newData);
+		stats.insert(it, { name, currentScore });
 		break;
 	}
 
 	ResetScore();
+	// TODO GSL Ensures current score == 0
 }
 
 Leaderboard::Leaderboard(const std::vector<Entry>& stats) noexcept

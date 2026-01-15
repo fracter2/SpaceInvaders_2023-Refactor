@@ -34,17 +34,15 @@
 #include <exception>
 #include <print>
 
-int main(void)
+int main(void)									// Less comments, no audio-stuff, no "// Update" or "// TODO UPDATE VARIABLES"
 {    
 	try {
-
-	App app = App();
-	while (!WindowShouldClose())	// Detect window close button or ESC key
-	{
-		app.Update();
-		app.Render();
-	}
-
+		App app{};						
+		while (!WindowShouldClose())			
+		{
+			app.Update();
+			app.Render();
+		}
 	}
 	catch (const std::runtime_error& e) {
 		std::print("A runtime error occurred: {}", e.what());
@@ -55,3 +53,8 @@ int main(void)
 
 	return 0;
 }
+
+// main.cpp is 55 lines with licence
+// Game::Update() is 21 lines
+// Game::Render() is <20 lines
+// yay

@@ -12,32 +12,32 @@
 // GAME
 
 Game::Game(const std::function<void(SceneId)>& transitionFunc, Leaderboard& lb, const Resources& res) noexcept
-	: transitionTo(transitionFunc)
-	, leaderboard(&lb)
-	, resources(&res)
+	: transitionTo(transitionFunc)							// Init variables from args...
+	, leaderboard(&lb)										// transitionFunc is the callable to switch active scene...
+	, resources(&res)										// Since lb and res are persistent, Game only keeps them as gsl::not_null(ptr)
 {
-	SpawnWalls();
-	SpawnAliens();
-	leaderboard->ResetScore();
+	SpawnWalls();											// Delegate related spawn-logic in dedicated funcs (that can be re-used)
+	SpawnAliens();											// 
+	leaderboard->ResetScore();								// Given a name to "score = 0" since multiple scenes may share leaderboard
 }
 
 void Game::Update() noexcept 
 {
 	CheckAlienSpawnConditions();
 
-	player.Update();
+	player.Update();											// std::for_each algorithm to the rescue!
 	std::ranges::for_each(aliens,	   [](Alien& a)		 { a.Update(); });			// Yes I know this is needlessly verbose and that it can (and should)
 	std::ranges::for_each(projectiles, [](Projectile& p) { p.Update(); });			// be a simple foreach loop. I just want to show how cool I am.
 
 	PlayerPewPew();
 	AlienPewPew();
 
-	ApplyCollisions();
+	ApplyCollisions();											// Internal range-for loops 
 	UpdateScore();
 
-	ClearInactive(projectiles);
-	ClearInactive(aliens);
-	ClearInactive(walls);
+	ClearInactive(projectiles);									// Light-wrapper on std::remove_if and vec.erase()
+	ClearInactive(aliens);										//
+	ClearInactive(walls);										//
 
 	CheckEndConditions();
 }
@@ -130,9 +130,9 @@ void Game::Render() const noexcept
 	for (const Wall& w : walls)				{ w.Render(res); }
 	for (const Alien& a : aliens)			{ a.Render(res); }
 }
-
+// TODO Consider making this a free func since it's only used once
 void Game::SpawnAliens() 
-{								// TODO Consider making this a free func since it's only used once
+{								
 	static constexpr int formationWidth = 8;
 	static constexpr int formationHeight = 5;
 	static constexpr float alienSpacing = 80.f;
