@@ -60,14 +60,14 @@ void App::Render() const noexcept {
 	EndDrawing();
 }
 
-// RaylibLoader
+// WindowLoader
 
-RaylibLoader::RaylibLoader(int screenWidth, int screenHeight, const char* title)		// NOTE std::string_view doesn't work here because raylib wants a c_str pointer
+WindowLoader::WindowLoader(int screenWidth, int screenHeight, const char* title)		// NOTE std::string_view doesn't work here because raylib wants a c_str pointer
 {
 	InitWindow(screenWidth, screenHeight, title);
 }
 
-RaylibLoader::~RaylibLoader()
+WindowLoader::~WindowLoader()
 {
 	CloseWindow();
 }
