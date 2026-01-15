@@ -3,6 +3,7 @@
 
 #include "raylib.h"
 
+// TODO Consider making this an array with named indexes (enum) to allow easy parsing of all of them
 struct Resources {
 	Resources();
 	~Resources();
