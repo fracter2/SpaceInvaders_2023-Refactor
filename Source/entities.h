@@ -90,7 +90,7 @@ public:
 	static constexpr float player_y_offset = 70.0f;								// and is easy to reason with
 
 private:
-	Vector2 position;
+	Vector2 position = Vector2Zero();
 	int lives = 3;
 };
 static_assert(IsCollisionCircle<Player>);
