@@ -31,14 +31,26 @@
 #include "raylib.h"
 #include "App.h"
 
+#include <exception>
+#include <print>
+
 int main(void)
 {    
-	App app = App();
+	try {
 
+	App app = App();
 	while (!WindowShouldClose())	// Detect window close button or ESC key
 	{
 		app.Update();
 		app.Render();
+	}
+
+	}
+	catch (std::runtime_error e) {
+		std::print("An exception occurred: {}", e.what());
+	}
+	catch (...) {
+		std::print("an unknown exception occurred");
 	}
 
 	return 0;
