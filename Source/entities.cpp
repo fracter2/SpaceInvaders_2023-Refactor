@@ -8,7 +8,7 @@
 namespace {	
 	void RenderFullTextureWrap(const Texture2D& texture, Vector2 position, Vector2 size) 
 	{
-		const Rectangle sourceRect = { 0, 0, (float)texture.width, (float)texture.height };					// TODO Make a getter in res
+		const Rectangle sourceRect = { 0, 0, gsl::narrow_cast<float>(texture.width), gsl::narrow_cast<float>(texture.height) };					// TODO Make a getter in res
 		const Rectangle destinationRect = { position.x, position.y, size.x, size.y, };						// TODO Make a convenience constructor in common.h
 		const Vector2 originOffset = { size.x / 2, size.y / 2 };
 		DrawTexturePro(texture, sourceRect, destinationRect, originOffset, 0, WHITE);
@@ -20,8 +20,8 @@ namespace {
 Player::Player() noexcept 
 {
 	position = Vector2(
-		(float)GetScreenWidth() / 2,
-		(float)(GetScreenHeight() - player_y_offset)
+		gsl::narrow_cast<float>(GetScreenWidth()) / 2,
+		gsl::narrow_cast<float>((GetScreenHeight()) - player_y_offset)
 	);
 }
 
@@ -38,14 +38,11 @@ void Player::Update() noexcept
 void Player::Render(const Resources& res) const noexcept 
 {
 	static constexpr float timePerFrame = 0.4f;
-
-	const int i = (int)(GetTime() / timePerFrame) % res.shipTextures.size();
+	const int i = gsl::narrow_cast<int>(GetTime() / timePerFrame) % res.shipTextures.size();
 
 	// NOTE Is this ok? Bounds-checking is redundant here since we're using % size
 	GSL_SUPPRESS(bounds.4) const auto& frame = res.shipTextures[i];
-	
 	static constexpr Vector2 targetSize = { 100, 100 };
-
 	RenderFullTextureWrap(frame, position, targetSize);
 }
 
@@ -120,9 +117,9 @@ Alien::Alien(Vector2 pos) noexcept
 void Alien::Update() noexcept 
 {
 	position.x += moveRight ? speed : -speed;
-
-	if (position.x <= 0 || position.x >= (float)GetScreenWidth()) {		// TODO Consider a wrapper in comon.h
-		position.x = Clamp(position.x, 0, (float)GetScreenWidth());		// TODO Consider a wrapper in comon.h
+	const float screenWidth = gsl::narrow_cast<float>(GetScreenWidth());
+	if (position.x <= 0 || position.x >= screenWidth) {		// TODO Consider a wrapper in comon.h
+		position.x = Clamp(position.x, 0, screenWidth);		// TODO Consider a wrapper in comon.h
 		position.y += heightChangeOnBorderHit;
 		moveRight = !moveRight;
 	}

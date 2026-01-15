@@ -14,7 +14,7 @@ namespace
 		int key = GetCharPressed();				// TODO TRY moving intisde while(*here*) ES.6
 		while (key > 0) {
 			if (IsValidKey(key) && (name.size() < maxLength)) {
-				name.push_back((char)key);		// TODO Either gsl::narrow_cast or static_cast or make a wrapper "GetCharPressed()" ES.46, ES.49
+				name.push_back(gsl::narrow_cast<char>(key));		// TODO Either gsl::narrow_cast or static_cast or make a wrapper "GetCharPressed()" ES.46, ES.49
 			}
 
 			key = GetCharPressed();  // Check next character in the queue

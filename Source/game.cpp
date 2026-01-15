@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <ranges>
 #include <format>
+#include "gsl/util"
 
 
 
@@ -89,7 +90,8 @@ void Game::PlayerPewPew()
 {
 	if (IsKeyPressed(KEY_SPACE)) {
 		static constexpr Vector2 direction = { 0, -1 };
-		const Vector2 pos = Vector2Add(player.GetPosition(), {0, -60});
+		static constexpr Vector2 spawnOffset = { 0.f, -60.f };
+		const Vector2 pos = Vector2Add(player.GetPosition(), spawnOffset);
 		projectiles.push_back(Projectile(pos, direction, true));
 	}
 }
@@ -104,7 +106,6 @@ void Game::AlienPewPew()
 		GSL_SUPPRESS(bounds.4) const Alien& randomAlien = aliens[rand() % aliens.size()];
 
 		static constexpr Vector2 spawnOffset = { 0, 60 };
-
 		const Vector2 pos = Vector2Add(randomAlien.GetPosition(), spawnOffset);
 
 		static constexpr Vector2 direction = { 0, 1 };
@@ -152,11 +153,13 @@ void Game::SpawnAliens()
 void Game::SpawnWalls() 
 {
 	static constexpr int wallCount = 5;
-	const float wallDistance = (float)GetScreenWidth() / (float)(wallCount + 1);
-	const float wallHeightOffset = (float)GetScreenHeight() - 250;
+	const float wallX = gsl::narrow_cast<float>(GetScreenWidth() / (float)(wallCount + 1));
+	
+	static constexpr int heightOffset = -250;
+	const float wallY = gsl::narrow_cast<float>(GetScreenHeight() + heightOffset);
 
 	for (int i = 0; i < wallCount; i++) {
-		Vector2 pos = { wallDistance * (i + 1), wallHeightOffset };
+		Vector2 pos = { wallX * (i + 1), wallY };
 		walls.push_back(Wall(pos));
 	}
 }
@@ -171,7 +174,7 @@ Star::Star(Vector2 pos, float size) noexcept
 }
 
 void Star::Render(float offset) const noexcept {
-	DrawCircle((int)position.x + offset, (int)position.y, size, GRAY);	// TODO Make sure that this is noexcept
+	DrawCircle(gsl::narrow_cast<int>(position.x) + offset, gsl::narrow_cast<int>(position.y), size, GRAY);	// TODO Make sure that this is noexcept
 																		// TODO Make a wrapper in common.h
 
 	// TODO Test / assert if size is negative (does it crash? use abs()?)
@@ -182,12 +185,16 @@ Background::Background(int starAmount)
 {
 	for (int i = 0; i < starAmount; i++)
 	{
+		static constexpr int offsetMin = -150;
+		static constexpr int offsetMax = 150;
 		Vector2 pos = { 
-			(float)GetRandomValue(-150, GetScreenWidth() + 150),		// TODO Clarify magic numbers
-			(float)GetRandomValue(0, GetScreenHeight())
+			gsl::narrow_cast<float>(GetRandomValue(offsetMin, GetScreenWidth() + offsetMax)),
+			gsl::narrow_cast<float>(GetRandomValue(0, GetScreenHeight()))
 		};
 
-		float size = (float)GetRandomValue(1, 4) / 2;					// TODO Clarify magic numbers
+		static constexpr int sizeMin = 1;
+		static constexpr int sizeMax = 4;
+		float size = gsl::narrow_cast<float>(GetRandomValue(sizeMin, sizeMax)) / 2.0f;
 
 		Stars.push_back(Star(pos, size));
 	}

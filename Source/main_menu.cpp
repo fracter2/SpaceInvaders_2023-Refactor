@@ -16,6 +16,14 @@ void MainMenu::Update() noexcept
 
 void MainMenu::Render() const noexcept 
 {
-	DrawText("SPACE INVADERS", 200, 100, 160, YELLOW);				// TODO Clarify constexpr 
-	DrawText("PRESS SPACE TO BEGIN", 200, 350, 40, YELLOW);
+	{
+		static constexpr int fontsize = 160;
+		static constexpr int x = 200, y = 100;
+		DrawText("SPACE INVADERS", x, y, fontsize, YELLOW);
+	}
+	{
+		static constexpr int fontsize = 40;
+		static constexpr int x = 200, y = 350;
+		DrawText("PRESS SPACE TO BEGIN", x, y, fontsize, YELLOW);
+	}
 }
