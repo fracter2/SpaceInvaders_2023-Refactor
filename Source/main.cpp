@@ -46,11 +46,11 @@ int main(void)
 	}
 
 	}
-	catch (std::runtime_error e) {
-		std::print("An exception occurred: {}", e.what());
+	catch (const std::runtime_error& e) {
+		std::print("A runtime error occurred: {}", e.what());
 	}
-	catch (...) {
-		std::print("an unknown exception occurred");
+	catch (const std::exception& e) {
+		std::print("an unknown exception occurred: {}", e.what());
 	}
 
 	return 0;
