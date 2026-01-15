@@ -22,7 +22,7 @@ public:
 
 struct Background {											// TODO Move to separate file
 public:
-	Background(int starAmount);								// TODO Make excplicit (single-argument constructors should be) // TODO Make noescept
+	explicit Background(int starAmount);								// TODO Make noescept
 	void Render(const float player_x) const noexcept;
 
 	static constexpr float paralaxRatio = 15;

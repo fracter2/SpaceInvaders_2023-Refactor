@@ -5,7 +5,7 @@
 
 class MainMenu : public Scene {
 public:
-	MainMenu(const std::function<void(SceneId)>& transitionFunc) noexcept;	// TODO Make excplicit (single-argument constructors should be)
+	explicit MainMenu(const std::function<void(SceneId)>& transitionFunc) noexcept;
 	void Update() noexcept override;
 	void Render() const noexcept override;
 
