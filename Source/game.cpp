@@ -25,8 +25,8 @@ void Game::Update() noexcept
 	CheckAlienSpawnConditions();
 
 	player.Update();
-	std::ranges::for_each(Aliens,	   [](Alien& a)		 { a.Update(); });			// Yes I know this is needlessly verbose and that it can (and should)
-	std::ranges::for_each(Projectiles, [](Projectile& p) { p.Update(); });			// be a simple foreach loop. I just want to show how cool I am.
+	std::ranges::for_each(aliens,	   [](Alien& a)		 { a.Update(); });			// Yes I know this is needlessly verbose and that it can (and should)
+	std::ranges::for_each(projectiles, [](Projectile& p) { p.Update(); });			// be a simple foreach loop. I just want to show how cool I am.
 
 	PlayerPewPew();
 	AlienPewPew();
@@ -34,16 +34,16 @@ void Game::Update() noexcept
 	ApplyCollisions();
 	UpdateScore();
 
-	ClearInactive(Projectiles);
-	ClearInactive(Aliens);
-	ClearInactive(Walls);
+	ClearInactive(projectiles);
+	ClearInactive(aliens);
+	ClearInactive(walls);
 
 	CheckEndConditions();
 }
 
 void Game::CheckAlienSpawnConditions() noexcept 
 {
-	if (Aliens.empty()) { 
+	if (aliens.empty()) { 
 		SpawnAliens(); 
 	}
 }
@@ -53,20 +53,20 @@ void Game::CheckEndConditions() noexcept
 
 	auto isAlienBelowPlayer = [this](const Alien& alien) { return alien.GetPosition().y > player.GetPosition().y; };
 
-	if (IsKeyReleased(KEY_Q) || player.IsDead() || std::any_of(Aliens.begin(), Aliens.end(), isAlienBelowPlayer)) {
+	if (IsKeyReleased(KEY_Q) || player.IsDead() || std::any_of(aliens.begin(), aliens.end(), isAlienBelowPlayer)) {
 		transitionTo(SceneId::EndScreen);
 	}
 }
 
 void Game::ApplyCollisions() 
 {
-	for (Projectile& proj : Projectiles) {
-		for (Wall& wall : Walls) {
+	for (Projectile& proj : projectiles) {
+		for (Wall& wall : walls) {
 			CheckAndCollide(proj, wall);					// TODO Allow passing a vector to simplify further
 		}
 
 		if (proj.IsFromPlayer()) {
-			for (Alien& alien : Aliens) {
+			for (Alien& alien : aliens) {
 				CheckAndCollide(proj, alien);
 			}
 		}
@@ -78,7 +78,7 @@ void Game::ApplyCollisions()
 
 void Game::UpdateScore() 
 {
-	for (Alien& alien : Aliens) {
+	for (Alien& alien : aliens) {
 		if (alien.IsQueuedForDelete()) { 
 			leaderboard->AddScore(100); 
 		}		
@@ -90,7 +90,7 @@ void Game::PlayerPewPew()
 	if (IsKeyPressed(KEY_SPACE)) {
 		static constexpr Vector2 direction = { 0, -1 };
 		const Vector2 pos = Vector2Add(player.GetPosition(), {0, -60});
-		Projectiles.push_back(Projectile(pos, direction, true));
+		projectiles.push_back(Projectile(pos, direction, true));
 	}
 }
 
@@ -101,14 +101,14 @@ void Game::AlienPewPew()
 		shootTimer = 0;
 
 		// NOTE Is this ok? Bounds-checking is redundant here since we're using % size
-		GSL_SUPPRESS(bounds.4) const Alien& randomAlien = Aliens[rand() % Aliens.size()];
+		GSL_SUPPRESS(bounds.4) const Alien& randomAlien = aliens[rand() % aliens.size()];
 
 		static constexpr Vector2 spawnOffset = { 0, 60 };
 
 		const Vector2 pos = Vector2Add(randomAlien.GetPosition(), spawnOffset);
 
 		static constexpr Vector2 direction = { 0, 1 };
-		Projectiles.push_back(Projectile(pos, direction, false));
+		projectiles.push_back(Projectile(pos, direction, false));
 	}
 }
 
@@ -125,9 +125,9 @@ void Game::Render() const noexcept
 	const Resources& res = *resources;
 	player.Render(res);
 
-	for (const Projectile& p : Projectiles) { p.Render(res); }
-	for (const Wall& w : Walls)				{ w.Render(res); }
-	for (const Alien& a : Aliens)			{ a.Render(res); }
+	for (const Projectile& p : projectiles) { p.Render(res); }
+	for (const Wall& w : walls)				{ w.Render(res); }
+	for (const Alien& a : aliens)			{ a.Render(res); }
 }
 
 void Game::SpawnAliens() 
@@ -144,7 +144,7 @@ void Game::SpawnAliens()
 				formationX + (col * alienSpacing),
 				formationY + (row * alienSpacing)
 			};
-			Aliens.push_back(Alien(pos));
+			aliens.push_back(Alien(pos));
 		}
 	}
 }
@@ -157,7 +157,7 @@ void Game::SpawnWalls()
 
 	for (int i = 0; i < wallCount; i++) {
 		Vector2 pos = { wallDistance * (i + 1), wallHeightOffset };
-		Walls.push_back(Wall(pos));
+		walls.push_back(Wall(pos));
 	}
 }
 

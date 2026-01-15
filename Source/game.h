@@ -57,11 +57,12 @@ private:
 
 	float shootTimer = 0;
 	Player player = {};
+
 	static constexpr int BackgroundStarCount = 600;
 	Background background = Background(BackgroundStarCount);
 
 	// TODO Consider making a fixed-size container "object pool" or similar, for these don't actually need resizing
-	std::vector<Projectile> Projectiles;		// TODO Correct capitalization
-	std::vector<Wall> Walls;					// TODO Correct capitalization
-	std::vector<Alien> Aliens;					// TODO Correct capitalization
+	std::vector<Projectile> projectiles;
+	std::vector<Wall> walls;
+	std::vector<Alien> aliens;
 };
