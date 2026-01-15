@@ -5,6 +5,12 @@
 
 struct Resources {
 	Resources();
+	~Resources();
+
+	Resources(const Resources&) = delete;
+	Resources& operator=(const Resources&) = delete;
+	Resources(Resources&&) = delete;
+	Resources& operator=(Resources&&) = delete;
 
 	static constexpr size_t shipTextureCount = 3;
 	std::array<Texture2D, shipTextureCount> shipTextures;

@@ -19,3 +19,13 @@ Resources::Resources()
 	GSL_SUPPRESS(bounds.4) shipTextures[1] = LoadTexture("./Assets/Ship2.png");
 	GSL_SUPPRESS(bounds.4) shipTextures[2] = LoadTexture("./Assets/Ship3.png");
 }
+
+Resources::~Resources()
+{
+	UnloadTexture(alienTexture);
+	UnloadTexture(barrierTexture);
+	UnloadTexture(laserTexture);
+	GSL_SUPPRESS(bounds.4) UnloadTexture(shipTextures[0]);
+	GSL_SUPPRESS(bounds.4) UnloadTexture(shipTextures[1]);
+	GSL_SUPPRESS(bounds.4) UnloadTexture(shipTextures[2]);
+}
