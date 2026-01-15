@@ -174,6 +174,7 @@
     <ClCompile Include="Source\main.cpp" />
     <ClCompile Include="Source\main_menu.cpp" />
     <ClCompile Include="Source\resources.cpp" />
+    <ClCompile Include="Source\something_went_wrong_scene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\app.h" />
@@ -186,6 +187,7 @@
     <ClInclude Include="Source\main_menu.h" />
     <ClInclude Include="Source\resources.h" />
     <ClInclude Include="Source\scene.h" />
+    <ClInclude Include="Source\something_went_wrong_scene.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

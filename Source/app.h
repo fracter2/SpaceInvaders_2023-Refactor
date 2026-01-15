@@ -27,7 +27,7 @@ public:
 	void QueueTransitionTo(SceneId id) noexcept;
 
 private:
-	void ChangeTo(SceneId id);						// TODO Make this noexcept by catching any errors
+	void ChangeTo(SceneId id);
 
 	static constexpr int screenWidth = 1920;
 	static constexpr int screenHeight = 1080;

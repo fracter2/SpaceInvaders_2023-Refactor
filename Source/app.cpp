@@ -6,7 +6,7 @@
 #include "main_menu.h"
 #include "end_screen.h"
 #include "highscore_scene.h"
-
+#include "something_went_wrong_scene.h"
 
 App::App(SceneId sceneId) 
 	: queuedId(sceneId)
@@ -34,18 +34,25 @@ void App::ChangeTo(SceneId id) {
 	case SceneId::Game:		 { currentScene = std::unique_ptr<Scene>(new Game(			transitionFunc, leaderboard, resources)); break; }
 	case SceneId::Highscore: { currentScene = std::unique_ptr<Scene>(new HighscoreScene(transitionFunc, leaderboard)); break; }
 	case SceneId::EndScreen: { currentScene = std::unique_ptr<Scene>(new EndScreen(		transitionFunc, leaderboard)); break; }
+	case SceneId::SomethingWentWrong: { currentScene = std::unique_ptr<Scene>(new SomethingWentWrongScene(transitionFunc, std::current_exception())); break; }
 	}
 }
 
-void App::Update() noexcept {		// TODO Reconsider if this can really be noexcept
-	inUpdate = true;
-	currentScene->Update();			// TODO Consider try-catching any errors here and printing as an error, or otherwise crashing
-									// Deal with it by... printing, freezing screen? going to a "something went wrong" screen?
-	inUpdate = false;
+void App::Update() noexcept {
+	try {
+		inUpdate = true;
+		currentScene->Update();
+		inUpdate = false;
 
-	while (transitionQueued) {			// TODO Catch exceptions
+		while (transitionQueued) {
+			transitionQueued = false;
+			ChangeTo(queuedId);
+		}
+	}
+	catch (...) {
+		inUpdate = false;
 		transitionQueued = false;
-		ChangeTo(queuedId);
+		ChangeTo(SceneId::SomethingWentWrong);		// If this returns std::bad_alloc (since it creates new scene), RIP. main.cpp will catch.
 	}
 }
 

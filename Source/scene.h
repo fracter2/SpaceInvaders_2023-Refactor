@@ -13,5 +13,6 @@ enum struct SceneId : int {
 	Game,
 	Highscore,
 	EndScreen,
+	SomethingWentWrong,
 	Max
 };
