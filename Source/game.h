@@ -41,6 +41,7 @@ public:
 	void Render() const noexcept override;
 
 private:
+	// TODO Make more of these noexcept by having the vectors be std::inline_vector or similar
 	void CheckAlienSpawnConditions() noexcept;
 	void CheckEndConditions() noexcept;
 	void SpawnAliens();
@@ -61,7 +62,7 @@ private:
 	static constexpr int BackgroundStarCount = 600;
 	Background background = Background(BackgroundStarCount);
 
-	// TODO Consider making a fixed-size container "object pool" or similar, for these don't actually need resizing
+	// TODO Make them into fixes-size std::inline_vector's with fixed size (make sure funcs that push()/insert() check size, or use try_push()
 	std::vector<Projectile> projectiles;
 	std::vector<Wall> walls;
 	std::vector<Alien> aliens;
