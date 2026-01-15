@@ -1,12 +1,15 @@
 #include <cassert>
+#include <stdexcept>
 
 #include "Resources.h"
 #include "gsl/assert"
 
 Resources::Resources()
 {
-	assert(IsWindowReady());	// Window has not been initialized! Check if this is out-of-order
-								// TODO Consider throwing if it fails
+	if (!IsWindowReady()) {
+		throw std::runtime_error("Window is not ready! Resources cannot load before this!");
+	}
+
 	alienTexture = LoadTexture("./Assets/Alien.png");
 	barrierTexture = LoadTexture("./Assets/Barrier.png");
 	laserTexture = LoadTexture("./Assets/Laser.png");
